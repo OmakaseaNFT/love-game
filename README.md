@@ -20,4 +20,4 @@ MONGOO_URL=
 yarn dev
 ```
 
-See our [contribution guidelines]() if you wish to contribute!
+See our [contribution guidelines](https://github.com/OmakaseaNFT/love-game/blob/main/CONTRIBUTING.md) if you wish to contribute!
