@@ -32,6 +32,7 @@ import { PoolAbi } from "../../system/PoolAbi";
 import { AppContracts } from "../../system/AppContracts";
 import { CopyAddressButton } from "../../components/copyAddressButton";
 import { useWrongNetwork } from "../../system/hooks/useWrongNetwork";
+import { HeartBreaker } from "../../components/heartbreaker";
 
 interface Props {
   lock?: Boolean;
@@ -179,6 +180,14 @@ const Win98 = (props: Props) => {
       component: <Paper />,
       width: "400px",
       height: "400px",
+      icon: PaperIcon,
+    },
+    {
+      menu: "heartbreaker",
+      title: "HEARTBREAKER",
+      component: <HeartBreaker />,
+      width: "60%",
+      height: "100%",
       icon: PaperIcon,
     },
     {
