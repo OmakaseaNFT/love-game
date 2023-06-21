@@ -251,7 +251,7 @@ export const Pool = ({
           <div
             className={`${boxStyle3} ${
               expanded ? "" : "embossBorderBottomExpanded"
-            }`}
+              }`}
             style={{ marginBottom: "-10px" }}
           >
             <ExpandPoolUtilsButton
@@ -269,7 +269,7 @@ export const Pool = ({
             <div
               className={`relative w-full flex ${
                 canShowPosition() ? "flex-col" : "flex-row"
-              } sm:flex-row justify-between pt-0 sm:pt-2 sm:border-2 sm:border-t-0 sm:border-l-gray-200 sm:border-b-gray-600 sm:border-r-gray-200 pb-[8px] pr-0 sm:pr-[8px]`}
+                } sm:flex-row justify-between pt-0 sm:pt-2 sm:border-2 sm:border-t-0 sm:border-l-gray-200 sm:border-b-gray-600 sm:border-r-gray-200 pb-[8px] pr-0 sm:pr-[8px]`}
             >
               <div className="w-[100%] sm:w-[28%] flex border-2 sm:border-0 border-l-gray-600 border-r-0 sm:border-t-gray-600 border-t-0 border-b-0 sm:border-b-gray-100">
                 <div className="w-full border-l-gray-200 border-t-0 border-r-0 border-b-0 sm:border-b-gray-600 border-2 sm:border-0 flex">
@@ -278,7 +278,7 @@ export const Pool = ({
                       canShowPosition()
                         ? "sm:ml-8 mt-1 mb-[-10px] sm:mb-auto"
                         : "m-auto"
-                    }`}
+                      }`}
                   >
                     <div
                       onClick={() => {
@@ -313,7 +313,7 @@ export const Pool = ({
               <div
                 className={`flex flex-col ${
                   canShowPosition() ? "w-full" : "w-[68.1%]"
-                } sm:w-[72%]`}
+                  } sm:w-[72%]`}
               >
                 <div className="">
                   <div className="text-xs min-h-[16px] sm:min-h-0 embossBorderLeft sm:border-l-0 sm:before:border-l-0 text-right sm:text-left pr-1 pb-1 pr-2"></div>
@@ -403,7 +403,7 @@ export const Pool = ({
               <button
                 onClick={() => {
                   const url = `https://app.uniswap.org/#/add/v2/${contractAddressLove}/${
-                   poolContractAddy(poolIndex)
+                    poolContractAddy(poolIndex)
                   }`;
                   window.open(url, "_blank");
                 }}
