@@ -15,7 +15,7 @@ Here is the step by step process to follow:
 
 ### 3) PR
 
-- Upon approval, create a PR and link the issue inside
+- Upon approval, create a PR from a fork and link the issue inside
 
 ### 4) Review
 
