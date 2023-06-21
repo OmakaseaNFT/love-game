@@ -1,0 +1,439 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'W95FA';
+  src: url('/fonts/W95FA.otf');
+}
+
+.W95FA {
+  font-family: 'W95FA', Arial;
+}
+
+body {
+  font-family: 'W95FA';
+  background-color: black;
+}
+
+input:focus {
+  outline: none;
+}
+
+.crazyAlert {
+  font-family: 'W95FA';
+  position: absolute;
+  aspect-ratio: 1.9;
+  background-color: #C1C1C1;
+  border: 2px solid #ccc;
+  border-right: 2px solid #444444;
+  border-bottom: 2px solid #444444;
+}
+
+.crazyAlert .header {
+  font-size: 1vw;
+  height: 22px;
+  display: block;
+  padding: 2px;
+  color: white;
+  background-color: #0A0080;
+}
+
+.crazyAlert .header .closeBtn {
+  cursor: pointer;
+  float: right;
+  height: 100%;
+}
+
+.crazyAlert .body {
+  display: block;
+  padding: 8px;
+  text-align: center;
+  height: calc(100% - 50px);
+  background: url(/assets/exclamationMark.png) no-repeat left center;
+  background-size: 30%;
+  font-size: 22px;
+}
+
+.crazyAlert .action {
+  display: flex;
+  margin-top: 10px;
+}
+
+.crazyAlert .action button {
+  margin: auto;
+  font-size: 20px;
+  padding: 0 20px;
+  background-color: #C1C1C1;
+  border: 3px solid #ededed;
+  border-right: 3px solid #444444;
+  border-bottom: 3px solid #444444;
+}
+
+.borderBottomShadow{
+  position: relative;
+}
+.borderBottomShadow:after{
+  content: '';
+  width: calc(100% + 6px);
+  position: absolute;
+  border-bottom: 2px solid #ededed;
+  bottom: -3.5px;
+  left: -2px;
+}
+.embossBorder {
+  position: relative;
+  border: 2px solid #ededed;
+  border-left: 2px solid #444444;
+  border-top: 2px solid #444444;
+  display: block;
+  text-align: center;
+}
+
+.embossBorder:before {
+  content: '';
+  border: 2px solid #ededed;
+  border-right: 2px solid #444444;
+  border-bottom: 2px solid #444444;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: block;
+  margin: .5px;
+  left: 0;
+}
+
+.borderLeftNone {
+  border-left: none !important;
+}
+.borderLeftNone:before {
+  border-left: none !important;
+}
+
+.borderBottomNone {
+  border-bottom: none !important;
+}
+.borderBottomNone:before {
+  border-bottom: none !important;
+}
+
+.embossBorderLeft {
+  position: relative;
+  border-left: 2px solid #444444;
+  display: block;
+}
+.embossBorderLeft:before {
+  content: '';
+  border-left: 2px solid #ededed;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: block;
+  margin: .5px;
+  left: 0;
+}
+
+.embossBorderRight {
+  position: relative;
+  border-right: 3px solid #ededed;
+  display: block;
+}
+.embossBorderRight:before {
+  content: '';
+  border-right: 2px solid #444;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: block;
+  margin: .5px;
+  left: 0;
+}
+
+.embossBorderTop {
+  position: relative;
+  border-top: 2px solid #444444;
+  display: block;
+}
+
+.embossBorderTop:before {
+  content: '';
+  border-top: 2px solid #ededed;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: block;
+  margin: .5px;
+  left: 0;
+}
+
+.embossBorderBottom {
+  position: relative;
+  border-bottom: 2px solid #444444;
+  display: block;
+}
+
+.embossBorderBottom:before {
+  content: '';
+  border-bottom: 2px solid #ededed;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: block;
+  margin: .5px;
+  left: 0;
+}
+
+.embossBorderBottomExpanded {
+  position: relative;
+  border-bottom: 2px solid #4b5563;
+}
+.embossBorderBottomExpanded:before {
+  content: '';
+  border-bottom: 2px solid #ededed;
+  width: calc(100% + 5px);
+  position: absolute;
+  display: block;
+  margin: .5px;
+  left: -2px;
+  bottom: -4px;
+}
+
+.btn {
+  background-color: #C1C1C1;
+  border: 3px solid #ededed;
+  border-right: 3px solid #444444;
+  border-bottom: 3px solid #444444;
+  position: relative;
+  margin-left: 2px;
+  margin-right: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 14px;
+  text-align: center;
+}
+.btn:hover,
+.btn.active {
+  background-color: #C1C1C1;
+  border: 4px solid #cccccc !important;
+  border-left: 2px solid #444444 !important;
+  border-top: 2px solid #444444 !important;
+}
+
+.btn:hover:before,
+.btn.active:before {
+  content: '';
+  border: 1px dashed #444444;
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  left: 2px;
+  top: 1.5px;
+}
+
+.smallBtn {
+  background-color: #C1C1C1;
+  border: 1px solid #ededed;
+  border-right: 1px solid #444444;
+  border-bottom: 1px solid #444444;
+  position: relative;
+  padding-left: 3px;
+  padding-right: 3px;
+  font-size: 10px;
+  text-align: center;
+}
+.smallBtn:hover,
+.smallBtn.active {
+  background-color: #C1C1C1;
+  border: 1px solid #cccccc !important;
+  border-left: 1px solid #444444 !important;
+  border-top: 1px solid #444444 !important;
+}
+
+.smallBtn:hover:before,
+.smallBtn.active:before {
+  content: '';
+  border: 1px dashed #444444;
+  width: 96%;
+  height: 96%;
+  display: block;
+  position: absolute;
+  left: 2%;
+  top: 2%;
+}
+
+.loading {
+}
+
+.loading:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -webkit-animation: ellipsis steps(4,end) 900ms infinite;      
+  animation: ellipsis steps(4,end) 900ms infinite;
+  content: "\2026"; /* ascii code for the ellipsis character */
+  width: 0px;
+}
+
+@keyframes ellipsis {
+  to {
+    width: 1.25em;    
+  }
+}
+
+@-webkit-keyframes ellipsis {
+  to {
+    width: 1.25em;    
+  }
+}
+
+::-webkit-scrollbar {
+  width: 0.3em;
+}
+ 
+::-webkit-scrollbar-track {
+  background-color: rgb(249, 249, 249);}
+ 
+::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+}
+
+/* rainbowkit custom UI */
+[role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div,
+[role="dialog"][data-rk="rainbowkitConnected"]>div>div>div {
+  background-color: #C1C1C1!important;
+  border-left: 2px solid #eee!important;
+  border-top: 2px solid #eee!important;
+  border-right: 2px solid #444!important;
+  border-bottom: 2px solid #444!important;
+  position: relative;
+  border-radius: 0!important;
+}
+[role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div:before,
+[role="dialog"][data-rk="rainbowkitConnected"]>div>div>div:before{ /* add custom blue header*/
+  content: '';
+  height: 26px;
+  color: white;
+  padding: 4px 8px;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  background-color: #0A0080;
+}
+[role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div>div>div>div:nth-child(1)>div:nth-child(1)>div:nth-child(1) h1{ /* hide ori title 'Connect a Wallet'*/
+  position: absolute;
+  top: 2px;
+  left: 12px;
+  z-index: 9;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 100!important;
+}
+@media only screen and (max-width: 639px) {
+  [role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div>div>div>div>div{ /* hide ori title 'Connect a Wallet'*/
+    margin-top: 20px;
+  }
+  [role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div>div>div>div>div:nth-child(1) h1{ /* hide ori title 'Connect a Wallet'*/
+    color: black!important;
+  }
+}
+/* begin connected wallet popup */
+[role="dialog"][data-rk="rainbowkitConnected"]>div>div>div>div>div>div{
+  padding-top: 35px;
+}
+[role="dialog"][data-rk="rainbowkitConnected"]>div>div>div>div>div>div>div>div:nth-child(3)>div:nth-child(2){
+  color: #808080;
+}
+[role="dialog"][data-rk="rainbowkitConnected"]>div>div>div>div>div>div>div button{
+  border-left: 2px solid #eee!important;
+  border-top: 2px solid #eee!important;
+  border-right: 2px solid #444!important;
+  border-bottom: 2px solid #444!important;
+}
+[role="dialog"][data-rk="rainbowkitConnected"]>div>div>div>div>div>div>div button div {
+  font-size: 18px!important;
+  font-weight: 100;
+}
+[role="dialog"][data-rk="rainbowkitConnected"]>div>div>div>div>div>div>div button svg {
+  display: none;
+}
+/* end custom style for connected wallet popup */
+
+/* close button for connected wallet popup */
+[role="dialog"][data-rk="rainbowkitConnected"]>div>div>div>div>div>div:nth-child(1)>div:nth-child(1)>div:nth-child(1) {
+  position: absolute;
+  z-index: 99;
+}
+[role="dialog"][data-rk="rainbowkitConnected"]>div>div>div>div>div>div:nth-child(1)>div:nth-child(1)>div:nth-child(1) button:before{
+  content: 'X';
+  color: black;
+}
+[role="dialog"][data-rk="rainbowkitConnected"]>div>div>div>div>div>div:nth-child(1)>div:nth-child(1)>div:nth-child(1) button {
+  position: absolute;
+  right: -16px;
+  top: -15px;
+  z-index: 10;
+  background-color: #C1C1C1;
+  border-left: 1px solid #eee!important;
+  border-top: 1px solid #eee!important;
+  border-right: 1px solid #444!important;
+  border-bottom: 1px solid #444!important;
+  border-radius: 0;
+  width: 20px;
+  height: 24px;
+}
+/* end close button for connected wallet popup'*/
+
+[role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div>div>div>div:nth-child(1)>div:nth-child(2)>div:nth-child(1){ /* custom 'Popular' text color */
+  color: #989898;
+  margin-top: 10%;
+}
+[role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div>div>div>div:nth-child(3)>div:nth-child(2)>div>div>div:nth-child(1)>div{ /* change font size for 'What is a Wallet?' */
+  font-size: 30px!important;
+  font-weight: 100;
+  margin-top: 5%;
+}
+
+/* begin vertical separator line */
+[role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div>div>div>div:nth-child(2){
+  margin-top: 35px;
+  height: 430px;
+  border-left: 1px solid #7e7e7e;
+  border-right: 1px solid #ededed;
+}
+/* end vertical separator line */
+
+[role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div>div>div>div:nth-child(3)>div:nth-child(2)>div>div>div:nth-child(3) button { /* 'Get a Wallet' button */
+  border-left: 1px solid #eee!important;
+  border-top: 1px solid #eee!important;
+  border-right: 1px solid #444!important;
+  border-bottom: 1px solid #444!important;
+}
+[role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div>div>div>div:nth-child(3)>div:nth-child(2)>div>div>div:nth-child(3) a { /* 'Learn More' link */
+  color: #0A0080;
+}
+/* begin rainbowkit close button */
+[role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div>div>div>div:nth-child(3)>div:nth-child(1) button {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  z-index: 10;
+  background-color: #C1C1C1;
+  border-left: 1px solid #eee!important;
+  border-top: 1px solid #eee!important;
+  border-right: 1px solid #444!important;
+  border-bottom: 1px solid #444!important;
+  border-radius: 0;
+  width: 20px;
+  height: 24px;
+}
+[role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div>div>div>div:nth-child(3)>div:nth-child(1) button svg {
+  display: none;
+}
+[role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div>div>div>div:nth-child(3)>div:nth-child(1) button::before{
+  content: 'x';
+  font-size: 24px;
+  margin-top: -5px;
+}
+/* end rainbowkit close button */
