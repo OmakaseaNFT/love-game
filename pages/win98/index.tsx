@@ -12,7 +12,7 @@ import Farm from "../../components/farm";
 import Computer from "../../assets/computer.png";
 import Settings from "../../assets/settings.png";
 import PaperIcon from "../../assets/book.png";
-import FarmIcon from "../../assets/three.png";
+import FarmIcon from "../../assets/tree.png";
 import { useAccount } from "wagmi";
 import { ethers } from "ethers";
 import LoveFarmABI from "../../utils/lovefarm.json";
@@ -284,7 +284,7 @@ const Win98 = (props: Props) => {
             />
           </div>
           <div className="text-[11px] truncate mb-0">
-            = {price} ETH/${usdPrice.toFixed(2)}
+            = {price} ETH/${usdPrice.toFixed(4)}
           </div>
         </div>
       </div>

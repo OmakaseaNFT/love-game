@@ -6,22 +6,17 @@ interface IPoolAprDataDisplayProps {
 export const PoolAprDataDisplay = ({ title, data }: IPoolAprDataDisplayProps) => {
   return (
     <div
-      className="w-full flex flex-col m-auto"
+      className="w-full flex flex-col mt-[4px]"
       style={{ position: "relative" }}
     >
-      <div className="text-xs">{title}</div>
-      <div className="truncate" style={{ position: "relative" }}>
-        {data}
+      <div className="text-xs text-center font-semibold">{title}</div>
+
+      <div className={`flex flex-row justify-center ${parseFloat(data) > 0 ? "text-black" : "text-gray-500"}`}>
+        <div className="truncate" style={{ position: "relative" }}>
+          {data}
+        </div>
+        <span>%</span>
       </div>
-      <span
-        style={{
-          position: "absolute",
-          right: "-4px",
-          bottom: "0px",
-        }}
-      >
-        %
-      </span>
     </div>
   );
 };

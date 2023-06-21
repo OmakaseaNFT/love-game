@@ -1,8 +1,8 @@
 import Etherscan from "../assets/etherscan.png";
 import Uniswap from "../assets/uniswap.png";
 import Wallet from "../assets/wallet.png";
-import Farm from "../assets/farm.png";
-import Paper from "../assets/paper.png";
+import Farm from "../assets/tree.png";
+import Paper from "../assets/book.png";
 import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
 import { Connect } from "./connect";
@@ -59,10 +59,12 @@ const Screen = ({
     {
       onClick: () => setSelected("farm"),
       icon: Farm,
+      label: "Farm",
     },
     {
       onClick: () => setSelected("paper"),
       icon: Paper,
+      label: "Paper",
     },
   ];
 
@@ -105,8 +107,8 @@ const Screen = ({
                 );
               })}
             </div>
-            <div className="w-[110px] sm:w-[200px]">
-              <div className="h-36  flex-row justify-center flex items-center">
+            <div className="w-[110px] sm:w-[200px] pt-[2px]">
+              <div className="h-36 flex-row justify-center flex items-center">
                 {" "}
                 <Connect />
               </div>
@@ -115,10 +117,15 @@ const Screen = ({
                   return (
                     <div
                       key={index}
-                      className="h-36  flex-row justify-center flex items-center cursor-pointer"
+                      className="h-36 flex-col flex justify-center flex items-center cursor-pointer"
                       onClick={item.onClick}
                     >
-                      <Image src={item.icon} alt="icon" height={80} />
+                      <Image src={item.icon} alt="icon" height={55} />
+                      {item.label && (
+                      <div className="text-[rgba(255,255,255,.7)] text-lg mt-[2px]">
+                        {item.label}
+                      </div>
+                    )}
                     </div>
                   );
                 })}
