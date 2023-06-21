@@ -8,7 +8,7 @@
     "start": "next start -p 3030",
     "lint": "next lint",
     "startDev": "NEXT_PUBLIC_NODE_ENV=dev next build && next start -p 3030",
-    "prepare": "husky install"
+    "prepare": "husky install && chmod ug+x .husky/*"
   },
   "dependencies": {
     "@cloudflare/next-on-pages": "^1.1.0",
