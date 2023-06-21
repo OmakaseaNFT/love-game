@@ -17,6 +17,7 @@ MONGOO_URL=
 #### Run Dev Server
 
 ```
+yarn
 yarn dev
 ```
 
