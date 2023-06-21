@@ -6,7 +6,7 @@ Here is the step by step process to follow:
 
 ### 1) Open an Issue
 
-- Open an issue and describe the purpose of your contribution - Please follow the format presented in the issue template
+- Open an issue and describe the purpose of your contribution - Please be very clear and specific with your intent
 - Tag the issue with the appropriate label: BUG, FEATURE, ETC
 
 ### 2) Screening
