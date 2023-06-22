@@ -1,24 +1,24 @@
 import Image from "next/image";
 import { useState } from "react";
-import { thousandSeparator } from "../system/appUtils";
+import { thousandSeparator } from "@/system/appUtils";
 import {
   ETHERSCAN_FAITH_LINK,
   contractAddressFaith,
   contractAddressLove,
-} from "../utils/constant";
+} from "@/utils/constant";
 import { formatEther } from "ethers/lib/utils";
 import {
   requestErrorState,
   requestPendingState,
   requestSuccessState,
   useRequestState,
-} from "../system/hooks/useRequestState";
+} from "@/system/hooks/useRequestState";
 import { ethers } from "ethers";
-import { AppContracts } from "../system/AppContracts";
-import { ExpandPoolUtilsButton } from "./ui/ExpandPoolUtilsButton";
-import { PoolDataDisplay } from "./ui/PoolDataDisplay";
-import { TransactionNotificationWrapper } from "./ui/TransactionNotificationWrapper";
-import { StakedLiquidityDataDisplay } from "./ui/StakedLiquidityDataDisplay";
+import { AppContracts } from "@/system/contracts/AppContracts";
+import { ExpandPoolUtilsButton } from "@/components/ExpandPoolUtilsButton";
+import { PoolDataDisplay } from "@/components/PoolDataDisplay";
+import { TransactionNotificationWrapper } from "@/components/TransactionNotificationWrapper";
+import { StakedLiquidityDataDisplay } from "@/components/StakedLiquidityDataDisplay";
 
 interface ISingleStakePoolProps {
   fee: number;
@@ -85,11 +85,11 @@ export const SingleStakePool = ({
       const signer = provider.getSigner();
       const { loveTokenContract, faithContract } = new AppContracts(signer);
       const isApprovedForAll = await loveTokenContract.allowance(
-        address!,
-        contractAddressFaith!
+        address,
+        contractAddressFaith
       );
 
-      let formattedAmount = ethers.utils.parseUnits(amount, "ether"); // convert stakeValue to wei
+      const formattedAmount = ethers.utils.parseUnits(amount, "ether"); // convert stakeValue to wei
       if (isApprovedForAll.lt(formattedAmount)) {
         const tx = await loveTokenContract.approve(
           contractAddressFaith,
@@ -116,11 +116,11 @@ export const SingleStakePool = ({
       const { faithContract } = new AppContracts(signer);
 
       const isApprovedForAll = await faithContract.allowance(
-        address!,
-        contractAddressFaith!
+        address,
+        contractAddressFaith
       );
 
-      let formattedAmount = ethers.utils.parseUnits(amount, "ether"); // convert stakeValue to wei
+      const formattedAmount = ethers.utils.parseUnits(amount, "ether"); // convert stakeValue to wei
       if (isApprovedForAll.lt(formattedAmount)) {
         const tx = await faithContract.approve(
           contractAddressFaith,
@@ -143,12 +143,12 @@ export const SingleStakePool = ({
       errorMessage={errorMessage}
     >
       <div className="w-full flex flex-col w-[600px]">
-        <div className="w-full flex flex-row border-2 border-gray-600 border-b-0 mt-2">
+        <div className="flex flex-row w-full mt-2 border-2 border-b-0 border-gray-600">
           <div className="w-[95%] sm:w-[97%] flex flex-col landscape:flex-row">
             <div className="w-full portrait:border-b-gray-600 portrait:border-b-2 portrait:mb-[0.8px]">
-              <div className="w-full flex flex-row">
+              <div className="flex flex-row w-full">
                 <div className={`w-[78%] ${boxStyle}`}>
-                  <div className="w-full flex flex-row justify-between items-center px-1">
+                  <div className="flex flex-row items-center justify-between w-full px-1">
                     <Image
                       src="/assets/start-icon.png"
                       alt=""
@@ -158,7 +158,7 @@ export const SingleStakePool = ({
                     <div className={`text-lg`}>LOVE</div>
                     <PoolDataDisplay title="DEP FEE" data={`${fee}%`} />
                     <div>
-                      <div className="w-full flex flex-col">
+                      <div className="flex flex-col w-full">
                         <div className="text-gray-500"></div>
                       </div>
                     </div>
@@ -166,7 +166,7 @@ export const SingleStakePool = ({
                 </div>
                 <div className={`${boxStyle}`}>
                   <div
-                    className="w-full flex flex-col m-auto text-sm"
+                    className="flex flex-col w-full m-auto text-sm"
                     style={{ position: "relative" }}
                   >
                     <div className="text-xs">Ratio</div>
@@ -178,7 +178,7 @@ export const SingleStakePool = ({
               </div>
             </div>
             <div className="w-full">
-              <div className="w-full flex flex-row">
+              <div className="flex flex-row w-full">
                 <div className={`w-[100%] ${boxStyle2}`}>
                   <StakedLiquidityDataDisplay
                     title="Total Staked Love"
@@ -202,14 +202,14 @@ export const SingleStakePool = ({
           </div>
         </div>
         {expanded && (
-          <div className="w-full flex flex-row justify-between sm:border-2 sm:border-t-0 sm:border-l-gray-600 sm:border-b-gray-200 sm:border-r-gray-600">
+          <div className="flex flex-row justify-between w-full sm:border-2 sm:border-t-0 sm:border-l-gray-600 sm:border-b-gray-200 sm:border-r-gray-600">
             <div
               className={`relative w-full flex ${
                 loveBalance || faithBalance ? "flex-col" : "flex-row"
               } sm:flex-row justify-between pt-0 sm:pt-2 sm:border-2 sm:border-t-0 sm:border-l-gray-200 sm:border-b-gray-600 sm:border-r-gray-200 pb-[8px] pr-0 sm:pr-[8px]`}
             >
               <div className="w-[31.9%] sm:w-[28%] flex border-2 sm:border-0 border-l-gray-600 border-r-0 sm:border-t-gray-600 border-t-0 border-b-0 sm:border-b-gray-100">
-                <div className="w-full border-l-gray-200 border-t-0 border-r-0 border-b-0 sm:border-b-gray-600 border-2 sm:border-0 flex">
+                <div className="flex w-full border-2 border-t-0 border-b-0 border-r-0 border-l-gray-200 sm:border-b-gray-600 sm:border-0">
                   <div
                     className={`flex flex-col text-[#0A0080] text-xs ml-2 ${
                       loveBalance || faithBalance
@@ -221,7 +221,7 @@ export const SingleStakePool = ({
                       onClick={() => {
                         window.open(ETHERSCAN_FAITH_LINK, "_blank");
                       }}
-                      className="cursor-pointer mb-1"
+                      className="mb-1 cursor-pointer"
                     >
                       View Contract
                     </div>
@@ -239,9 +239,9 @@ export const SingleStakePool = ({
                 } sm:w-[72%]`}
               >
                 <div className="w-full flex flex-row border-l-gray-600 sm:border-t-gray-600 border-t-0 sm:border-t-2 border-r-gray-100 border-b-gray-100 border-2 p-[0.5px]">
-                  <div className="pb-2 sm:pb-0 w-full flex border-l-gray-200 border-t-0 sm:border-t-2 border-r-gray-600 border-b-gray-600 border-2 pt-1">
+                  <div className="flex w-full pt-1 pb-2 border-2 border-t-0 sm:pb-0 border-l-gray-200 sm:border-t-2 border-r-gray-600 border-b-gray-600">
                     {loveBalance || faithBalance ? (
-                      <div className="w-full sm:w-auto flex flex-col sm:flex-row">
+                      <div className="flex flex-col w-full sm:w-auto sm:flex-row">
                         <div className="flex flex-col m-auto sm:ml-2">
                           <div>LOVE</div>
                           <div className="flex flex-row justify-between">
@@ -352,7 +352,7 @@ export const SingleStakePool = ({
                                 </button>
                               </div>
                               <div
-                                className="btn mb-1"
+                                className="mb-1 btn"
                                 onClick={
                                   isStakeVisible
                                     ? () => deposit(stakeValue, address)
@@ -366,8 +366,8 @@ export const SingleStakePool = ({
                         </div>
                       </div>
                     ) : (
-                      <div className="justify-center items-center flex flex-col sm:flex-row w-full">
-                        <div className="m-auto text-md px-2 mt-1 whitespace-nowrap">
+                      <div className="flex flex-col items-center justify-center w-full sm:flex-row">
+                        <div className="px-2 m-auto mt-1 text-md whitespace-nowrap">
                           NO POSITION FOUND
                         </div>
                         <button

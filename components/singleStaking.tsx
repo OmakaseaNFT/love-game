@@ -3,23 +3,16 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { ethers } from "ethers";
-import PoolABI from "../utils/poolABI.json";
 import {
-  contractAddressLoveFarm,
   contractAddressLove,
-  ETHLOVEPoolAddy,
-  ETHERSCAN_FARM_LINK,
   contractAddressFaith,
   ETHERSCAN_FAITH_LINK,
-} from "../utils/constant";
-import { USDCAddress } from "../utils/constant";
-import { formatUnits } from "ethers/lib/utils";
-import { AppContracts } from "../system/AppContracts";
-import { FaithAbi } from "../system/FaithAbi";
-import { LoveTokenAbi } from "../system/LoveTokenAbi";
-import { set } from "mongoose";
+} from "@/utils/constant";
+import { USDCAddress } from "@/utils/constant";
+import { AppContracts } from "@/system/contracts/AppContracts";
+import { FaithAbi } from "@/system/contracts/FaithAbi";
+import { LoveTokenAbi } from "@/system/contracts/LoveTokenAbi";
 
-const listLive = [1];
 type PoolData = {
   availableValue: any;
   stakedValue: any;
@@ -33,7 +26,7 @@ type PoolData = {
   lovePerUser: any;
 };
 const SingleStaking = () => {
-  const [expanded, setExpanded] = useState<Number>(-1);
+  const [expanded, setExpanded] = useState<number>(-1);
   const [farmData, setFarmData] = useState<any>([]);
   const [listPool, setListPool] = useState<any>([]);
   const { isConnected, address } = useAccount();
@@ -91,11 +84,8 @@ const SingleStaking = () => {
       (window as any).ethereum
     );
     const signer = provider.getSigner();
-    const {
-      loveFarmContract,
-      loveTokenContract,
-      faithContract,
-    } = new AppContracts(signer);
+    const { loveFarmContract, loveTokenContract, faithContract } =
+      new AppContracts(signer);
 
     await getPoolLength(loveTokenContract, faithContract);
   };
@@ -112,11 +102,8 @@ const SingleStaking = () => {
       (window as any).ethereum
     );
     const signer = provider.getSigner();
-    const {
-      loveTokenContract,
-      usdEthPoolContract,
-      ethLovePoolContract,
-    } = new AppContracts(signer);
+    const { loveTokenContract, usdEthPoolContract, ethLovePoolContract } =
+      new AppContracts(signer);
 
     const loveBalanceInFaithContract = await loveTokenContract.balanceOf(
       contractAddressFaith
@@ -169,7 +156,7 @@ const SingleStaking = () => {
     );
     const totalFaith = await faithContract.totalSupply();
 
-    let lovePerFaith = loveBalanceInFaithContract
+    const lovePerFaith = loveBalanceInFaithContract
       .mul(ethers.BigNumber.from("1000"))
       .div(totalFaith);
     const lovePerFaithRatio = lovePerFaith.toNumber() / 1000;
@@ -197,10 +184,10 @@ const SingleStaking = () => {
       const { loveTokenContract, faithContract } = new AppContracts(signer);
       const isApprovedForAll = await loveTokenContract.allowance(
         address!,
-        contractAddressFaith!
+        contractAddressFaith
       );
 
-      let formattedAmount = ethers.utils.parseUnits(amount, "ether"); // convert stakeValue to wei
+      const formattedAmount = ethers.utils.parseUnits(amount, "ether"); // convert stakeValue to wei
       if (isApprovedForAll.lt(formattedAmount)) {
         const tx = await loveTokenContract.approve(
           contractAddressFaith,
@@ -230,10 +217,10 @@ const SingleStaking = () => {
 
       const isApprovedForAll = await faithContract.allowance(
         address!,
-        contractAddressFaith!
+        contractAddressFaith
       );
 
-      let formattedAmount = ethers.utils.parseUnits(amount, "ether"); // convert stakeValue to wei
+      const formattedAmount = ethers.utils.parseUnits(amount, "ether"); // convert stakeValue to wei
       if (isApprovedForAll.lt(formattedAmount)) {
         const tx = await faithContract.approve(
           contractAddressFaith,
@@ -260,7 +247,7 @@ const SingleStaking = () => {
   };
 
   const thousandSeparator = (value: number) => {
-    let formattedValue = value.toLocaleString("en-US", {
+    const formattedValue = value.toLocaleString("en-US", {
       style: "decimal",
       maximumFractionDigits: 3,
     });
@@ -343,7 +330,12 @@ const SingleStaking = () => {
                 </div>
               </div>
 
-              <div className={`${boxStyle3} ${expanded == idx ? '' : 'embossBorderBottomExpanded'}`} style={{ marginBottom: "-10px" }}>
+              <div
+                className={`${boxStyle3} ${
+                  expanded == idx ? "" : "embossBorderBottomExpanded"
+                }`}
+                style={{ marginBottom: "-10px" }}
+              >
                 <button
                   onClick={() => {
                     if (expanded != -1 && expanded == idx) {

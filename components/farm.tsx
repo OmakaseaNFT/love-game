@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { useAccount, useSwitchNetwork } from "wagmi";
-import { StakingSelectTab } from "./ui/StakingSelectTab";
-import { useFetchFarmData } from "../system/hooks/useFetchFarmData";
-import { Pool } from "./pool";
-import SingleStaking from "./singleStakingV2";
-import { useWrongNetwork } from "../system/hooks/useWrongNetwork";
-import { WalletConnectButton } from "./ui/WallectConnectButton";
+import { useAccount } from "wagmi";
+import { useFetchFarmData } from "@/system/hooks/useFetchFarmData";
+import Pool from "./Pool";
+import { useWrongNetwork } from "@/system/hooks/useWrongNetwork";
+import SingleStaking from "@/components/SingleStakingV2";
+import StakingSelectTab from "@/components/StakingSelectTab";
+import WalletConnectButton from "@/components/WallectConnectButton";
 
 const Farm = () => {
   const [tab, setTab] = useState<string>("live");
@@ -33,8 +33,8 @@ const Farm = () => {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col landscape:flex-row justify-between mt-2 ml-1">
-        <div className="sm:order-first order-last flex flex-row gap-2 w-full mt-2">
+      <div className="flex flex-col justify-between mt-2 ml-1 landscape:flex-row">
+        <div className="flex flex-row order-last w-full gap-2 mt-2 sm:order-first">
           <div className="flex flex-col gap-2 w-[70%]">
             <div className="flex flex-row text-xl">
               <StakingSelectTab
@@ -59,7 +59,7 @@ const Farm = () => {
         {tab === "live" && (
           <>
             {!poolDataLoading ? (
-              farmData.map((pool, idx: any) => (
+              farmData.map((pool, idx: number) => (
                 <>
                   <Pool
                     key={`pool-${idx}`}
@@ -77,22 +77,17 @@ const Farm = () => {
           </>
         )}
         {tab === "finished" && <SingleStaking />}
-        {(isWrongNetwork ||
-          !address) && !poolDataLoading &&
-            <WalletConnectButton
-              connectWalletElement={
-                <p className="cursor-pointer hover:opacity-70">
-                  Connect Wallet
-                </p>
-              }
-              walletConnectedElement={<></>}
-              wrongNetworkElement={
-                <p className="cursor-pointer hover:opacity-70">
-                  Switch Network
-                </p>
-              }
-            />
-          }
+        {(isWrongNetwork || !address) && !poolDataLoading && (
+          <WalletConnectButton
+            connectWalletElement={
+              <p className="cursor-pointer hover:opacity-70">Connect Wallet</p>
+            }
+            walletConnectedElement={<></>}
+            wrongNetworkElement={
+              <p className="cursor-pointer hover:opacity-70">Switch Network</p>
+            }
+          />
+        )}
       </div>
     </div>
   );

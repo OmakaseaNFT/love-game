@@ -1,19 +1,15 @@
 import { ethers } from "ethers";
 import { useState, useEffect } from "react";
 import {
-  BLOCKS_PER_YEAR,
   contractAddressFaith,
   contractAddressLove,
-  LOVE_POOLS,
   USDCAddress,
 } from "../../utils/constant";
-import { AppContracts } from "../AppContracts";
-import { LoveTokenAbi } from "../LoveTokenAbi";
-import { FaithAbi } from "../FaithAbi";
+import { AppContracts } from "../contracts/AppContracts";
+import { LoveTokenAbi } from "../contracts/LoveTokenAbi";
+import { FaithAbi } from "../contracts/FaithAbi";
 import { useAccount } from "wagmi";
-import { get } from "http";
 
-const lpContractAbi = require("../../utils/poolABI.json");
 type PoolData = {
   availableValue: any;
   stakedValue: any;
@@ -51,17 +47,13 @@ export const useFetchSingleStakingData = () => {
   const [singleStakingData, setSingleStakingData] = useState<PoolData>();
   const [dataLoading, setDataLoading] = useState<boolean>(false);
 
-  const getSingleStakingData = async (
-  ) => {
+  const getSingleStakingData = async () => {
     setDataLoading(true);
     try {
       const provider = new ethers.providers.Web3Provider(
         (window as any).ethereum
       );
-      const {
-        loveTokenContract,
-        faithContract,
-      } = new AppContracts(provider);
+      const { loveTokenContract, faithContract } = new AppContracts(provider);
       let availableValue;
       let availableStaked;
       let realValue;
@@ -162,7 +154,7 @@ export const useFetchSingleStakingData = () => {
     );
     const totalFaith = await faithContract.totalSupply();
 
-    let lovePerFaith = loveBalanceInFaithContract
+    const lovePerFaith = loveBalanceInFaithContract
       .mul(ethers.BigNumber.from("1000"))
       .div(totalFaith);
     const lovePerFaithRatio = lovePerFaith.toNumber() / 1000;
@@ -177,7 +169,7 @@ export const useFetchSingleStakingData = () => {
   }, []);
 
   return {
-    onGetSingleStakingData: getSingleStakingData ,
+    onGetSingleStakingData: getSingleStakingData,
     singleStakingData,
     dataLoading,
   };

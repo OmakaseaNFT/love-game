@@ -1,11 +1,3 @@
-import Etherscan from "@/assets/etherscan.png";
-import Uniswap from "@/assets/uniswap.png";
-import Farm from "@/assets/farm.png";
-import Paper from "@/assets/paper.png";
-import Tree from "@/assets/three.png";
-import Setting from "@/assets/settings.png";
-import Shutdown from "@/assets/shutdown.png";
-
 export const contractAddressLoveFarm: string =
   process.env.NEXT_PUBLIC_CONTRACT_LOVE_FARM || "";
 export const contractAddressLoveClaim: string =
@@ -50,77 +42,6 @@ export const USDT_CONTRACT_ADDRESS = IS_DEV_ENV
   ? "0xdAC17F958D2ee523a2206206994597C13D831ec7"
   : "0xdAC17F958D2ee523a2206206994597C13D831ec7";
 export const HOT_JAR_SITE_ID = 3527265;
-export const HOT_JAR_VERSION = 6;
+export const HOT_JAR_VERSION = 6
 export const TELEGRAM_LINK = "https://t.me/loveethereum";
 export const TWITTER_LINK = "https://twitter.com/lovegameeth";
-
-export const iconsLeft = [
-  {
-    icon: Etherscan,
-    url: ETHERSCAN_CLAIM_LINK,
-  },
-  {
-    icon: Uniswap,
-    label: "Uniswap",
-    logoHeight: 60,
-    url: UNISWAP_LINK,
-  },
-  {
-    icon: "/assets/logo_twitter.png",
-    label: "Twitter",
-    logoHeight: 60,
-    url: TWITTER_LINK,
-  },
-  {
-    icon: "/assets/logo_telegram.png",
-    label: "Telegram",
-    logoHeight: 60,
-    url: TELEGRAM_LINK,
-  },
-];
-
-export const iconsRight = [
-  {
-    icon: Farm,
-    type: "farm",
-  },
-  {
-    icon: Paper,
-    type: "paper",
-  },
-];
-
-export const bottomBarList = [
-  {
-    menu: "farm",
-    icon: Tree,
-    name: "<u>F</u>ARM",
-    url: "/?dialog=farm",
-  },
-  {
-    menu: "paper",
-    icon: Paper,
-    name: "<u>P</u>APER",
-    url: "/?dialog=paper",
-  },
-  {
-    menu: "cp",
-    icon: Setting,
-    name: "<u>S</u>ettings",
-    subMenu: [
-      {
-        menu: "cp",
-        icon: Setting,
-        url: "/?dialog=cp",
-        name: "<u>C</u>ontrol Panel",
-      },
-    ],
-    url: "",
-  },
-  {
-    menu: "shutdown",
-    icon: Shutdown,
-    name: "Sh<u>u</u>t Down",
-    url: "/?dialog=shut-down",
-  },
-];

@@ -1,16 +1,11 @@
 import { useState, useEffect } from "react";
 
-interface Props {
-  onFinish?: () => void;
-}
-
-const Claim = ({ onFinish }: Props) => {
+const Claim = () => {
   const [bar, setBar] = useState<number>(0);
 
   useEffect(() => {
     if (bar >= 20) {
       setBar(0);
-      //   onFinish();
     }
 
     const interval = setInterval(() => {
@@ -24,9 +19,9 @@ const Claim = ({ onFinish }: Props) => {
 
   return (
     <div className="w-full flex flex-col pt-[6px]">
-      <div className="flex-col flex-col w-full">
+      <div className="flex-col w-full">
         <div>Calculating the amount of $LOVE you deserve...</div>
-        <div className="flex flex-row border-2 mx-2 mt-[12px] mb-5 h-[36px] border-l-gray-500 border-t-gray-500 border-r-gray-200 border-b-gray-200 border-[1.6px] p-[1px] pl-[2px]">
+        <div className="flex flex-row mx-2 mt-[12px] mb-5 h-[36px] border-l-gray-500 border-t-gray-500 border-r-gray-200 border-b-gray-200 border-[1.6px] p-[1px] pl-[2px]">
           {Array.from(Array(bar).keys()).map((item, idx) => (
             <div
               key={idx}

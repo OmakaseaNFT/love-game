@@ -1,7 +1,7 @@
 import { useAccount } from "wagmi";
-import { useFetchSingleStakingData } from "../system/hooks/useFetchSingleStakingData";
-import { SingleStakePool } from "./singleStakePool";
-import { useWrongNetwork } from "../system/hooks/useWrongNetwork";
+import { useFetchSingleStakingData } from "@/system/hooks/useFetchSingleStakingData";
+import { useWrongNetwork } from "@/system/hooks/useWrongNetwork";
+import { SingleStakePool } from "./SingleStakePool";
 
 const SingleStaking = () => {
   const { address } = useAccount();
