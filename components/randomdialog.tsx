@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-interface LoveAlertsProps {
+interface RandomDialogProps {
   hide: boolean;
   setHide: React.Dispatch<React.SetStateAction<boolean>>;
   setFinish: () => void;
@@ -16,7 +16,7 @@ interface Box {
   msg: string;
 }
 
-const LoveAlerts: React.FC<LoveAlertsProps> = ({
+const RandomDialog: React.FC<RandomDialogProps> = ({
   hide,
   setHide,
   setFinish,
@@ -41,8 +41,8 @@ const LoveAlerts: React.FC<LoveAlertsProps> = ({
     const boxWidth = 250; //Math.floor(Math.random() * (300 - 200) + 200); // Box width in range 200-300
     const boxHeight = boxWidth * 1.6;
 
-    var left = !windWH ? 0 : Math.floor(Math.random() * (windWH[0] - boxWidth));
-    var top = !windWH ? 0 : Math.floor(Math.random() * (windWH[1] - boxHeight));
+    const left = !windWH ? 0 : Math.floor(Math.random() * (windWH[0] - boxWidth));
+    const top = !windWH ? 0 : Math.floor(Math.random() * (windWH[1] - boxHeight));
 
     return {
       id: i,
@@ -161,4 +161,4 @@ const LoveAlerts: React.FC<LoveAlertsProps> = ({
   );
 };
 
-export default LoveAlerts;
+export default RandomDialog;

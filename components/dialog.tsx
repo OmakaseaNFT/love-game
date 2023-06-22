@@ -1,55 +1,81 @@
-import React, { FC, ReactNode, useState } from "react";
+"use client";
+
 import Image from "next/image";
+import Link from "next/link";
+import PaperIcon from "@/assets/book.png";
+import Settings from "@/assets/settings.png";
+import FarmIcon from "@/assets/three.png";
+import { useURLParam } from "@/system/hooks/useUrlParams";
+import Farm from "@/components/Farm";
+import Paper from "@/components/Paper";
+import ControlPanel from "@/components/ControlPanel";
 
-interface DialogProps {
-  children: ReactNode;
-  title: string;
-  buttonText?: string;
-  width: string | number;
-  height: string | number;
+export const dialogOptions = ["cp", "farm", "paper", "error"];
+export const existingDialog = (param: string | null) =>
+  !param ? false : dialogOptions.includes(param);
 
-  closeMe: () => void;
-}
+export const content = (value: string | null) => {
+  switch (value) {
+    case "cp":
+      return {
+        title: "Control Panel",
+        menu: "cp",
+        width: 400,
+        height: 400,
+        icon: Settings,
+        component: <ControlPanel />,
+      };
+    case "farm":
+      return {
+        menu: "farm",
+        title: "FARM",
+        component: <Farm />,
+        width: 720,
+        height: 300,
+        icon: FarmIcon,
+      };
+    case "paper":
+      return {
+        menu: "paper",
+        title: "PAPER",
+        component: <Paper />,
+        width: 400,
+        height: 400,
+        icon: PaperIcon,
+      };
+    default:
+      return {
+        menu: "cp",
+        title: "ERROR!",
+        component: (
+          <div className="w-full text-center">ADDRESS NOT FOUND !</div>
+        ),
+        width: 200,
+        height: 80,
+        icon: Settings,
+      };
+  }
+};
 
-const Dialog: FC<DialogProps> = ({
-  children,
-  title,
-  buttonText,
-  width,
-  height,
-  closeMe,
-}) => {
-  const [isPressed, setIsPressed] = useState<boolean>(false);
-  const handleMouseDown = () => setIsPressed(true);
-  const handleMouseUp = () => setIsPressed(false);
+const Dialog = () => {
+  const { value } = useURLParam("dialog");
+  if (!existingDialog(value)) return null;
+
+  const { width, height, title, component } = content(value)!;
 
   return (
-    <div className="w-full h-full flex justify-center items-center absolute">
+    <div className="absolute flex items-center justify-center w-full h-full">
       <div
-        style={{ width: width, minHeight: height }}
+        style={{ width, minHeight: height }}
         className="bg-[#C1C1C1] border-t-white border-l-white border-r-black border-b-black border-2 flex flex-col font-windows"
       >
-        <div className=" flex justify-between items-center bg-[#0A0080] pl-1">
+        <div className="flex justify-between items-center bg-[#0A0080] pl-1">
           <div className="font-bold text-white">{title}</div>
-          <button onClick={() => closeMe()} className="mr-1">
+          <Link href="/" className="mr-1">
             <Image alt="" src="/assets/win98Close.png" width={16} height={16} />
-          </button>
+          </Link>
         </div>
-        <div className="px-2 flex">{children}</div>
-        {buttonText && <div className="p-2 flex justify-center">
-          <button
-            className={`w-[67px] border h-[30px] bg-gray-400 flex justify-center items-center mr-2 
-        ${!isPressed
-                ? "border-t-white border-l-white border-r-[#000] border-b-[#000]"
-                : "border-t-[#000] border-l-[#000] border-r-white border-b-white"
-              }`}
-            onMouseDown={handleMouseDown}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-          >
-            {buttonText}
-          </button>
-        </div>}
+        <div className="flex px-2">{component}</div>
       </div>
     </div>
   );

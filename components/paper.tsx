@@ -26,8 +26,8 @@ const Paper = () => {
       </div>
       <div className="border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-[1.6px] bg-white w-[100%] flex aspect-[1.15] m-auto mt-1 py-1 px-2 overflow-auto">
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <h2 style={{fontWeight: "bold"}}>Launch Timeline & Overview</h2>
-          <ul style={{listStyleType: "circle", marginLeft: "15px"}}>
+          <h2 style={{ fontWeight: "bold" }}>Launch Timeline & Overview</h2>
+          <ul style={{ listStyleType: "circle", marginLeft: "15px" }}>
             <li>$LOVE smart contract will be on Ethereum Mainnet</li>
             <li>
               Community will review contract code for transparency and safety
@@ -46,9 +46,9 @@ const Paper = () => {
             </li>
           </ul>
 
-          <h2 style={{fontWeight: "bold"}}>Purchasing $LOVE Tokens</h2>
+          <h2 style={{ fontWeight: "bold" }}>Purchasing $LOVE Tokens</h2>
 
-          <ul style={{listStyleType: "circle", marginLeft: "15px"}}>
+          <ul style={{ listStyleType: "circle", marginLeft: "15px" }}>
             <li>
               {`The $LOVE smart contract will be deployed on the Ethereum Mainnet.
               To ensure transparency and safety, we'll provide a few hours for
@@ -78,9 +78,9 @@ const Paper = () => {
             </li>
           </ul>
 
-          <h2 style={{fontWeight: "bold"}}>Claiming $LOVE Tokens</h2>
+          <h2 style={{ fontWeight: "bold" }}>Claiming $LOVE Tokens</h2>
 
-          <ul style={{listStyleType: "circle", marginLeft: "15px"}}>
+          <ul style={{ listStyleType: "circle", marginLeft: "15px" }}>
             <li>
               Once the love.game UI is active, wallets that completed the 0ETH
               transaction before the snapshot can claim their $LOVE tokens.
@@ -88,9 +88,9 @@ const Paper = () => {
             <li>This claiming opportunity will be available for a week.</li>
           </ul>
 
-          <h2 style={{fontWeight: "bold"}}>Staking $LOVE Tokens</h2>
+          <h2 style={{ fontWeight: "bold" }}>Staking $LOVE Tokens</h2>
 
-          <ul style={{listStyleType: "circle", marginLeft: "15px"}}>
+          <ul style={{ listStyleType: "circle", marginLeft: "15px" }}>
             <li>
               $LOVE token holders can supply liquidity to LOVE/ETH farms and
               earn $LOVE emissions.
@@ -104,9 +104,9 @@ const Paper = () => {
             </li>
           </ul>
 
-          <h2 style={{fontWeight: "bold"}}>Upcoming Features & Utility</h2>
+          <h2 style={{ fontWeight: "bold" }}>Upcoming Features & Utility</h2>
 
-          <ul style={{listStyleType: "circle", marginLeft: "15px"}}>
+          <ul style={{ listStyleType: "circle", marginLeft: "15px" }}>
             <li>
               LIPS Governance portal: This will facilitate $LOVE Improvement
               Proposals.

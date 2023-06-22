@@ -1,29 +1,29 @@
 import Image from "next/image";
-import { PoolDataDisplay } from "./ui/PoolDataDisplay";
-import { GeneralPoolData } from "../system/hooks/useFetchFarmData";
-import { useFetchUserPoolData } from "../system/hooks/useFetchUserPoolData";
 import { useEffect, useState } from "react";
-import { PoolAprDataDisplay } from "./ui/PoolAprDataDisplay";
-import { thousandSeparator } from "../system/appUtils";
-import { StakedLiquidityDataDisplay } from "./ui/StakedLiquidityDataDisplay";
-import { ExpandPoolUtilsButton } from "./ui/ExpandPoolUtilsButton";
-import { FarmStakeUnstakeUtils } from "./ui/FarmStakeUnstakeUtils";
+import { ethers } from "ethers";
+import { GeneralPoolData } from "@/system/hooks/useFetchFarmData";
+import { useFetchUserPoolData } from "@/system/hooks/useFetchUserPoolData";
+import { thousandSeparator } from "@/system/appUtils";
+import { AppContracts } from "@/system/contracts/AppContracts";
 import {
   USDT_CONTRACT_ADDRESS,
   contractAddressLove,
   contractAddressLoveFarm,
-} from "../utils/constant";
-import { ethers } from "ethers";
-import { AppContracts } from "../system/AppContracts";
+} from "@/utils/constant";
 import {
   requestErrorState,
   requestPendingState,
   requestSuccessState,
   useRequestState,
-} from "../system/hooks/useRequestState";
-import { TransactionNotificationWrapper } from "./ui/TransactionNotificationWrapper";
+} from "@/system/hooks/useRequestState";
+import { PoolDataDisplay } from "@/components/PoolDataDisplay";
+import { PoolAprDataDisplay } from "@/components/PoolAprDataDisplay";
+import { StakedLiquidityDataDisplay } from "@/components/StakedLiquidityDataDisplay";
+import { ExpandPoolUtilsButton } from "@/components/ExpandPoolUtilsButton";
+import { FarmStakeUnstakeUtils } from "@/components/FarmStakeUnstakeUtils";
+import { TransactionNotificationWrapper } from "@/components/TransactionNotificationWrapper";
 
-const lpContractAbi = require("../utils/poolABI.json");
+const lpContractAbi = require("@/system/data/poolABI.json");
 
 const boxStyle =
   "p-2 h-16 flex border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-gray-600 portrait:border-b-0 border-2 ml-[0.5px] borderBottomShadow";
@@ -40,7 +40,7 @@ interface IPoolProps {
   onGetFarmData: () => Promise<void>;
 }
 
-export const Pool = ({
+const Pool = ({
   pool,
   address,
   lpContractAddress,
@@ -62,7 +62,7 @@ export const Pool = ({
     }
   }, [address, poolIndex, lpContractAddress]);
 
-  const canShowPosition = () => !!address
+  const canShowPosition = () => !!address;
 
   const message = (rawMessage: string) => {
     if (rawMessage.includes("withdraw") || rawMessage.includes("underflow")) {
@@ -104,9 +104,12 @@ export const Pool = ({
       const { loveFarmContract } = new AppContracts(signer);
       const isApprovedForAll = await ETHLOVEPool.allowance(
         address,
-        contractAddressLoveFarm!
+        contractAddressLoveFarm
       );
-      let formattedAmount = ethers.utils.parseUnits(amount.toString(), "ether");
+      const formattedAmount = ethers.utils.parseUnits(
+        amount.toString(),
+        "ether"
+      );
       if (isApprovedForAll.lt(formattedAmount)) {
         const tx = await ETHLOVEPool.approve(
           contractAddressLoveFarm,
@@ -134,7 +137,10 @@ export const Pool = ({
       );
       const signer = provider.getSigner();
       const { loveFarmContract } = new AppContracts(signer);
-      let formattedAmount = ethers.utils.parseUnits(amount.toString(), "ether");
+      const formattedAmount = ethers.utils.parseUnits(
+        amount.toString(),
+        "ether"
+      );
       const tx = await loveFarmContract.withdraw(poolIndex, formattedAmount);
       await tx.wait(2);
       handleTransactionSuccess();
@@ -250,13 +256,18 @@ export const Pool = ({
                   <div
                     className={`flex flex-col text-[#0A0080] text-xs ml-2 ${
                       canShowPosition()
-                      ? "sm:ml-8 mt-1 mb-[-10px] sm:mb-auto"
+                        ? "sm:ml-8 mt-1 mb-[-10px] sm:mb-auto"
                         : "m-auto"
                     }`}
                   >
                     <div
                       onClick={() => {
-                        window.open(`https://app.uniswap.org/#/add/v2/${poolIndex === 0 ? "ETH" : USDT_CONTRACT_ADDRESS}/${contractAddressLove}`, "_blank");
+                        window.open(
+                          `https://app.uniswap.org/#/add/v2/${
+                            poolIndex === 0 ? "ETH" : USDT_CONTRACT_ADDRESS
+                          }/${contractAddressLove}`,
+                          "_blank"
+                        );
                       }}
                       className="cursor-pointer"
                     >
@@ -264,7 +275,10 @@ export const Pool = ({
                     </div>
                     <div
                       onClick={() => {
-                        window.open(`https://etherscan.io/address/${lpContractAddress}`, "_blank");
+                        window.open(
+                          `https://etherscan.io/address/${lpContractAddress}`,
+                          "_blank"
+                        );
                       }}
                       className="cursor-pointer"
                     >
@@ -284,8 +298,7 @@ export const Pool = ({
                 } sm:w-[72%]`}
               >
                 <div className="">
-                  <div className="text-xs min-h-[16px] sm:min-h-0 embossBorderLeft sm:border-l-0 sm:before:border-l-0 text-right sm:text-left pr-1 pb-1 pr-2">
-                  </div>
+                  <div className="text-xs min-h-[16px] sm:min-h-0 embossBorderLeft sm:border-l-0 sm:before:border-l-0 text-right sm:text-left pr-1 pb-1 pr-2"></div>
                   <div className="embossBorderBottom block sm:hidden" />
                 </div>
                 <div className="w-full flex flex-row border-l-gray-600 sm:border-t-gray-600 border-t-0 sm:border-t-2 border-r-gray-100 border-b-gray-100 border-2 p-[0.5px]">
@@ -372,9 +385,7 @@ export const Pool = ({
               <button
                 onClick={() => {
                   const url = `https://app.uniswap.org/#/add/v2/${contractAddressLove}/${
-                    poolIndex === 0
-                      ? "ETH"
-                      : USDT_CONTRACT_ADDRESS
+                    poolIndex === 0 ? "ETH" : USDT_CONTRACT_ADDRESS
                   }`;
                   window.open(url, "_blank");
                 }}
@@ -389,3 +400,5 @@ export const Pool = ({
     </TransactionNotificationWrapper>
   );
 };
+
+export default Pool;

@@ -2,11 +2,11 @@ import { ethers } from "ethers";
 import { useState } from "react";
 import { formatUnits } from "viem";
 import { contractAddressLove, USDCAddress } from "../../utils/constant";
-import { AppContracts } from "../AppContracts";
-import { PoolAbi } from "../PoolAbi";
-import { LoveFarmAbi } from "../LoveFarmAbi";
+import { AppContracts } from "../contracts/AppContracts";
+import { PoolAbi } from "../contracts/PoolAbi";
+import { LoveFarmAbi } from "../contracts/LoveFarmAbi";
 
-const lpContractAbi = require("../../utils/poolABI.json");
+const lpContractAbi = require("@/system/data/poolABI.json");
 
 type UserPoolData = {
   pendingLove: string;
@@ -50,29 +50,26 @@ export const useFetchUserPoolData = () => {
         poolIndex,
         address
       );
-      const realValue = await getAvailableRealValue(
-        loveTokenContract,
-        address!
-      );
+      const realValue = await getAvailableRealValue(loveTokenContract, address);
       const userInfo = await loveFarmContract.userInfo(poolIndex, address);
-      const lpAvailable = await getAvailableToken(lpContract, address!);
+      const lpAvailable = await getAvailableToken(lpContract, address);
       const availableStaked = Number(userInfo.amount.toString()) > 0 ? 1 : 0;
       const userValueStaked = userInfo.amount;
-      const loveEthLpTokenBalance = await lpContract.balanceOf(address!);
+      const loveEthLpTokenBalance = await lpContract.balanceOf(address);
 
       let getLpInformation: any;
       if (poolIndex === 0) {
         getLpInformation = await getTokenInformation(
           lpContract,
           loveFarmContract,
-          address!,
+          address,
           poolIndex
         );
       } else if (poolIndex === 1) {
         getLpInformation = await getTokenInformationUsdt(
           lpContract,
           loveFarmContract,
-          address!,
+          address,
           poolIndex
         );
       } else {
