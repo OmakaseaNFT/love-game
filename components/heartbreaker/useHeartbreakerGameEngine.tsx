@@ -85,14 +85,13 @@ export const useHeartbreakerGameEngine = () => {
     console.log("BEEETTTTTT");
   };
 
-  const handleStop = async () => {
+  const handleStop = async (amount: number) => {
     if (!socket) return;
-    
+
     socket.emit("exit", {
       address: address,
-      amount: 1000,
+      amount,
     });
-    console.log("BEEETTTTTT");
   };
 
   useEffect(() => {

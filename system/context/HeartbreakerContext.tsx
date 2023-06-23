@@ -4,7 +4,7 @@ import { Socket } from "socket.io-client";
 
 interface IHeartBreaker {
   onBet: (multiplierToStopAt: number, amount: number) => Promise<void>;
-  onStop: () => Promise<void>;
+  onStop: (amount: number) => Promise<void>;
   onDeposit: () => Promise<void>;
   onGetBalance: (address: string) => Promise<void>;
   onSocketInit: (socket: Socket) => void;

@@ -178,7 +178,7 @@ const Game = () => {
           />
         </div>
         <div className="flex flex-row absolute top-0 right-0">
-          <p>x{mult}</p>
+          <p className="text-white">x{mult}</p>
           {/* <button
             className="text-white mb-5 ml-5 mt-5"
             onClick={handleResetClick}
