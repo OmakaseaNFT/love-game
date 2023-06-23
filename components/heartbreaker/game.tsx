@@ -1,9 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { gsap, TweenLite, TweenMax } from "gsap";
 import Image from "next/image";
 import Heart from "../../assets/heart_beating.gif";
 import HeartStatic from "../../assets/heart-static.svg";
 import HeartBreakImage from "../../assets/half-heart-break.svg";
+import { useHeartbreakerGameEngine } from "./useHeartbreakerGameEngine";
+import { io } from "socket.io-client";
+import { HEARTBREAKER_SOCKET_URL } from "../../utils/constant";
+import { HeartBreakerContext } from "../../system/context/HeartbreakerContext";
 
 gsap.registerPlugin(TweenLite);
 
@@ -18,6 +22,16 @@ const Game = () => {
   const [dimensions, setDimensions] = useState({ width: 120, height: 120 });
   const [heartImage, setHeartImage] = useState(HeartStatic);
   const [bottomSpace, setBottomSpace] = useState(false);
+  const {
+    balance,
+    mult,
+    gameIsLive,
+    onBet,
+    onStop,
+    onDeposit,
+    onGetBalance,
+    onSocketInit,
+  } = useContext(HeartBreakerContext);
   const startSound = useRef(new Audio("/assets/beat.mp3"));
   const stopSound = useRef(new Audio("/assets/break.wav"));
 
@@ -27,7 +41,8 @@ const Game = () => {
     TweenLite.set(bgRef.current, {
       backgroundPosition: "0 100%",
     });
-
+    const socket = io(HEARTBREAKER_SOCKET_URL);
+    onSocketInit(socket);
     tween.current = TweenLite.to(bgRef.current, 20, {
       backgroundPosition: "0 0%",
       paused: true,
@@ -123,6 +138,20 @@ const Game = () => {
     startSound.current.currentTime = 0;
   };
 
+  useEffect(() => {
+    console.log("GAME IS LIVE", gameIsLive);
+
+    if (gameIsLive) {
+      handleStartStopClick();
+    }
+    if (!gameIsLive) {
+      handleStop();
+      setTimeout(() => {
+        handleResetClick();
+      }, 5000);
+    }
+  }, [gameIsLive]);
+
   return (
     <div className="relative inverseBorderStyle w-full h-full">
       <div
@@ -149,7 +178,8 @@ const Game = () => {
           />
         </div>
         <div className="flex flex-row absolute top-0 right-0">
-          <button
+          <p>x{mult}</p>
+          {/* <button
             className="text-white mb-5 ml-5 mt-5"
             onClick={handleResetClick}
           >
@@ -164,7 +194,7 @@ const Game = () => {
 
           <button className="text-white ml-5" onClick={handleStartStopClick}>
             Start
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
