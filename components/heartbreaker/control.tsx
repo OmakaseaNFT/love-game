@@ -38,7 +38,7 @@ const Control = () => {
       return;
     }
     if (!gameIsLive) {
-      setAmountToPlay(customAmount);
+      setAmountToPlay(amountToPlay);
       onBet(multiplierToStopAt, customAmount);
     }
     return;
