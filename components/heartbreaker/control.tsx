@@ -1,12 +1,86 @@
 import Image from "next/image";
 import DeadButton from "../../assets/dead-game-button.png";
+import StopButton from "../../assets/stop-button.png";
 import ActiveButton from "../../assets/active-game-button.png";
-import { useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { ConnectHeartBreak } from "./connect";
+import { HeartBreakerContext, IHeartBreaker } from "../../system/context/HeartbreakerContext";
+import { useAccount } from "wagmi";
+import { log } from "console";
 const Control = () => {
+  const { address } = useAccount();
   const points = [10, 20, 30, 40];
   const [selectedPoint, setSelectedPoint] = useState(10);
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(true);
+  const [customAmount, setCustomAmount] = useState(0);
+  const [userInPlay, setUserInPlay] = useState(false);
+
+  const {
+    balance,
+    mult,
+    gameIsLive,
+    multiplierToStopAt,
+    gameResults,
+    amountToPlay,
+    onBet,
+    onStop,
+    onDeposit,
+    onGetBalance,
+    onSocketInit,
+    onSetMultiplierToStopAt,
+  } = useContext(HeartBreakerContext);
+
+  const userGameResult = useMemo(() => {
+    console.log("gameResults", gameResults);
+    if (gameResults.length === 0) return {} as IHeartBreaker["gameResults"][0];
+    return gameResults.find((game) => game.userAddress === address);
+  }, [gameResults]);
+
+  const handleSetPlay = () => {
+    console.log("gameIsLive", gameIsLive);
+    console.log("userInPlay", userInPlay);
+
+    if (gameIsLive && userInPlay) {
+      onStop(customAmount);
+      setUserInPlay(false);
+    }
+    if (gameIsLive && !userInPlay) {
+      return;
+    }
+    if (!gameIsLive) {
+      onBet(multiplierToStopAt, customAmount);
+    }
+    return;
+  };
+
+  const handleButtonType = (
+    active: boolean,
+    userInPlay: boolean,
+    gameIsLive: boolean
+  ) => {
+    if (gameIsLive && userInPlay) {
+      return StopButton;
+    }
+    if (gameIsLive && !userInPlay) {
+      return DeadButton;
+    }
+    if (!gameIsLive) {
+      return ActiveButton;
+    }
+    return ActiveButton;
+  };
+
+  useEffect(() => {
+    const amount = (selectedPoint / 100) * balance;
+    setCustomAmount(parseFloat(amount.toFixed(2)));
+  }, [selectedPoint]);
+
+  useEffect(() => {
+    if (gameIsLive && amountToPlay > 0) {
+      setUserInPlay(true);
+    }
+  }, [gameIsLive, customAmount]);
+
   return (
     <div className="px-[5px]">
       <div className="flex flex-row justify-end space-x-1 mb-1">
@@ -16,7 +90,7 @@ const Control = () => {
         <div className="flex flex-row space-x-2 border px-[4px] py-[5px]">
           <div className="mt-2">
             <div className="text-[9px]">$LOVE AVAILABLE</div>
-            <div className="text-[28px]">0</div>
+            <div className="text-[28px]">{balance}</div>
           </div>
           <div>
             <input
@@ -51,24 +125,47 @@ const Control = () => {
         })}
       </div>
       <div className="px-[10px]">
-        <input
-          placeholder="Custom Amount"
-          type="text"
-          className="text-[#0A0080] px-[3px] text-[10px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full"
-        />
+        <div className="flex  mt-[10px]">
+          <p className="mr-[5px] w-[5rem]">Amount: </p>
+          <input
+            placeholder="Custom Amount"
+            type="text"
+            value={customAmount}
+            onChange={(e) => setCustomAmount(Number(e.currentTarget.value))}
+            className="text-[#0A0080] px-[3px] text-[10px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full"
+          />
+        </div>
+        <div className="flex  mt-[10px]">
+          <p className="mr-[5px] w-[5rem]">Target: </p>
+          <input
+            type="number"
+            step="0.01"
+            value={multiplierToStopAt}
+            placeholder="1.01"
+            min="1.01"
+            onChange={(e) => {
+              onSetMultiplierToStopAt(Number(e.target.value));
+            }}
+            className="text-[#0A0080] px-[3px] text-[10px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full"
+          />
+        </div>
       </div>
       <div className="flex flex-row justify-between mt-[4px] px-[10px]">
         <div className="border border-gray-600  px-[7px] py-[4px] w-[69px]">
-          <div className="text-[#808080]">PLAY</div>
-          <div className="text-[#808080]">0</div>
+          <div style={{ color: gameIsLive ? "#808080" : "black" }}>PLAY</div>
+          <div style={{ color: gameIsLive ? "#808080" : "black" }}>
+            {amountToPlay}
+          </div>
         </div>
         <div>
           <button
-            onClick={() => setActive(!active)}
+            onClick={() => {
+              handleSetPlay();
+            }}
             className="cursor-pointer transform active:scale-90 transition duration-150 ease-in-out"
           >
             <Image
-              src={active ? DeadButton : ActiveButton}
+              src={handleButtonType(active, userInPlay, gameIsLive)}
               width={67}
               height={54}
               alt="dead-button"
@@ -77,7 +174,30 @@ const Control = () => {
         </div>
       </div>
       <div className="px-[10px]">
-        <div className="bg-black h-[22px] mt-[12px] "></div>
+        <div className="bg-black h-[22px] mt-[12px] ">
+          {!!userGameResult?.profit && userGameResult?.profit > 0 && (
+            <p
+              style={{
+                backgroundColor: "blue",
+                color: "white",
+                textAlign: "center",
+              }}
+            >
+              YOU WON {userGameResult?.profit.toFixed(2)}
+            </p>
+          )}
+          {!!userGameResult?.profit && userGameResult?.profit < 0 && (
+            <p
+              style={{
+                backgroundColor: "red",
+                color: "white",
+                textAlign: "center",
+              }}
+            >
+              HEARTBREAK BABY!!
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );
