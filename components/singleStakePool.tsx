@@ -155,7 +155,7 @@ export const SingleStakePool = ({
                       width={20}
                       height={20}
                     />
-                    <div className={`text-lg`}>LOVE</div>
+                    <div className={`text-lg ml-2`}>LOVE</div>
                     <PoolDataDisplay title="DEP FEE" data={`${fee}%`} />
                     <div>
                       <div className="w-full flex flex-col">
