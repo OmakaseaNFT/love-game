@@ -13,7 +13,7 @@ export const HeartBreaker = () => {
           </div>
           <Control />
         </div>
-        <div className="flex-1">
+        <div className="flex-1 overflow-x-auto">
           <Features />
         </div>
       </div>

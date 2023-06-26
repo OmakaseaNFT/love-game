@@ -89,12 +89,12 @@ const Control = () => {
   }, [gameIsLive, customAmount]);
 
   useEffect(() => {
-    if (customAmount > balance) {
+    if (customAmount > balance || multiplierToStopAt < 1.01) {
       setInvalidBetAmount(true);
     } else {
       setInvalidBetAmount(false);
     }
-  }, [customAmount]);
+  }, [customAmount, multiplierToStopAt]);
 
   return (
     <div className="px-[5px]">

@@ -11,6 +11,7 @@ export const useHeartbreakerGameEngine = () => {
   const [gameIsLive, setGameIsLive] = useState<boolean>(false);
   const [gameResults, setGameResults] = useState<any>([]);
   const [amountToPlay, setAmountToPlay] = useState(0);
+  const [gameHistory, setGameHistory] = useState<any>([]);
 
   const { address } = useAccount();
 
@@ -19,7 +20,6 @@ export const useHeartbreakerGameEngine = () => {
       .get(`http://localhost:3030/heartbreakPlayer?address=${address}`)
       .then((res) => {
         setBalance(res.data.balance);
-        console.log(res.data);
       });
   };
 
@@ -31,7 +31,6 @@ export const useHeartbreakerGameEngine = () => {
 
   const handleSocketInit = (socket: Socket) => {
     // initialize a socket io connection
-
     socket.on("connect", () => {
       console.log("connected to socket server");
     });
@@ -48,9 +47,8 @@ export const useHeartbreakerGameEngine = () => {
     socket.on("endGame", (data) => {
       setGameIsLive(false);
       setGameResults([]);
-      console.log("gameResults", gameResults);
-
       setAmountToPlay(0);
+      handleGetGameHistory();
     });
 
     socket.on("balanceUpdate", (data) => {
@@ -84,9 +82,20 @@ export const useHeartbreakerGameEngine = () => {
     });
   };
 
+  const handleGetGameHistory = async () => {
+    await axios.get(`http://localhost:3030/heartbreakGames`).then((res) => {
+      console.log("asdfasdfasdfas", res.data);
+      
+      setGameHistory(res.data);
+    }).catch(() => {
+      setGameHistory([]);
+    })
+  };
+
   useEffect(() => {
     const socket = io("http://localhost:4000");
     setSocket(socket);
+    handleGetGameHistory();
   }, []);
 
   useEffect(() => {
@@ -113,5 +122,6 @@ export const useHeartbreakerGameEngine = () => {
     gameIsLive,
     gameResults,
     amountToPlay,
+    gameHistory 
   };
 };

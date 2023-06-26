@@ -177,7 +177,7 @@ const Game = () => {
             className="transition-opacity duration-500"
           />
         </div>
-        <div className="flex flex-row absolute top-0 right-0">
+        <div className="flex flex-row absolute top-1 left-1">
           <p className="text-white">x{mult}</p>
           {/* <button
             className="text-white mb-5 ml-5 mt-5"

@@ -14,6 +14,12 @@ export interface IHeartBreaker {
   mult: number;
   gameIsLive: boolean;
   amountToPlay: number;
+  gameHistory: {
+    game_number: number;
+    total_amount: string;
+    total_profit: string;
+    crash: string;
+  }[];
   gameResults: {
     gameNumber: number;
     profit: number;

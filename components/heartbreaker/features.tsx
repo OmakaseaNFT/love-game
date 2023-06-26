@@ -34,7 +34,7 @@ const Features = () => {
     }
   };
   return (
-    <div className="border mt-2 h-[247px] border-b-gray-600 border-r-gray-600">
+    <div className="mt-2 h-[247px]">
       <div className="flex flex-row text-xl ">
         {tabList.map((list, index) => {
           return (
