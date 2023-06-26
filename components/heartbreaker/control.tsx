@@ -4,9 +4,12 @@ import StopButton from "../../assets/stop-button.png";
 import ActiveButton from "../../assets/active-game-button.png";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { ConnectHeartBreak } from "./connect";
-import { HeartBreakerContext, IHeartBreaker } from "../../system/context/HeartbreakerContext";
+import {
+  HeartBreakerContext,
+  IHeartBreaker,
+} from "../../system/context/HeartbreakerContext";
 import { useAccount } from "wagmi";
-import { log } from "console";
+
 const Control = () => {
   const { address } = useAccount();
   const points = [10, 20, 30, 40];
@@ -14,6 +17,7 @@ const Control = () => {
   const [active, setActive] = useState(true);
   const [customAmount, setCustomAmount] = useState(0);
   const [userInPlay, setUserInPlay] = useState(false);
+  const [invalidBetAmount, setInvalidBetAmount] = useState(false);
 
   const {
     balance,
@@ -39,6 +43,7 @@ const Control = () => {
   const handleSetPlay = () => {
     console.log("gameIsLive", gameIsLive);
     console.log("userInPlay", userInPlay);
+    if (invalidBetAmount) return;
 
     if (gameIsLive && userInPlay) {
       onStop(customAmount);
@@ -48,7 +53,8 @@ const Control = () => {
       return;
     }
     if (!gameIsLive) {
-      onBet(multiplierToStopAt, customAmount);
+      const amount = (selectedPoint / 100) * balance;
+      onBet(multiplierToStopAt, customAmount || amount);
     }
     return;
   };
@@ -56,12 +62,13 @@ const Control = () => {
   const handleButtonType = (
     active: boolean,
     userInPlay: boolean,
-    gameIsLive: boolean
+    gameIsLive: boolean,
+    invalidBetAmount: boolean
   ) => {
     if (gameIsLive && userInPlay) {
       return StopButton;
     }
-    if (gameIsLive && !userInPlay) {
+    if ((gameIsLive && !userInPlay) || invalidBetAmount) {
       return DeadButton;
     }
     if (!gameIsLive) {
@@ -80,6 +87,14 @@ const Control = () => {
       setUserInPlay(true);
     }
   }, [gameIsLive, customAmount]);
+
+  useEffect(() => {
+    if (customAmount > balance) {
+      setInvalidBetAmount(true);
+    } else {
+      setInvalidBetAmount(false);
+    }
+  }, [customAmount]);
 
   return (
     <div className="px-[5px]">
@@ -131,6 +146,7 @@ const Control = () => {
             placeholder="Custom Amount"
             type="text"
             value={customAmount}
+            readOnly={gameIsLive}
             onChange={(e) => setCustomAmount(Number(e.currentTarget.value))}
             className="text-[#0A0080] px-[3px] text-[10px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full"
           />
@@ -142,6 +158,7 @@ const Control = () => {
             step="0.01"
             value={multiplierToStopAt}
             placeholder="1.01"
+            readOnly={gameIsLive}
             min="1.01"
             onChange={(e) => {
               onSetMultiplierToStopAt(Number(e.target.value));
@@ -165,7 +182,16 @@ const Control = () => {
             className="cursor-pointer transform active:scale-90 transition duration-150 ease-in-out"
           >
             <Image
-              src={handleButtonType(active, userInPlay, gameIsLive)}
+              src={
+                invalidBetAmount
+                  ? DeadButton
+                  : handleButtonType(
+                      active,
+                      userInPlay,
+                      gameIsLive,
+                      invalidBetAmount
+                    )
+              }
               width={67}
               height={54}
               alt="dead-button"

@@ -9,29 +9,8 @@ export const useHeartbreakerGameEngine = () => {
   const [mult, setMult] = useState<number>(1);
   const [multiplierToStopAt, setMultiplierToStopAt] = useState<number>(1.01);
   const [gameIsLive, setGameIsLive] = useState<boolean>(false);
-  const [amountToBet, setAmountToBet] = useState<number>(1000);
   const [gameResults, setGameResults] = useState<any>([]);
   const [amountToPlay, setAmountToPlay] = useState(0);
-
-  const disabled = gameIsLive;
-
-  const betButtonStyles = {
-    border: "1px solid black",
-    padding: "8px 16px",
-    borderRadius: "4px",
-    background: disabled ? "rgba(0, 0, 0, 0.3)" : "transparent",
-    color: disabled ? "rgba(0, 0, 0, 0.5)" : "black",
-    cursor: disabled ? "not-allowed" : "pointer",
-  };
-
-  const stopButtonStyles = {
-    border: "1px solid black",
-    padding: "8px 16px",
-    borderRadius: "4px",
-    background: !gameIsLive ? "rgba(0, 0, 0, 0.3)" : "transparent",
-    color: !gameIsLive ? "rgba(0, 0, 0, 0.5)" : "black",
-    cursor: !gameIsLive ? "not-allowed" : "pointer",
-  };
 
   const { address } = useAccount();
 
@@ -70,12 +49,13 @@ export const useHeartbreakerGameEngine = () => {
       setGameIsLive(false);
       setGameResults([]);
       console.log("gameResults", gameResults);
-      
+
       setAmountToPlay(0);
     });
 
     socket.on("balanceUpdate", (data) => {
-      handleGetBalance(address!);
+      if (!address) return;
+      handleGetBalance(address);
     });
 
     socket.on("gameResults", (data) => {
