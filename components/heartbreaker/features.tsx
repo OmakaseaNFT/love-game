@@ -3,6 +3,7 @@ import { StakingSelectTab } from "../ui/StakingSelectTab";
 import HeartBreakTable from "./table";
 import { HeartBreakTab } from "./tab";
 import ChatBox from "./chatbox";
+import LeaderBoard from "./leaderboard";
 
 const Features = () => {
   const [tab, setTab] = useState<string>("history");
@@ -26,7 +27,7 @@ const Features = () => {
       case "history":
         return <HeartBreakTable />;
       case "leaderboard":
-        return <HeartBreakTable />;
+        return <LeaderBoard />;
       case "chat":
         return <ChatBox />;
       default:

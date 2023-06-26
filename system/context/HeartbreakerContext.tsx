@@ -19,6 +19,12 @@ export interface IHeartBreaker {
     total_amount: string;
     total_profit: string;
     crash: string;
+    date_created: string;
+  }[];
+  leaderboard: {
+    user_address: number;
+    total_amount: string;
+    total_profit: string;
   }[];
   gameResults: {
     gameNumber: number;

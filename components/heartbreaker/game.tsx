@@ -176,6 +176,7 @@ const Game = () => {
             alt="heart"
             className="transition-opacity duration-500"
           />
+          <div style={{position: "absolute"}}>asdfasd</div>
         </div>
         <div className="flex flex-row absolute top-1 left-1">
           <p className="text-white">x{mult}</p>

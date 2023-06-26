@@ -12,6 +12,7 @@ export const useHeartbreakerGameEngine = () => {
   const [gameResults, setGameResults] = useState<any>([]);
   const [amountToPlay, setAmountToPlay] = useState(0);
   const [gameHistory, setGameHistory] = useState<any>([]);
+  const [leaderboard, setLeaderboard] = useState<any>([]);
 
   const { address } = useAccount();
 
@@ -44,11 +45,17 @@ export const useHeartbreakerGameEngine = () => {
       setGameIsLive(true);
     });
 
+    socket.on("timer", (data) => {
+      console.log(data);
+      
+    });
+
     socket.on("endGame", (data) => {
       setGameIsLive(false);
       setGameResults([]);
       setAmountToPlay(0);
       handleGetGameHistory();
+      handleGetGameLeaders();
     });
 
     socket.on("balanceUpdate", (data) => {
@@ -91,6 +98,14 @@ export const useHeartbreakerGameEngine = () => {
       setGameHistory([]);
     })
   };
+ 
+  const handleGetGameLeaders = async () => {
+    await axios.get(`http://localhost:3030/heartbreakLeaders`).then((res) => {
+      setLeaderboard(res.data);
+    }).catch(() => {
+      setLeaderboard([]);
+    })
+  };
 
   useEffect(() => {
     const socket = io("http://localhost:4000");
@@ -122,6 +137,7 @@ export const useHeartbreakerGameEngine = () => {
     gameIsLive,
     gameResults,
     amountToPlay,
-    gameHistory 
+    gameHistory, 
+    leaderboard
   };
 };
