@@ -2,14 +2,16 @@ import Image from "next/image";
 import DeadButton from "../../assets/dead-game-button.png";
 import StopButton from "../../assets/stop-button.png";
 import ActiveButton from "../../assets/active-game-button.png";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { ConnectHeartBreak } from "./connect";
-import { HeartBreakerContext } from "../../system/context/HeartbreakerContext";
+import { HeartBreakerContext, IHeartBreaker } from "../../system/context/HeartbreakerContext";
+import { useAccount } from "wagmi";
+import { log } from "console";
 const Control = () => {
+  const { address } = useAccount();
   const points = [10, 20, 30, 40];
   const [selectedPoint, setSelectedPoint] = useState(10);
   const [active, setActive] = useState(true);
-  const [amountToPlay, setAmountToPlay] = useState(0);
   const [customAmount, setCustomAmount] = useState(0);
   const [userInPlay, setUserInPlay] = useState(false);
 
@@ -18,6 +20,8 @@ const Control = () => {
     mult,
     gameIsLive,
     multiplierToStopAt,
+    gameResults,
+    amountToPlay,
     onBet,
     onStop,
     onDeposit,
@@ -26,10 +30,16 @@ const Control = () => {
     onSetMultiplierToStopAt,
   } = useContext(HeartBreakerContext);
 
+  const userGameResult = useMemo(() => {
+    console.log("gameResults", gameResults);
+    if (gameResults.length === 0) return {} as IHeartBreaker["gameResults"][0];
+    return gameResults.find((game) => game.userAddress === address);
+  }, [gameResults]);
+
   const handleSetPlay = () => {
     console.log("gameIsLive", gameIsLive);
     console.log("userInPlay", userInPlay);
-    
+
     if (gameIsLive && userInPlay) {
       onStop(customAmount);
       setUserInPlay(false);
@@ -38,7 +48,6 @@ const Control = () => {
       return;
     }
     if (!gameIsLive) {
-      setAmountToPlay(amountToPlay);
       onBet(multiplierToStopAt, customAmount);
     }
     return;
@@ -143,10 +152,8 @@ const Control = () => {
       </div>
       <div className="flex flex-row justify-between mt-[4px] px-[10px]">
         <div className="border border-gray-600  px-[7px] py-[4px] w-[69px]">
-          <div className={`text-[${gameIsLive ? "#808080" : "black"}]`}>
-            PLAY
-          </div>
-          <div className={`text-[${gameIsLive ? "#808080" : "black"}]`}>
+          <div style={{ color: gameIsLive ? "#808080" : "black" }}>PLAY</div>
+          <div style={{ color: gameIsLive ? "#808080" : "black" }}>
             {amountToPlay}
           </div>
         </div>
@@ -167,7 +174,30 @@ const Control = () => {
         </div>
       </div>
       <div className="px-[10px]">
-        <div className="bg-black h-[22px] mt-[12px] "></div>
+        <div className="bg-black h-[22px] mt-[12px] ">
+          {!!userGameResult?.profit && userGameResult?.profit > 0 && (
+            <p
+              style={{
+                backgroundColor: "blue",
+                color: "white",
+                textAlign: "center",
+              }}
+            >
+              YOU WON {userGameResult?.profit.toFixed(2)}
+            </p>
+          )}
+          {!!userGameResult?.profit && userGameResult?.profit < 0 && (
+            <p
+              style={{
+                backgroundColor: "red",
+                color: "white",
+                textAlign: "center",
+              }}
+            >
+              HEARTBREAK BABY!!
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

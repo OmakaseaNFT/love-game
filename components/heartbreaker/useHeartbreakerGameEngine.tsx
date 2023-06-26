@@ -10,6 +10,8 @@ export const useHeartbreakerGameEngine = () => {
   const [multiplierToStopAt, setMultiplierToStopAt] = useState<number>(1.01);
   const [gameIsLive, setGameIsLive] = useState<boolean>(false);
   const [amountToBet, setAmountToBet] = useState<number>(1000);
+  const [gameResults, setGameResults] = useState<any>([]);
+  const [amountToPlay, setAmountToPlay] = useState(0);
 
   const disabled = gameIsLive;
 
@@ -57,6 +59,7 @@ export const useHeartbreakerGameEngine = () => {
 
     socket.on("increment", (data) => {
       setMult(data.mult);
+      if (!gameIsLive) setGameIsLive(true);
     });
 
     socket.on("startGame", (data) => {
@@ -65,16 +68,23 @@ export const useHeartbreakerGameEngine = () => {
 
     socket.on("endGame", (data) => {
       setGameIsLive(false);
+      setGameResults([]);
+      console.log("gameResults", gameResults);
+      
+      setAmountToPlay(0);
     });
 
     socket.on("balanceUpdate", (data) => {
       handleGetBalance(address!);
     });
+
+    socket.on("gameResults", (data) => {
+      setGameResults(JSON.parse(data));
+    });
   };
 
   const handleBet = async (multiplierToStopAt: number, amount: number) => {
-    console.log("SOCKET", socket);
-    
+    setAmountToPlay(amount);
     if (!socket) return;
 
     socket.emit("bet", {
@@ -82,7 +92,7 @@ export const useHeartbreakerGameEngine = () => {
       multiplierToStopAt,
       amount,
     });
-    console.log("BEEETTTTTT");
+    console.log("BET", multiplierToStopAt, amount);
   };
 
   const handleStop = async (amount: number) => {
@@ -120,6 +130,8 @@ export const useHeartbreakerGameEngine = () => {
     multiplierToStopAt,
     balance,
     mult,
-    gameIsLive
-  }
+    gameIsLive,
+    gameResults,
+    amountToPlay,
+  };
 };
