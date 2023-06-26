@@ -353,7 +353,10 @@ export const SingleStakePool = ({
                                 </button>
                               </div>
                               <div
-                                className="btn mb-1"
+                                className="btn mb-1 w-full"
+                                style={{
+                                  marginLeft: 0,
+                                }}
                                 onClick={
                                   isStakeVisible
                                     ? () => deposit(stakeValue, address)

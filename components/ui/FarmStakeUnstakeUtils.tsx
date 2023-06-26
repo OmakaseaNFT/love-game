@@ -100,7 +100,7 @@ export const FarmStakeUnstakeUtils = ({
                 if (isStakeVisible) onChangeStakeValue(e.target.value);
                 if (isUnstakeVisible) onChangeUnstakeValue(e.target.value);
               }}
-              className="text-[#0A0080] px-[3px] text-[10px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2"
+              className="text-[#0A0080] px-[3px] text-[10px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-[105px]"
             />
             <button
               onClick={() => {
@@ -116,7 +116,10 @@ export const FarmStakeUnstakeUtils = ({
             </button>
           </div>
           <div
-            className="btn mb-1"
+            className="btn mb-1 w-full"
+            style={{
+              marginLeft: 0,
+            }}
             onClick={
               isStakeVisible
                 ? () => depositToFarmContract(stakeValue)
