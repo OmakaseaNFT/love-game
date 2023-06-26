@@ -169,8 +169,8 @@ export const SingleStakePool = ({
                     className="w-full flex flex-col m-auto text-sm"
                     style={{ position: "relative" }}
                   >
-                    <div className="text-xs">Ratio</div>
-                    <div style={{ position: "relative", whiteSpace: "nowrap" }}>
+                    <div className="text-xs font-semibold text-center mb-[2px]">Ratio</div>
+                    <div style={{ position: "relative", whiteSpace: "nowrap" }} className="mb-[-2px]">
                       {`${aprValue} LOVE / FAITH`}
                     </div>
                   </div>
