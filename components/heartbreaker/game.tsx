@@ -9,7 +9,7 @@ gsap.registerPlugin(TweenLite);
 
 const Game = () => {
   const [bgImage, setBgImage] = useState("/assets/screen-bg.jpg");
-  const bgImage2 = "/assets/bg-loop.jpg";
+  const bgImage2 = "/assets/bg-loop.png";
   const [isAnimating, setIsAnimating] = useState(true);
   const bgRef = useRef(null);
   const heartRef: any = useRef(null);
@@ -36,7 +36,7 @@ const Game = () => {
         if (bgImage !== bgImage2) {
           setBgImage(bgImage2);
         } else {
-          setBgImage("/assets/screen-bg.jpg");
+          setBgImage("/assets/screen-bg.png");
         }
         tween.current.restart();
       },

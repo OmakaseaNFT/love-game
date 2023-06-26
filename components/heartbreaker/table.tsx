@@ -4,31 +4,17 @@ const HeartBreakTable = () => {
     <div className="flex flex-col mt-2">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-600">
-              <thead>
-                <tr>
-                  {headerList.map((item, index) => {
-                    return (
-                      <th
-                        key={index}
-                        scope="col"
-                        className="border px-3 py-1 text-left text-[10px] font-medium text-[#000000] uppercase tracking-wider border-gray-600"
-                      >
-                        {item}
-                      </th>
-                    );
-                  })}
-                </tr>
-              </thead>
-              {/* <tbody className="divide-y divide-gray-200">
-                <tr>
-                  <td className="border px-3 py-1 text-left text-xs font-medium text-gray-500">
-                    Data 1
-                  </td>
-                </tr>
-              </tbody> */}
-            </table>
+          <div className="overflow-hidden flex flex-row w-full">
+            {headerList.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  className="text-left px-3 py-1 text-[10px] font-medium text-[#000000] uppercase tracking-wider border-l-gray-200  border-t-gray-600 border-r-gray-600 border-b-gray-600 border ml-[0.5px] borderBottomShadow flex-auto"
+                >
+                  {item}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
