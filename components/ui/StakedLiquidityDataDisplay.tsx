@@ -8,9 +8,9 @@ export const StakedLiquidityDataDisplay = ({
   title,
 }: IStakedLiquidityDataDisplayProps) => {
   return (
-    <div className="w-full flex flex-col m-auto">
-      <div className="text-xs">{title}</div>
-      <div className="flex flex-row justify-between text-xs">{data}</div>
+    <div className="w-full flex flex-col mt-[4px]">
+      <div className="text-xs mb-[-7px] h-[27px] text-center font-semibold">{title}</div>
+      <div className="text-xs text-center">{data}</div>
     </div>
   );
 };

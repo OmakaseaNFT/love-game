@@ -360,7 +360,7 @@ const SingleStaking = () => {
                       expanded != -1 && expanded == idx
                         ? "-rotate-90"
                         : "rotate-90"
-                    }`}
+                      }`}
                   />
                   {expanded == idx && (
                     <div className="hidden sm:block farmExpandHideBottomBorder" />
@@ -376,7 +376,7 @@ const SingleStaking = () => {
                     item.loveBalance || item.faithBalance
                       ? "flex-col"
                       : "flex-row"
-                  } sm:flex-row justify-between pt-0 sm:pt-2 sm:border-2 sm:border-t-0 sm:border-l-gray-200 sm:border-b-gray-600 sm:border-r-gray-200 pb-[8px] pr-0 sm:pr-[8px]`}
+                    } sm:flex-row justify-between pt-0 sm:pt-2 sm:border-2 sm:border-t-0 sm:border-l-gray-200 sm:border-b-gray-600 sm:border-r-gray-200 pb-[8px] pr-0 sm:pr-[8px]`}
                 >
                   <div className="w-[31.9%] sm:w-[28%] flex border-2 sm:border-0 border-l-gray-600 border-r-0 sm:border-t-gray-600 border-t-0 border-b-0 sm:border-b-gray-100">
                     <div className="w-full border-l-gray-200 border-t-0 border-r-0 border-b-0 sm:border-b-gray-600 border-2 sm:border-0 flex">
@@ -385,7 +385,7 @@ const SingleStaking = () => {
                           item.loveBalance || item.faithBalance
                             ? "sm:ml-8 mt-1 mb-[-10px] sm:mb-auto"
                             : "m-auto"
-                        }`}
+                          }`}
                       >
                         <div
                           onClick={() => {
@@ -408,7 +408,7 @@ const SingleStaking = () => {
                       item.loveBalance || item.faithBalance
                         ? "w-full"
                         : "w-[68.1%]"
-                    } sm:w-[72%]`}
+                      } sm:w-[72%]`}
                   >
                     <div className="w-full flex flex-row border-l-gray-600 sm:border-t-gray-600 border-t-0 sm:border-t-2 border-r-gray-100 border-b-gray-100 border-2 p-[0.5px]">
                       <div className="pb-2 sm:pb-0 w-full flex border-l-gray-200 border-t-0 sm:border-t-2 border-r-gray-600 border-b-gray-600 border-2 pt-1">
@@ -429,7 +429,7 @@ const SingleStaking = () => {
                                       listPool[idx] == "stake"
                                         ? "mb-[-2px]"
                                         : "mb-[-2px]"
-                                    }`}
+                                      }`}
                                   >
                                     <div
                                       onClick={() => {
@@ -445,7 +445,7 @@ const SingleStaking = () => {
                                         listPool[idx] == "stake"
                                           ? "text-gray-800 border-b-0 bg-[#C1C1C1]"
                                           : "text-gray-500"
-                                      }`}
+                                        }`}
                                     >
                                       Stake
                                       {listPool[idx] == "stake" && (
@@ -462,7 +462,7 @@ const SingleStaking = () => {
                                         listPool[idx] == "unstake"
                                           ? "text-gray-800  bg-[#C1C1C1]"
                                           : "text-gray-500"
-                                      }`}
+                                        }`}
                                       style={{
                                         zIndex:
                                           listPool[idx] == "unstake" ? 5 : 0,
@@ -480,11 +480,12 @@ const SingleStaking = () => {
                               </div>
 
                               <div className="w-[300px] justify-between mb-1 bg-[#c1c1c1] px-4 py-1 flex flex-row border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-gray-600 border-2">
-                                <div className="flex flex-col gap-1 w-[50%]">
-                                  {listPool[idx] == "stake"
-                                    ? "Stake LOVE, get FAITH"
-                                    : "Burn FAITH, get LOVE"}
-                                </div>
+                                <div className="flex flex-col gap-1 w-[50%]"
+                                  dangerouslySetInnerHTML={{
+                                    __html: listPool[idx] == "stake"
+                                      ? "Stake LOVE,<br />get FAITH"
+                                      : "Burn FAITH,<br />get LOVE"
+                                  }} />
                                 <div className="flex flex-col gap-1">
                                   <div className="text-[11px] text-gray-500 leading-3">
                                     {listPool[idx] == "stake"
