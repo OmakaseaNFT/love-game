@@ -32,7 +32,7 @@ const HeartBreakTable = () => {
               <tbody className="divide-y divide-gray-200">
                 {!!gameHistory.length &&
                   gameHistory.map((game, index) => {
-                    const date = game.date_created.split("T")[0]
+                    const date = game.date_created?.split("T")[0]
                     return (
                       <tr key={`history-${index}`}>
                         <td className="border px-3 py-1 text-left text-xs font-medium text-gray-500">
@@ -42,7 +42,7 @@ const HeartBreakTable = () => {
                           {game.crash}
                         </td>
                         <td className="border px-3 py-1 text-left text-xs font-medium text-gray-500">
-                          {date.toString()}
+                          {date?.toString()}
                         </td>
                         <td className="border px-3 py-1 text-left text-xs font-medium text-gray-500">
                           {Number(game.total_amount).toFixed(2)}

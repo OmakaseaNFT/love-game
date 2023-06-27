@@ -45,6 +45,7 @@ interface Content {
   width?: string;
   height: string;
   icon: any;
+  maxHeight?: boolean;
 }
 
 const Win98 = (props: Props) => {
@@ -189,6 +190,7 @@ const Win98 = (props: Props) => {
       width: "60%",
       height: "100%",
       icon: PaperIcon,
+      maxHeight: true,
     },
     {
       menu: "cp",
@@ -253,6 +255,7 @@ const Win98 = (props: Props) => {
             width={selectedContent?.width ?? "94%"}
             height={selectedContent?.height ?? "200px"}
             title={selectedContent?.title ?? ""}
+            maxHeight={selectedContent?.maxHeight}
           >
             {selectedContent?.component}
           </Dialog>

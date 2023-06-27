@@ -26,6 +26,7 @@ const Game = () => {
     balance,
     mult,
     gameIsLive,
+    gameTimer,
     onBet,
     onStop,
     onDeposit,
@@ -162,6 +163,26 @@ const Game = () => {
           backgroundSize: "cover",
         }}
       >
+        {!gameIsLive && (
+          <div
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#08080880",
+              zIndex: 100,
+            }}
+          >
+            <span style={{ margin: "auto", color: "white" }}>
+              <p>NEXT GAME IN</p>
+              <p style={{position: "absolute", marginLeft: "2rem"}}>{gameTimer/100}</p>
+            </span>
+          </div>
+        )}
         <div
           ref={heartRef}
           className={`absolute inset-0 flex items-end justify-center ${
@@ -176,7 +197,6 @@ const Game = () => {
             alt="heart"
             className="transition-opacity duration-500"
           />
-          <div style={{position: "absolute"}}>asdfasd</div>
         </div>
         <div className="flex flex-row absolute top-1 left-1">
           <p className="text-white">x{mult}</p>

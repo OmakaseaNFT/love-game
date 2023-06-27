@@ -2,6 +2,16 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { io, Socket } from "socket.io-client";
+import { ethers } from "ethers";
+import {
+  HEARTBREAKER_CONTRACT_ADDRESS,
+  LOVE_TOKEN_SEPOLIA_CONTRACT,
+} from "../../utils/constant";
+import {
+  HeartbreakerAbi,
+  HeartbreakerAbiInterface,
+} from "../../system/HeartbreakerAbi";
+import { LoveTokenAbi } from "../../system/LoveTokenAbi";
 
 export const useHeartbreakerGameEngine = () => {
   const [balance, setBalance] = useState<number>(0);
@@ -13,6 +23,8 @@ export const useHeartbreakerGameEngine = () => {
   const [amountToPlay, setAmountToPlay] = useState(0);
   const [gameHistory, setGameHistory] = useState<any>([]);
   const [leaderboard, setLeaderboard] = useState<any>([]);
+  const [gameTimer, setGameTimer] = useState<any>(0);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const { address } = useAccount();
 
@@ -22,12 +34,6 @@ export const useHeartbreakerGameEngine = () => {
       .then((res) => {
         setBalance(res.data.balance);
       });
-  };
-
-  const handleDeposit = async () => {
-    await axios
-      .post(`http://localhost:3030/heartbreakPlayer`, {})
-      .then((res) => {});
   };
 
   const handleSocketInit = (socket: Socket) => {
@@ -46,8 +52,7 @@ export const useHeartbreakerGameEngine = () => {
     });
 
     socket.on("timer", (data) => {
-      console.log(data);
-      
+      setGameTimer(data.time);
     });
 
     socket.on("endGame", (data) => {
@@ -90,21 +95,94 @@ export const useHeartbreakerGameEngine = () => {
   };
 
   const handleGetGameHistory = async () => {
-    await axios.get(`http://localhost:3030/heartbreakGames`).then((res) => {
-      console.log("asdfasdfasdfas", res.data);
-      
-      setGameHistory(res.data);
-    }).catch(() => {
-      setGameHistory([]);
-    })
+    await axios
+      .get(`http://localhost:3030/heartbreakGames`)
+      .then((res) => {
+        setGameHistory(res.data);
+      })
+      .catch(() => {
+        setGameHistory([]);
+      });
   };
- 
+
   const handleGetGameLeaders = async () => {
-    await axios.get(`http://localhost:3030/heartbreakLeaders`).then((res) => {
-      setLeaderboard(res.data);
-    }).catch(() => {
-      setLeaderboard([]);
-    })
+    await axios
+      .get(`http://localhost:3030/heartbreakLeaders`)
+      .then((res) => {
+        setLeaderboard(res.data);
+      })
+      .catch(() => {
+        setLeaderboard([]);
+      });
+  };
+
+  const handleWithdraw = async (
+    address: string,
+    amount: number,
+    signature: string
+  ) => {
+    await axios
+      .post(`http://localhost:3030/withdraw`, { address, amount, signature })
+      .then((res) => {
+        console.log();
+
+        handleWithdrawFromContract(res, address).then(() => {
+          handleGetBalance(address);
+        });
+      })
+      .catch(() => {
+        setErrorMessage("Withdraw failed");
+      });
+  };
+
+  const handleWithdrawFromContract = async (res: any, address: string) => {
+    const provider = new ethers.providers.Web3Provider(
+      (window as any).ethereum
+    );
+    const signer = provider.getSigner();
+    const abi = require("../../utils/heartbreaker.json");
+    const contract = new ethers.Contract(
+      HEARTBREAKER_CONTRACT_ADDRESS,
+      abi,
+      signer
+    ) as HeartbreakerAbi;
+    console.log("res.data.receipt", res.data.recpt, res.data.sig, address);
+    try {
+      const tx = await contract.withdrawLOVE(
+        {
+          ...res.data.recpt,
+          _amount: ethers.utils.parseEther(res.data.recpt._amount.toString()),
+        },
+        res.data.sig,
+        address
+      );
+      await tx.wait(2);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleDeposit = async (address: string, amount: number) => {
+    const provider = new ethers.providers.Web3Provider(
+      (window as any).ethereum
+    );
+    const signer = provider.getSigner();
+    const abi = require("../../utils/erc20abi.json");
+    const contract = new ethers.Contract(
+      LOVE_TOKEN_SEPOLIA_CONTRACT,
+      abi,
+      signer
+    ) as LoveTokenAbi;
+    try {
+      const tx = await contract.transfer(
+        HEARTBREAKER_CONTRACT_ADDRESS,
+        ethers.utils.parseEther(amount.toString())
+      );
+      await tx.wait(2);
+      handleGetBalance(address);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
@@ -131,13 +209,15 @@ export const useHeartbreakerGameEngine = () => {
     onGetBalance: handleGetBalance,
     onSocketInit: handleSocketInit,
     onSetMultiplierToStopAt: (mult: number) => setMultiplierToStopAt(mult),
+    onWithdraw: handleWithdraw,
     multiplierToStopAt,
     balance,
     mult,
     gameIsLive,
     gameResults,
     amountToPlay,
-    gameHistory, 
-    leaderboard
+    gameHistory,
+    leaderboard,
+    gameTimer,
   };
 };

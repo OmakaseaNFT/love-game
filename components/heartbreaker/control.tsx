@@ -8,16 +8,18 @@ import {
   HeartBreakerContext,
   IHeartBreaker,
 } from "../../system/context/HeartbreakerContext";
-import { useAccount } from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 
 const Control = () => {
   const { address } = useAccount();
+  const { signMessageAsync } = useSignMessage();
   const points = [10, 20, 30, 40];
   const [selectedPoint, setSelectedPoint] = useState(10);
   const [active, setActive] = useState(true);
   const [customAmount, setCustomAmount] = useState(0);
   const [userInPlay, setUserInPlay] = useState(false);
   const [invalidBetAmount, setInvalidBetAmount] = useState(false);
+  const [balanceUpdateAmount, setBalanceUpdateAmount] = useState(0);
 
   const {
     balance,
@@ -32,6 +34,7 @@ const Control = () => {
     onGetBalance,
     onSocketInit,
     onSetMultiplierToStopAt,
+    onWithdraw,
   } = useContext(HeartBreakerContext);
 
   const userGameResult = useMemo(() => {
@@ -77,6 +80,17 @@ const Control = () => {
     return ActiveButton;
   };
 
+  const handleWithdraw = async (address: string, withdrawAmount: number) => {
+    const sig = await signMessageAsync({
+      message: `Withdraw ${withdrawAmount} from Heartbreaker`,
+    });
+    onWithdraw(address, withdrawAmount, sig);
+  };
+
+  const handleDeposit = (address: string, amount: number) => {
+    onDeposit(address, amount);
+  };
+
   useEffect(() => {
     const amount = (selectedPoint / 100) * balance;
     setCustomAmount(parseFloat(amount.toFixed(2)));
@@ -111,12 +125,19 @@ const Control = () => {
             <input
               type="text"
               className="text-[#0A0080] px-[3px] text-[10px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2"
+              onChange={(e) => setBalanceUpdateAmount(Number(e.target.value))}
             />
             <div>
-              <button className="w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[6px] py-[2px]">
+              <button
+                className="w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[6px] py-[2px]"
+                onClick={() => onDeposit(address!, balanceUpdateAmount)}
+              >
                 Deposit
               </button>
-              <button className="w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[6px] py-[2px]">
+              <button
+                className="w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[6px] py-[2px]"
+                onClick={() => handleWithdraw(address!, balanceUpdateAmount)}
+              >
                 Withdraw
               </button>
             </div>
