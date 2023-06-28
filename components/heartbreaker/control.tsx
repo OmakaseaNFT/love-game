@@ -38,14 +38,11 @@ const Control = () => {
   } = useContext(HeartBreakerContext);
 
   const userGameResult = useMemo(() => {
-    console.log("gameResults", gameResults);
     if (gameResults.length === 0) return {} as IHeartBreaker["gameResults"][0];
     return gameResults.find((game) => game.userAddress === address);
   }, [gameResults]);
 
   const handleSetPlay = () => {
-    console.log("gameIsLive", gameIsLive);
-    console.log("userInPlay", userInPlay);
     if (invalidBetAmount) return;
 
     if (gameIsLive && userInPlay) {
@@ -130,7 +127,7 @@ const Control = () => {
             <div>
               <button
                 className="w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[6px] py-[2px]"
-                onClick={() => onDeposit(address!, balanceUpdateAmount)}
+                onClick={() => handleDeposit(address!, balanceUpdateAmount)}
               >
                 Deposit
               </button>

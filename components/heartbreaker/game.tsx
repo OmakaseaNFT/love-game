@@ -42,8 +42,6 @@ const Game = () => {
     TweenLite.set(bgRef.current, {
       backgroundPosition: "0 100%",
     });
-    const socket = io(HEARTBREAKER_SOCKET_URL);
-    onSocketInit(socket);
     tween.current = TweenLite.to(bgRef.current, 20, {
       backgroundPosition: "0 0%",
       paused: true,
@@ -140,8 +138,6 @@ const Game = () => {
   };
 
   useEffect(() => {
-    console.log("GAME IS LIVE", gameIsLive);
-
     if (gameIsLive) {
       handleStartStopClick();
     }

@@ -5,15 +5,12 @@ const HeartBreakTable = () => {
   const headerList = ["Round", "Crash", "Date/Time", "Total Play", "Total Won"];
   const { gameHistory } = useContext(HeartBreakerContext);
 
-  useEffect(() => {
-    console.log("gameHistory", gameHistory);
-  }, [gameHistory]);
   return (
     <div className="flex flex-col mt-2">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div className="py-2 align-middle inline-block sm:px-6 lg:px-8">
           <div className="overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-600">
+            <table className="min-w-full divide-y divide-gray-600 mb-[5rem]">
               <thead>
                 <tr>
                   {headerList.map((item, index) => {
@@ -32,9 +29,14 @@ const HeartBreakTable = () => {
               <tbody className="divide-y divide-gray-200">
                 {!!gameHistory.length &&
                   gameHistory.map((game, index) => {
-                    const date = game.date_created?.split("T")[0]
+                    const date = game.date_created?.split("T")[0];
                     return (
-                      <tr key={`history-${index}`}>
+                      <tr
+                        key={`history-${index}`}
+                        className={` bg-[${
+                          index % 2 === 0 ? "white" : "gray"
+                        }]`}
+                      >
                         <td className="border px-3 py-1 text-left text-xs font-medium text-gray-500">
                           {game.game_number}
                         </td>

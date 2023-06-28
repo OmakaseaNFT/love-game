@@ -5,6 +5,7 @@ import { io, Socket } from "socket.io-client";
 import { ethers } from "ethers";
 import {
   HEARTBREAKER_CONTRACT_ADDRESS,
+  HEARTBREAKER_SOCKET_URL,
   LOVE_TOKEN_SEPOLIA_CONTRACT,
 } from "../../utils/constant";
 import {
@@ -82,7 +83,6 @@ export const useHeartbreakerGameEngine = () => {
       multiplierToStopAt,
       amount,
     });
-    console.log("BET", multiplierToStopAt, amount);
   };
 
   const handleStop = async (amount: number) => {
@@ -124,8 +124,6 @@ export const useHeartbreakerGameEngine = () => {
     await axios
       .post(`http://localhost:3030/withdraw`, { address, amount, signature })
       .then((res) => {
-        console.log();
-
         handleWithdrawFromContract(res, address).then(() => {
           handleGetBalance(address);
         });
@@ -146,7 +144,6 @@ export const useHeartbreakerGameEngine = () => {
       abi,
       signer
     ) as HeartbreakerAbi;
-    console.log("res.data.receipt", res.data.recpt, res.data.sig, address);
     try {
       const tx = await contract.withdrawLOVE(
         {
@@ -163,6 +160,8 @@ export const useHeartbreakerGameEngine = () => {
   };
 
   const handleDeposit = async (address: string, amount: number) => {
+    
+    
     const provider = new ethers.providers.Web3Provider(
       (window as any).ethereum
     );
@@ -186,12 +185,11 @@ export const useHeartbreakerGameEngine = () => {
   };
 
   useEffect(() => {
-    const socket = io("http://localhost:4000");
-    setSocket(socket);
-    handleGetGameHistory();
-  }, []);
-
-  useEffect(() => {
+    if (!socket) {
+      const socket = io(HEARTBREAKER_SOCKET_URL);
+      setSocket(socket);
+      handleGetGameHistory();
+    }
     if (socket) handleSocketInit(socket!);
     return () => {
       socket?.removeAllListeners();
