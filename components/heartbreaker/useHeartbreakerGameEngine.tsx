@@ -145,7 +145,7 @@ export const useHeartbreakerGameEngine = () => {
       signer
     ) as HeartbreakerAbi;
     try {
-      const tx = await contract.withdrawLOVE(
+      const tx = await contract.withdrawTokens(
         {
           ...res.data.recpt,
           _amount: ethers.utils.parseEther(res.data.recpt._amount.toString()),

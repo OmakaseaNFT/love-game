@@ -21,6 +21,7 @@ export declare namespace HeartBreaker {
   export type ReceiptStruct = {
     _id: BigNumberish;
     _contractAddress: string;
+    _tokenContractAddress: string;
     _amount: BigNumberish;
     _noteAddress: string;
     _timestamp: BigNumberish;
@@ -31,6 +32,7 @@ export declare namespace HeartBreaker {
   export type ReceiptStructOutput = [
     BigNumber,
     string,
+    string,
     BigNumber,
     string,
     BigNumber,
@@ -39,6 +41,7 @@ export declare namespace HeartBreaker {
   ] & {
     _id: BigNumber;
     _contractAddress: string;
+    _tokenContractAddress: string;
     _amount: BigNumber;
     _noteAddress: string;
     _timestamp: BigNumber;
@@ -50,9 +53,6 @@ export declare namespace HeartBreaker {
 export interface HeartbreakerAbiInterface extends utils.Interface {
   contractName: "HeartbreakerAbi";
   functions: {
-    "emergencyDrainERC20(address)": FunctionFragment;
-    "emergencyDrainETH()": FunctionFragment;
-    "loveTokenAddress()": FunctionFragment;
     "owner()": FunctionFragment;
     "paused()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
@@ -60,21 +60,11 @@ export interface HeartbreakerAbiInterface extends utils.Interface {
     "setSigner(address)": FunctionFragment;
     "signer()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "withdrawLOVE((uint256,address,uint256,address,uint256,uint256,uint256),bytes,address)": FunctionFragment;
+    "withdrawERC20(address,uint256)": FunctionFragment;
+    "withdrawETH((uint256,address,address,uint256,address,uint256,uint256,uint256),bytes,address)": FunctionFragment;
+    "withdrawTokens((uint256,address,address,uint256,address,uint256,uint256,uint256),bytes,address)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "emergencyDrainERC20",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "emergencyDrainETH",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "loveTokenAddress",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
@@ -89,22 +79,18 @@ export interface HeartbreakerAbiInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "withdrawLOVE",
+    functionFragment: "withdrawERC20",
+    values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "withdrawETH",
+    values: [HeartBreaker.ReceiptStruct, BytesLike, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "withdrawTokens",
     values: [HeartBreaker.ReceiptStruct, BytesLike, string]
   ): string;
 
-  decodeFunctionResult(
-    functionFragment: "emergencyDrainERC20",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "emergencyDrainETH",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "loveTokenAddress",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
@@ -119,16 +105,33 @@ export interface HeartbreakerAbiInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "withdrawLOVE",
+    functionFragment: "withdrawERC20",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "withdrawETH",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "withdrawTokens",
     data: BytesLike
   ): Result;
 
   events: {
+    "ETHReceived(address,uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "ETHReceived"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
+
+export type ETHReceivedEvent = TypedEvent<
+  [string, BigNumber],
+  { account: string; amount: BigNumber }
+>;
+
+export type ETHReceivedEventFilter = TypedEventFilter<ETHReceivedEvent>;
 
 export type OwnershipTransferredEvent = TypedEvent<
   [string, string],
@@ -166,17 +169,6 @@ export interface HeartbreakerAbi extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    emergencyDrainERC20(
-      tokenAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    emergencyDrainETH(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    loveTokenAddress(overrides?: CallOverrides): Promise<[string]>;
-
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     paused(overrides?: CallOverrides): Promise<[boolean]>;
@@ -201,24 +193,31 @@ export interface HeartbreakerAbi extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    withdrawLOVE(
+    withdrawERC20(
+      tokenAddress: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "withdrawETH((uint256,address,address,uint256,address,uint256,uint256,uint256),bytes,address)"(
+      receipt: HeartBreaker.ReceiptStruct,
+      signature: BytesLike,
+      payoutAddress: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "withdrawETH(uint256)"(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    withdrawTokens(
       receipt: HeartBreaker.ReceiptStruct,
       signature: BytesLike,
       payoutAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
-
-  emergencyDrainERC20(
-    tokenAddress: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  emergencyDrainETH(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  loveTokenAddress(overrides?: CallOverrides): Promise<string>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -242,7 +241,25 @@ export interface HeartbreakerAbi extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  withdrawLOVE(
+  withdrawERC20(
+    tokenAddress: string,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "withdrawETH((uint256,address,address,uint256,address,uint256,uint256,uint256),bytes,address)"(
+    receipt: HeartBreaker.ReceiptStruct,
+    signature: BytesLike,
+    payoutAddress: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "withdrawETH(uint256)"(
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  withdrawTokens(
     receipt: HeartBreaker.ReceiptStruct,
     signature: BytesLike,
     payoutAddress: string,
@@ -250,15 +267,6 @@ export interface HeartbreakerAbi extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    emergencyDrainERC20(
-      tokenAddress: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    emergencyDrainETH(overrides?: CallOverrides): Promise<void>;
-
-    loveTokenAddress(overrides?: CallOverrides): Promise<string>;
-
     owner(overrides?: CallOverrides): Promise<string>;
 
     paused(overrides?: CallOverrides): Promise<boolean>;
@@ -276,7 +284,25 @@ export interface HeartbreakerAbi extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    withdrawLOVE(
+    withdrawERC20(
+      tokenAddress: string,
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "withdrawETH((uint256,address,address,uint256,address,uint256,uint256,uint256),bytes,address)"(
+      receipt: HeartBreaker.ReceiptStruct,
+      signature: BytesLike,
+      payoutAddress: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "withdrawETH(uint256)"(
+      amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    withdrawTokens(
       receipt: HeartBreaker.ReceiptStruct,
       signature: BytesLike,
       payoutAddress: string,
@@ -285,6 +311,12 @@ export interface HeartbreakerAbi extends BaseContract {
   };
 
   filters: {
+    "ETHReceived(address,uint256)"(
+      account?: null,
+      amount?: null
+    ): ETHReceivedEventFilter;
+    ETHReceived(account?: null, amount?: null): ETHReceivedEventFilter;
+
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
@@ -296,17 +328,6 @@ export interface HeartbreakerAbi extends BaseContract {
   };
 
   estimateGas: {
-    emergencyDrainERC20(
-      tokenAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    emergencyDrainETH(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    loveTokenAddress(overrides?: CallOverrides): Promise<BigNumber>;
-
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     paused(overrides?: CallOverrides): Promise<BigNumber>;
@@ -331,7 +352,25 @@ export interface HeartbreakerAbi extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    withdrawLOVE(
+    withdrawERC20(
+      tokenAddress: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "withdrawETH((uint256,address,address,uint256,address,uint256,uint256,uint256),bytes,address)"(
+      receipt: HeartBreaker.ReceiptStruct,
+      signature: BytesLike,
+      payoutAddress: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "withdrawETH(uint256)"(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    withdrawTokens(
       receipt: HeartBreaker.ReceiptStruct,
       signature: BytesLike,
       payoutAddress: string,
@@ -340,17 +379,6 @@ export interface HeartbreakerAbi extends BaseContract {
   };
 
   populateTransaction: {
-    emergencyDrainERC20(
-      tokenAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    emergencyDrainETH(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    loveTokenAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -375,7 +403,25 @@ export interface HeartbreakerAbi extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    withdrawLOVE(
+    withdrawERC20(
+      tokenAddress: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "withdrawETH((uint256,address,address,uint256,address,uint256,uint256,uint256),bytes,address)"(
+      receipt: HeartBreaker.ReceiptStruct,
+      signature: BytesLike,
+      payoutAddress: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "withdrawETH(uint256)"(
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    withdrawTokens(
       receipt: HeartBreaker.ReceiptStruct,
       signature: BytesLike,
       payoutAddress: string,
