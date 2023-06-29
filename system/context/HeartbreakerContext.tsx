@@ -44,7 +44,7 @@ export const HeartBreakerContext = createContext<IHeartBreaker>(
 );
 
 export const HeartBreakerProvider = ({ children }: { children: any }) => {
-  const heartBreakerEngine = useHeartbreakerGameEngine();
+  const heartBreakerEngine: any = useHeartbreakerGameEngine();
   return (
     <HeartBreakerContext.Provider value={heartBreakerEngine}>
       {children}
