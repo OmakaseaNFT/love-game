@@ -80,19 +80,34 @@ const Game = () => {
   };
 
   const handleStop = () => {
+    let dimention;
+    let space;
     if (isAnimating && bottomSpace) {
       setDimensions({
         width: heartRef.current.firstChild.offsetWidth,
         height: heartRef.current.firstChild.offsetHeight,
       });
 
+      if (heartRef.current.firstChild.offsetWidth > 140) {
+        dimention = 20;
+        space = 5;
+      } else {
+        dimention = 10;
+        space = 2;
+      }
+
       heartRef.current.firstChild.style.width = `${
-        heartRef.current.firstChild.offsetWidth - 10
+        heartRef.current.firstChild.offsetWidth - dimention
       }px`;
       heartRef.current.firstChild.style.height = `${
-        heartRef.current.firstChild.offsetHeight - 10
+        heartRef.current.firstChild.offsetHeight - dimention
       }px`;
-      heartRef.current.firstChild.style.transform = `translateY(-2px)`;
+      if (heartRef.current.firstChild.offsetWidth > 140) {
+        heartRef.current.firstChild.style.transform = `translateY(${space}px)`;
+      } else {
+        heartRef.current.firstChild.style.transform = `translateY(${space}px)`;
+      }
+
       setIsAnimating(false);
       tween.current.pause();
       heartTween.current.pause();
