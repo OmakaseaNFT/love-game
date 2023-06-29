@@ -19,7 +19,7 @@ export const useHeartbreakerGameEngine = () => {
   const [balance, setBalance] = useState<number>(0);
   const [socket, setSocket] = useState<Socket>();
   const [mult, setMult] = useState<number>(1);
-  const [multiplierToStopAt, setMultiplierToStopAt] = useState<number>(1.01);
+  const [multiplierToStopAt, setMultiplierToStopAt] = useState<number | undefined>(0);
   const [gameIsLive, setGameIsLive] = useState<boolean>(false);
   const [gameResults, setGameResults] = useState<any>([]);
   const [amountToPlay, setAmountToPlay] = useState(0);

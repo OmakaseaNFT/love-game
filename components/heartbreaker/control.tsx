@@ -20,6 +20,7 @@ const Control = () => {
   const [userInPlay, setUserInPlay] = useState(false);
   const [invalidBetAmount, setInvalidBetAmount] = useState(false);
   const [balanceUpdateAmount, setBalanceUpdateAmount] = useState(0);
+  const [presetIsLive, setPresetIsLive] = useState(false);
 
   const {
     balance,
@@ -53,8 +54,9 @@ const Control = () => {
       return;
     }
     if (!gameIsLive) {
+      const usersMultiplierToStopAt = presetIsLive ? multiplierToStopAt : 0;
       const amount = (selectedPoint / 100) * balance;
-      onBet(multiplierToStopAt, customAmount || amount);
+      onBet(usersMultiplierToStopAt, customAmount || amount);
     }
     return;
   };
@@ -88,6 +90,20 @@ const Control = () => {
     onDeposit(address, amount);
   };
 
+  const handleMultiplierChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let inputValue = event.target.value || "0";
+
+    // Remove leading zeros, unless followed by a decimal point
+    const trimmedValue = inputValue.replace(/^0+(?!\.|$)/, "");
+
+    // Check if the trimmed value is a valid number with up to 2 decimal places
+    const isValidNumber = /^\d+(\.\d{1,2})?$/.test(trimmedValue);
+
+    if (isValidNumber) {
+      onSetMultiplierToStopAt(Number(trimmedValue));
+    }
+  };
+
   useEffect(() => {
     const amount = (selectedPoint / 100) * balance;
     setCustomAmount(parseFloat(amount.toFixed(2)));
@@ -100,12 +116,13 @@ const Control = () => {
   }, [gameIsLive, customAmount]);
 
   useEffect(() => {
-    if (customAmount > balance || multiplierToStopAt < 1.01) {
+    const inValidMult = presetIsLive && multiplierToStopAt < 1.01
+    if (customAmount > balance || inValidMult) {
       setInvalidBetAmount(true);
     } else {
       setInvalidBetAmount(false);
     }
-  }, [customAmount, multiplierToStopAt]);
+  }, [customAmount, multiplierToStopAt, presetIsLive]);
 
   return (
     <div className="px-[5px]">
@@ -158,41 +175,52 @@ const Control = () => {
         })}
       </div>
       <div className="px-[10px]">
-        <div className="flex  mt-[10px]">
-          <p className="mr-[5px] w-[5rem]">Amount: </p>
+        <div className="flex  mt-[10px] flex-col">
+          <p className="mr-[5px] text-[12px]">Play Amount </p>
           <input
             placeholder="Custom Amount"
             type="text"
             value={customAmount}
             readOnly={gameIsLive}
             onChange={(e) => setCustomAmount(Number(e.currentTarget.value))}
-            className="text-[#0A0080] px-[3px] text-[10px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full"
+            className="text-[#0A0080] px-[3px] text-[14px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full"
           />
         </div>
-        <div className="flex  mt-[10px]">
-          <p className="mr-[5px] w-[5rem]">Target: </p>
-          <input
-            type="number"
-            step="0.01"
-            value={multiplierToStopAt}
-            placeholder="1.01"
-            readOnly={gameIsLive}
-            min="1.01"
-            onChange={(e) => {
-              onSetMultiplierToStopAt(Number(e.target.value));
-            }}
-            className="text-[#0A0080] px-[3px] text-[10px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full"
-          />
-        </div>
-      </div>
-      <div className="flex flex-row justify-between mt-[4px] px-[10px]">
-        <div className="border border-gray-600  px-[7px] py-[4px] w-[69px]">
-          <div style={{ color: gameIsLive ? "#808080" : "black" }}>PLAY</div>
-          <div style={{ color: gameIsLive ? "#808080" : "black" }}>
-            {amountToPlay}
+        <div className="flex  mt-[10px] flex-col">
+          <span className="flex">
+            <p className="mr-[5px] text-[12px]">Preset Exit Multiplier </p>{" "}
+            <input
+              type="checkbox"
+              className="cursor-pointer accent-[#0A0080]"
+              onChange={() => setPresetIsLive(!presetIsLive)}
+            />
+          </span>
+          <div className="flex">
+            <input
+              type="number"
+              value={multiplierToStopAt.toString()}
+              placeholder="1.01"
+              step={"0.01"}
+              readOnly={gameIsLive || !presetIsLive}
+              disabled={gameIsLive || !presetIsLive}
+              onChange={handleMultiplierChange}
+              className={`text-[#0A0080] px-[3px] text-[14px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full ${
+                gameIsLive || !presetIsLive ? "bg-gray-400" : "bg-white"
+              }`}
+            />
           </div>
         </div>
-        <div>
+      </div>
+      <div className="flex flex-row justify-between mt-[10px] px-[10px]">
+        <div className="flex-1">
+          <div className="border border-gray-600  px-[7px] py-[4px] w-[69px] ">
+            <div style={{ color: gameIsLive ? "#808080" : "black" }}>PLAY</div>
+            <div style={{ color: gameIsLive ? "#808080" : "black" }}>
+              {amountToPlay}
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-1 justify-center">
           <button
             onClick={() => {
               handleSetPlay();
@@ -217,7 +245,7 @@ const Control = () => {
           </button>
         </div>
       </div>
-      <div className="px-[10px]">
+      <div className="px-[10px] flex-1">
         <div className="bg-black h-[22px] mt-[12px] ">
           {!!userGameResult?.profit && userGameResult?.profit > 0 && (
             <p
