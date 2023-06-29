@@ -59,7 +59,7 @@ const Game = () => {
 
   useEffect(() => {
     if (switchImage && heartRef.current) {
-      heartTween.current = gsap.to(heartRef.current.firstChild, 18, {
+      heartTween.current = gsap.to(heartRef.current.firstChild, 14, {
         css: {
           height: "200px",
           width: "200px",
