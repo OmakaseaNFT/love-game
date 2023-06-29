@@ -13,7 +13,7 @@ import { useAccount, useSignMessage } from "wagmi";
 const Control = () => {
   const { address } = useAccount();
   const { signMessageAsync } = useSignMessage();
-  const points = [10, 20, 30, 40];
+  const points = [25, 50, 75, 100];
   const [selectedPoint, setSelectedPoint] = useState(10);
   const [active, setActive] = useState(true);
   const [customAmount, setCustomAmount] = useState(0);
@@ -21,6 +21,7 @@ const Control = () => {
   const [invalidBetAmount, setInvalidBetAmount] = useState(false);
   const [balanceUpdateAmount, setBalanceUpdateAmount] = useState(0);
   const [presetIsLive, setPresetIsLive] = useState(false);
+  const [presetLocked, setPresetLocked] = useState(false);
 
   const {
     balance,
@@ -44,10 +45,10 @@ const Control = () => {
   }, [gameResults]);
 
   const handleSetPlay = () => {
-    if (invalidBetAmount) return;
+    if (invalidBetAmount || presetLocked) return;
 
     if (gameIsLive && userInPlay) {
-      onStop(customAmount);
+      onStop(amountToPlay);
       setUserInPlay(false);
     }
     if (gameIsLive && !userInPlay) {
@@ -56,27 +57,27 @@ const Control = () => {
     if (!gameIsLive) {
       const usersMultiplierToStopAt = presetIsLive ? multiplierToStopAt : 0;
       const amount = (selectedPoint / 100) * balance;
-      onBet(usersMultiplierToStopAt, customAmount || amount);
+      onBet(Number(usersMultiplierToStopAt), customAmount || amount);
     }
     return;
   };
 
   const handleButtonType = (
-    active: boolean,
+    presetIsLive: boolean,
     userInPlay: boolean,
     gameIsLive: boolean,
     invalidBetAmount: boolean
   ) => {
-    if (gameIsLive && userInPlay) {
+    if (gameIsLive && userInPlay && amountToPlay > 0) {
       return StopButton;
     }
     if ((gameIsLive && !userInPlay) || invalidBetAmount) {
       return DeadButton;
     }
-    if (!gameIsLive) {
+    if (!gameIsLive && !invalidBetAmount) {
       return ActiveButton;
     }
-    return ActiveButton;
+    return DeadButton;
   };
 
   const handleWithdraw = async (address: string, withdrawAmount: number) => {
@@ -90,17 +91,18 @@ const Control = () => {
     onDeposit(address, amount);
   };
 
-  const handleMultiplierChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMultiplierChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     let inputValue = event.target.value || "0";
 
-    // Remove leading zeros, unless followed by a decimal point
     const trimmedValue = inputValue.replace(/^0+(?!\.|$)/, "");
 
     // Check if the trimmed value is a valid number with up to 2 decimal places
     const isValidNumber = /^\d+(\.\d{1,2})?$/.test(trimmedValue);
 
     if (isValidNumber) {
-      onSetMultiplierToStopAt(Number(trimmedValue));
+      onSetMultiplierToStopAt(trimmedValue);
     }
   };
 
@@ -116,13 +118,33 @@ const Control = () => {
   }, [gameIsLive, customAmount]);
 
   useEffect(() => {
-    const inValidMult = presetIsLive && multiplierToStopAt < 1.01
+    // If the user enables the preset and it is less than 1.01 it is invalid
+    const inValidMult = presetIsLive && Number(multiplierToStopAt) < 1.01;
+
+    // If the amount entered in the field is greater than the balance it is invalid
     if (customAmount > balance || inValidMult) {
       setInvalidBetAmount(true);
     } else {
       setInvalidBetAmount(false);
     }
   }, [customAmount, multiplierToStopAt, presetIsLive]);
+
+  useEffect(() => {
+    // If the preset is live and the multiplier is greater than the preset
+    // the preset is locked in and the user cannot press stop.
+    const presetIsLiveAndLessThanCurrent =
+      presetIsLive && mult > Number(multiplierToStopAt);
+
+    // Lock in the preset if the game is live, the preset is live and the multiplier is greater than the preset
+    if (!presetLocked && presetIsLiveAndLessThanCurrent && gameIsLive) {
+      setPresetLocked(true);
+    }
+
+    // Unlock the preset if the game is not live and the preset is locked
+    if (presetLocked && !gameIsLive) {
+      setPresetLocked(false);
+    }
+  }, [multiplierToStopAt, presetIsLive, mult, presetLocked, gameIsLive]);
 
   return (
     <div className="px-[5px]">
@@ -198,7 +220,7 @@ const Control = () => {
           <div className="flex">
             <input
               type="number"
-              value={multiplierToStopAt.toString()}
+              value={multiplierToStopAt}
               placeholder="1.01"
               step={"0.01"}
               readOnly={gameIsLive || !presetIsLive}
@@ -229,10 +251,10 @@ const Control = () => {
           >
             <Image
               src={
-                invalidBetAmount
+                invalidBetAmount || presetLocked
                   ? DeadButton
                   : handleButtonType(
-                      active,
+                      presetIsLive,
                       userInPlay,
                       gameIsLive,
                       invalidBetAmount

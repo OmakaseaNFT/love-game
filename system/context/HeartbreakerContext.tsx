@@ -8,13 +8,13 @@ export interface IHeartBreaker {
   onDeposit: (address: string, amount: number) => Promise<void>;
   onGetBalance: (address: string) => Promise<void>;
   onSocketInit: (socket: Socket) => void;
-  onSetMultiplierToStopAt: (mult: number) => void;
+  onSetMultiplierToStopAt: (mult: string) => void;
   onWithdraw: (
     address: string,
     withdrawAmount: number,
     signature: string
   ) => Promise<void>;
-  multiplierToStopAt: number;
+  multiplierToStopAt: string | undefined;
   balance: number;
   mult: number;
   gameIsLive: boolean;

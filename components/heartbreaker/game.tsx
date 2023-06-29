@@ -197,8 +197,8 @@ const Game = () => {
           >
             <span style={{ margin: "auto", color: "white" }}>
               <p>NEXT GAME IN</p>
-              <p style={{ position: "absolute", marginLeft: "2rem" }}>
-                {gameTimer / 100}
+              <p style={{ position: "absolute", right: "50%" }}>
+                {!(gameTimer / 100) ? "" : gameTimer / 100}
               </p>
             </span>
           </div>
@@ -220,24 +220,10 @@ const Game = () => {
             }`}
           />
         </div>
-        <div className="flex flex-row absolute top-1 left-1">
-          <p className="text-white">x{mult}</p>
-          {/* <button
-            className="text-white mb-5 ml-5 mt-5"
-            onClick={handleResetClick}
-          >
-            Reset
-          </button>
-          <button
-            className="text-white mb-5 ml-5 mt-5 text-white"
-            onClick={handleStop}
-          >
-            Stop
-          </button>
-
-          <button className="text-white ml-5" onClick={handleStartStopClick}>
-            Start
-          </button> */}
+        <div className="flex flex-row absolute bottom-1 right-1 h-[20px] w-[50px]">
+          <span className="text-white relative text-bold text-[1.3rem]">
+            <p className="absolute">x{mult.toFixed(2)}</p>
+          </span>
         </div>
       </div>
     </div>

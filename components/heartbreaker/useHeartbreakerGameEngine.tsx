@@ -19,7 +19,7 @@ export const useHeartbreakerGameEngine = () => {
   const [balance, setBalance] = useState<number>(0);
   const [socket, setSocket] = useState<Socket>();
   const [mult, setMult] = useState<number>(1);
-  const [multiplierToStopAt, setMultiplierToStopAt] = useState<number | undefined>(0);
+  const [multiplierToStopAt, setMultiplierToStopAt] = useState<string | undefined>("0");
   const [gameIsLive, setGameIsLive] = useState<boolean>(false);
   const [gameResults, setGameResults] = useState<any>([]);
   const [amountToPlay, setAmountToPlay] = useState(0);
@@ -51,6 +51,7 @@ export const useHeartbreakerGameEngine = () => {
 
     socket.on("startGame", (data) => {
       setGameIsLive(true);
+      setGameTimer(0)
     });
 
     socket.on("timer", (data) => {
@@ -61,6 +62,7 @@ export const useHeartbreakerGameEngine = () => {
       setGameIsLive(false);
       setGameResults([]);
       setAmountToPlay(0);
+      setMult(1);
       handleGetGameHistory();
       handleGetGameLeaders();
     });
@@ -207,7 +209,7 @@ export const useHeartbreakerGameEngine = () => {
     onDeposit: handleDeposit,
     onGetBalance: handleGetBalance,
     onSocketInit: handleSocketInit,
-    onSetMultiplierToStopAt: (mult: number) => setMultiplierToStopAt(mult),
+    onSetMultiplierToStopAt: (mult: string) => setMultiplierToStopAt(mult),
     onWithdraw: handleWithdraw,
     multiplierToStopAt,
     balance,
