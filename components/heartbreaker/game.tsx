@@ -56,7 +56,7 @@ const Game = () => {
       },
     });
 
-    heartTween.current = gsap.to(heartRef.current.firstChild, 25, {
+    heartTween.current = gsap.to(heartRef.current.firstChild, 18, {
       css: {
         height: "200px",
         width: "200px",
@@ -87,12 +87,12 @@ const Game = () => {
       });
 
       heartRef.current.firstChild.style.width = `${
-        heartRef.current.firstChild.offsetWidth - 20
+        heartRef.current.firstChild.offsetWidth - 10
       }px`;
       heartRef.current.firstChild.style.height = `${
-        heartRef.current.firstChild.offsetHeight - 20
+        heartRef.current.firstChild.offsetHeight - 10
       }px`;
-      heartRef.current.firstChild.style.transform = `translateY(2px)`;
+      heartRef.current.firstChild.style.transform = `translateY(-2px)`;
       setIsAnimating(false);
       tween.current.pause();
       heartTween.current.pause();
