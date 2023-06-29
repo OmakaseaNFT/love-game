@@ -3,6 +3,7 @@ import { StakingSelectTab } from "../ui/StakingSelectTab";
 import HeartBreakTable from "./table";
 import { HeartBreakTab } from "./tab";
 import ChatBox from "./chatbox";
+import LeaderBoard from "./leaderboard";
 
 const Features = () => {
   const [tab, setTab] = useState<string>("history");
@@ -26,7 +27,7 @@ const Features = () => {
       case "history":
         return <HeartBreakTable />;
       case "leaderboard":
-        return <HeartBreakTable />;
+        return <LeaderBoard />;
       case "chat":
         return <ChatBox />;
       default:
@@ -34,7 +35,7 @@ const Features = () => {
     }
   };
   return (
-    <div className="border mt-2 h-[247px] border-b-gray-600 border-r-gray-600">
+    <div className="mt-2 h-[100%]">
       <div className="flex flex-row text-xl ">
         {tabList.map((list, index) => {
           return (

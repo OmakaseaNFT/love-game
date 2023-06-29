@@ -2,6 +2,18 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { io, Socket } from "socket.io-client";
+import { ethers } from "ethers";
+import {
+  HEARTBREAKER_CONTRACT_ADDRESS,
+  HEARTBREAKER_SOCKET_URL,
+  LOVE_TOKEN_SEPOLIA_CONTRACT,
+  BE_URL
+} from "../../utils/constant";
+import {
+  HeartbreakerAbi,
+  HeartbreakerAbiInterface,
+} from "../../system/HeartbreakerAbi";
+import { LoveTokenAbi } from "../../system/LoveTokenAbi";
 
 export const useHeartbreakerGameEngine = () => {
   const [balance, setBalance] = useState<number>(0);
@@ -9,50 +21,25 @@ export const useHeartbreakerGameEngine = () => {
   const [mult, setMult] = useState<number>(1);
   const [multiplierToStopAt, setMultiplierToStopAt] = useState<number>(1.01);
   const [gameIsLive, setGameIsLive] = useState<boolean>(false);
-  const [amountToBet, setAmountToBet] = useState<number>(1000);
   const [gameResults, setGameResults] = useState<any>([]);
   const [amountToPlay, setAmountToPlay] = useState(0);
-
-  const disabled = gameIsLive;
-
-  const betButtonStyles = {
-    border: "1px solid black",
-    padding: "8px 16px",
-    borderRadius: "4px",
-    background: disabled ? "rgba(0, 0, 0, 0.3)" : "transparent",
-    color: disabled ? "rgba(0, 0, 0, 0.5)" : "black",
-    cursor: disabled ? "not-allowed" : "pointer",
-  };
-
-  const stopButtonStyles = {
-    border: "1px solid black",
-    padding: "8px 16px",
-    borderRadius: "4px",
-    background: !gameIsLive ? "rgba(0, 0, 0, 0.3)" : "transparent",
-    color: !gameIsLive ? "rgba(0, 0, 0, 0.5)" : "black",
-    cursor: !gameIsLive ? "not-allowed" : "pointer",
-  };
+  const [gameHistory, setGameHistory] = useState<any>([]);
+  const [leaderboard, setLeaderboard] = useState<any>([]);
+  const [gameTimer, setGameTimer] = useState<any>(0);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const { address } = useAccount();
 
   const handleGetBalance = async (address: string) => {
     await axios
-      .get(`http://localhost:3030/heartbreakPlayer?address=${address}`)
+      .get(`${BE_URL}/heartbreakPlayer?address=${address}`)
       .then((res) => {
         setBalance(res.data.balance);
-        console.log(res.data);
       });
-  };
-
-  const handleDeposit = async () => {
-    await axios
-      .post(`http://localhost:3030/heartbreakPlayer`, {})
-      .then((res) => {});
   };
 
   const handleSocketInit = (socket: Socket) => {
     // initialize a socket io connection
-
     socket.on("connect", () => {
       console.log("connected to socket server");
     });
@@ -66,16 +53,21 @@ export const useHeartbreakerGameEngine = () => {
       setGameIsLive(true);
     });
 
+    socket.on("timer", (data) => {
+      setGameTimer(data.time);
+    });
+
     socket.on("endGame", (data) => {
       setGameIsLive(false);
       setGameResults([]);
-      console.log("gameResults", gameResults);
-      
       setAmountToPlay(0);
+      handleGetGameHistory();
+      handleGetGameLeaders();
     });
 
     socket.on("balanceUpdate", (data) => {
-      handleGetBalance(address!);
+      if (!address) return;
+      handleGetBalance(address);
     });
 
     socket.on("gameResults", (data) => {
@@ -92,7 +84,6 @@ export const useHeartbreakerGameEngine = () => {
       multiplierToStopAt,
       amount,
     });
-    console.log("BET", multiplierToStopAt, amount);
   };
 
   const handleStop = async (amount: number) => {
@@ -104,12 +95,102 @@ export const useHeartbreakerGameEngine = () => {
     });
   };
 
-  useEffect(() => {
-    const socket = io("http://localhost:4000");
-    setSocket(socket);
-  }, []);
+  const handleGetGameHistory = async () => {
+    await axios
+      .get(`${BE_URL}/heartbreakGames`)
+      .then((res) => {
+        setGameHistory(res.data);
+      })
+      .catch(() => {
+        setGameHistory([]);
+      });
+  };
+
+  const handleGetGameLeaders = async () => {
+    await axios
+      .get(`${BE_URL}/heartbreakLeaders`)
+      .then((res) => {
+        setLeaderboard(res.data);
+      })
+      .catch(() => {
+        setLeaderboard([]);
+      });
+  };
+
+  const handleWithdraw = async (
+    address: string,
+    amount: number,
+    signature: string
+  ) => {
+    await axios
+      .post(`${BE_URL}/withdraw`, { address, amount, signature })
+      .then((res) => {
+        handleWithdrawFromContract(res, address).then(() => {
+          handleGetBalance(address);
+        });
+      })
+      .catch(() => {
+        setErrorMessage("Withdraw failed");
+      });
+  };
+
+  const handleWithdrawFromContract = async (res: any, address: string) => {
+    const provider = new ethers.providers.Web3Provider(
+      (window as any).ethereum
+    );
+    const signer = provider.getSigner();
+    const abi = require("../../utils/heartbreaker.json");
+    const contract = new ethers.Contract(
+      HEARTBREAKER_CONTRACT_ADDRESS,
+      abi,
+      signer
+    ) as HeartbreakerAbi;
+    try {
+      const tx = await contract.withdrawTokens(
+        {
+          ...res.data.recpt,
+          _amount: ethers.utils.parseEther(res.data.recpt._amount.toString()),
+        },
+        res.data.sig,
+        address
+      );
+      await tx.wait(2);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleDeposit = async (address: string, amount: number) => {
+    
+    
+    const provider = new ethers.providers.Web3Provider(
+      (window as any).ethereum
+    );
+    const signer = provider.getSigner();
+    const abi = require("../../utils/erc20abi.json");
+    const contract = new ethers.Contract(
+      LOVE_TOKEN_SEPOLIA_CONTRACT,
+      abi,
+      signer
+    ) as LoveTokenAbi;
+    try {
+      const tx = await contract.transfer(
+        HEARTBREAKER_CONTRACT_ADDRESS,
+        ethers.utils.parseEther(amount.toString())
+      );
+      await tx.wait(2);
+      handleGetBalance(address);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
+    if (!socket) {
+      const socket = io(HEARTBREAKER_SOCKET_URL);
+      setSocket(socket);
+      handleGetGameHistory();
+    }
     if (socket) handleSocketInit(socket!);
     return () => {
       socket?.removeAllListeners();
@@ -127,11 +208,15 @@ export const useHeartbreakerGameEngine = () => {
     onGetBalance: handleGetBalance,
     onSocketInit: handleSocketInit,
     onSetMultiplierToStopAt: (mult: number) => setMultiplierToStopAt(mult),
+    onWithdraw: handleWithdraw,
     multiplierToStopAt,
     balance,
     mult,
     gameIsLive,
     gameResults,
     amountToPlay,
+    gameHistory,
+    leaderboard,
+    gameTimer,
   };
 };

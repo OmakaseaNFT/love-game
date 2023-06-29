@@ -4,16 +4,22 @@ import StopButton from "../../assets/stop-button.png";
 import ActiveButton from "../../assets/active-game-button.png";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { ConnectHeartBreak } from "./connect";
-import { HeartBreakerContext, IHeartBreaker } from "../../system/context/HeartbreakerContext";
-import { useAccount } from "wagmi";
-import { log } from "console";
+import {
+  HeartBreakerContext,
+  IHeartBreaker,
+} from "../../system/context/HeartbreakerContext";
+import { useAccount, useSignMessage } from "wagmi";
+
 const Control = () => {
   const { address } = useAccount();
+  const { signMessageAsync } = useSignMessage();
   const points = [10, 20, 30, 40];
   const [selectedPoint, setSelectedPoint] = useState(10);
   const [active, setActive] = useState(true);
   const [customAmount, setCustomAmount] = useState(0);
   const [userInPlay, setUserInPlay] = useState(false);
+  const [invalidBetAmount, setInvalidBetAmount] = useState(false);
+  const [balanceUpdateAmount, setBalanceUpdateAmount] = useState(0);
 
   const {
     balance,
@@ -28,17 +34,16 @@ const Control = () => {
     onGetBalance,
     onSocketInit,
     onSetMultiplierToStopAt,
+    onWithdraw,
   } = useContext(HeartBreakerContext);
 
   const userGameResult = useMemo(() => {
-    console.log("gameResults", gameResults);
     if (gameResults.length === 0) return {} as IHeartBreaker["gameResults"][0];
     return gameResults.find((game) => game.userAddress === address);
   }, [gameResults]);
 
   const handleSetPlay = () => {
-    console.log("gameIsLive", gameIsLive);
-    console.log("userInPlay", userInPlay);
+    if (invalidBetAmount) return;
 
     if (gameIsLive && userInPlay) {
       onStop(customAmount);
@@ -48,7 +53,8 @@ const Control = () => {
       return;
     }
     if (!gameIsLive) {
-      onBet(multiplierToStopAt, customAmount);
+      const amount = (selectedPoint / 100) * balance;
+      onBet(multiplierToStopAt, customAmount || amount);
     }
     return;
   };
@@ -56,18 +62,30 @@ const Control = () => {
   const handleButtonType = (
     active: boolean,
     userInPlay: boolean,
-    gameIsLive: boolean
+    gameIsLive: boolean,
+    invalidBetAmount: boolean
   ) => {
     if (gameIsLive && userInPlay) {
       return StopButton;
     }
-    if (gameIsLive && !userInPlay) {
+    if ((gameIsLive && !userInPlay) || invalidBetAmount) {
       return DeadButton;
     }
     if (!gameIsLive) {
       return ActiveButton;
     }
     return ActiveButton;
+  };
+
+  const handleWithdraw = async (address: string, withdrawAmount: number) => {
+    const sig = await signMessageAsync({
+      message: `Withdraw ${withdrawAmount} from Heartbreaker`,
+    });
+    onWithdraw(address, withdrawAmount, sig);
+  };
+
+  const handleDeposit = (address: string, amount: number) => {
+    onDeposit(address, amount);
   };
 
   useEffect(() => {
@@ -80,6 +98,14 @@ const Control = () => {
       setUserInPlay(true);
     }
   }, [gameIsLive, customAmount]);
+
+  useEffect(() => {
+    if (customAmount > balance || multiplierToStopAt < 1.01) {
+      setInvalidBetAmount(true);
+    } else {
+      setInvalidBetAmount(false);
+    }
+  }, [customAmount, multiplierToStopAt]);
 
   return (
     <div className="px-[5px]">
@@ -96,12 +122,19 @@ const Control = () => {
             <input
               type="text"
               className="text-[#0A0080] px-[3px] text-[10px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2"
+              onChange={(e) => setBalanceUpdateAmount(Number(e.target.value))}
             />
             <div>
-              <button className="w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[6px] py-[2px]">
+              <button
+                className="w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[6px] py-[2px]"
+                onClick={() => handleDeposit(address!, balanceUpdateAmount)}
+              >
                 Deposit
               </button>
-              <button className="w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[6px] py-[2px]">
+              <button
+                className="w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[6px] py-[2px]"
+                onClick={() => handleWithdraw(address!, balanceUpdateAmount)}
+              >
                 Withdraw
               </button>
             </div>
@@ -131,6 +164,7 @@ const Control = () => {
             placeholder="Custom Amount"
             type="text"
             value={customAmount}
+            readOnly={gameIsLive}
             onChange={(e) => setCustomAmount(Number(e.currentTarget.value))}
             className="text-[#0A0080] px-[3px] text-[10px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full"
           />
@@ -142,6 +176,7 @@ const Control = () => {
             step="0.01"
             value={multiplierToStopAt}
             placeholder="1.01"
+            readOnly={gameIsLive}
             min="1.01"
             onChange={(e) => {
               onSetMultiplierToStopAt(Number(e.target.value));
@@ -165,7 +200,16 @@ const Control = () => {
             className="cursor-pointer transform active:scale-90 transition duration-150 ease-in-out"
           >
             <Image
-              src={handleButtonType(active, userInPlay, gameIsLive)}
+              src={
+                invalidBetAmount
+                  ? DeadButton
+                  : handleButtonType(
+                      active,
+                      userInPlay,
+                      gameIsLive,
+                      invalidBetAmount
+                    )
+              }
               width={67}
               height={54}
               alt="dead-button"

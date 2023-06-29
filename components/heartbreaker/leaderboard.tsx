@@ -1,16 +1,16 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { HeartBreakerContext } from "../../system/context/HeartbreakerContext";
 
-const HeartBreakTable = () => {
-  const headerList = ["Round", "Crash", "Date/Time", "Total Play", "Total Won"];
-  const { gameHistory } = useContext(HeartBreakerContext);
+const LeaderBoard = () => {
+  const headerList = ["Account", "Total Play", "Total Won"];
+  const { leaderboard } = useContext(HeartBreakerContext);
 
   return (
     <div className="flex flex-col mt-2">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="py-2 align-middle inline-block sm:px-6 lg:px-8">
+        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-600 mb-[5rem]">
+            <table className="min-w-full divide-y divide-gray-600">
               <thead>
                 <tr>
                   {headerList.map((item, index) => {
@@ -27,30 +27,18 @@ const HeartBreakTable = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {!!gameHistory.length &&
-                  gameHistory.map((game, index) => {
-                    const date = game.date_created?.split("T")[0];
+                {!!leaderboard.length &&
+                  leaderboard.map((leader, index) => {
                     return (
-                      <tr
-                        key={`history-${index}`}
-                        className={` bg-[${
-                          index % 2 === 0 ? "white" : "gray"
-                        }]`}
-                      >
+                      <tr key={`history-${index}`}>
                         <td className="border px-3 py-1 text-left text-xs font-medium text-gray-500">
-                          {game.game_number}
+                          {leader.user_address}
                         </td>
                         <td className="border px-3 py-1 text-left text-xs font-medium text-gray-500">
-                          {game.crash}
+                          {Number(leader.total_amount).toFixed(2)}
                         </td>
                         <td className="border px-3 py-1 text-left text-xs font-medium text-gray-500">
-                          {date?.toString()}
-                        </td>
-                        <td className="border px-3 py-1 text-left text-xs font-medium text-gray-500">
-                          {Number(game.total_amount).toFixed(2)}
-                        </td>
-                        <td className="border px-3 py-1 text-left text-xs font-medium text-gray-500">
-                          {Number(game.total_profit).toFixed(2)}
+                          {Number(leader.total_profit).toFixed(2)}
                         </td>
                       </tr>
                     );
@@ -64,4 +52,4 @@ const HeartBreakTable = () => {
   );
 };
 
-export default HeartBreakTable;
+export default LeaderBoard;

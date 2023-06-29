@@ -13,7 +13,7 @@ gsap.registerPlugin(TweenLite);
 
 const Game = () => {
   const [bgImage, setBgImage] = useState("/assets/screen-bg.jpg");
-  const bgImage2 = "/assets/bg-loop.jpg";
+  const bgImage2 = "/assets/bg-loop.png";
   const [isAnimating, setIsAnimating] = useState(true);
   const bgRef = useRef(null);
   const heartRef: any = useRef(null);
@@ -26,6 +26,7 @@ const Game = () => {
     balance,
     mult,
     gameIsLive,
+    gameTimer,
     onBet,
     onStop,
     onDeposit,
@@ -41,8 +42,6 @@ const Game = () => {
     TweenLite.set(bgRef.current, {
       backgroundPosition: "0 100%",
     });
-    const socket = io(HEARTBREAKER_SOCKET_URL);
-    onSocketInit(socket);
     tween.current = TweenLite.to(bgRef.current, 20, {
       backgroundPosition: "0 0%",
       paused: true,
@@ -51,7 +50,7 @@ const Game = () => {
         if (bgImage !== bgImage2) {
           setBgImage(bgImage2);
         } else {
-          setBgImage("/assets/screen-bg.jpg");
+          setBgImage("/assets/screen-bg.png");
         }
         tween.current.restart();
       },
@@ -139,8 +138,6 @@ const Game = () => {
   };
 
   useEffect(() => {
-    console.log("GAME IS LIVE", gameIsLive);
-
     if (gameIsLive) {
       handleStartStopClick();
     }
@@ -162,6 +159,26 @@ const Game = () => {
           backgroundSize: "cover",
         }}
       >
+        {!gameIsLive && (
+          <div
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#08080880",
+              zIndex: 100,
+            }}
+          >
+            <span style={{ margin: "auto", color: "white" }}>
+              <p>NEXT GAME IN</p>
+              <p style={{position: "absolute", marginLeft: "2rem"}}>{gameTimer/100}</p>
+            </span>
+          </div>
+        )}
         <div
           ref={heartRef}
           className={`absolute inset-0 flex items-end justify-center ${
@@ -177,7 +194,7 @@ const Game = () => {
             className="transition-opacity duration-500"
           />
         </div>
-        <div className="flex flex-row absolute top-0 right-0">
+        <div className="flex flex-row absolute top-1 left-1">
           <p className="text-white">x{mult}</p>
           {/* <button
             className="text-white mb-5 ml-5 mt-5"
