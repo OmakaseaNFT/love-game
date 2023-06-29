@@ -173,10 +173,7 @@ const Game = () => {
               zIndex: 100,
             }}
           >
-            <span
-              style={{ margin: "auto", color: "white" }}
-              onClick={() => handleStartStopClick()}
-            >
+            <span style={{ margin: "auto", color: "white" }}>
               <p>NEXT GAME IN</p>
               <p style={{ position: "absolute", marginLeft: "2rem" }}>
                 {gameTimer / 100}
@@ -196,7 +193,9 @@ const Game = () => {
             width={dimensions.width}
             height={dimensions.height}
             alt="heart"
-            className="transition-opacity duration-500"
+            className={`transition-opacity duration-500 ${
+              !isAnimating ? "bottom-[53px]" : ""
+            }`}
           />
         </div>
         <div className="flex flex-row absolute top-1 left-1">
