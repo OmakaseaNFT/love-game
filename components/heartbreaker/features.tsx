@@ -16,10 +16,10 @@ const Features = () => {
       title: "LeaderBoard",
       key: "leaderboard",
     },
-    {
-      title: "Chat",
-      key: "chat",
-    },
+    // {
+    //   title: "Chat",
+    //   key: "chat",
+    // },
   ];
 
   const renderBody = () => {
@@ -35,8 +35,8 @@ const Features = () => {
     }
   };
   return (
-    <div className="mt-2 h-[100%]">
-      <div className="flex flex-row text-xl ">
+    <div className="mt-2 h-[100%] ">
+      <div className="flex flex-row text-xl">
         {tabList.map((list, index) => {
           return (
             <HeartBreakTab
@@ -50,7 +50,11 @@ const Features = () => {
           );
         })}
       </div>
-      <div>{renderBody()}</div>
+      <div
+        className={`border-t-1 border-l-gray-200 border-t-gray-200 border-r-gray-600 border border-b border-white p-2`}
+      >
+        {renderBody()}
+      </div>
     </div>
   );
 };
