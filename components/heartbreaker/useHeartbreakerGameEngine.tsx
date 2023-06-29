@@ -7,6 +7,7 @@ import {
   HEARTBREAKER_CONTRACT_ADDRESS,
   HEARTBREAKER_SOCKET_URL,
   LOVE_TOKEN_SEPOLIA_CONTRACT,
+  BE_URL
 } from "../../utils/constant";
 import {
   HeartbreakerAbi,
@@ -31,7 +32,7 @@ export const useHeartbreakerGameEngine = () => {
 
   const handleGetBalance = async (address: string) => {
     await axios
-      .get(`http://localhost:3030/heartbreakPlayer?address=${address}`)
+      .get(`${BE_URL}/heartbreakPlayer?address=${address}`)
       .then((res) => {
         setBalance(res.data.balance);
       });
@@ -96,7 +97,7 @@ export const useHeartbreakerGameEngine = () => {
 
   const handleGetGameHistory = async () => {
     await axios
-      .get(`http://localhost:3030/heartbreakGames`)
+      .get(`${BE_URL}/heartbreakGames`)
       .then((res) => {
         setGameHistory(res.data);
       })
@@ -107,7 +108,7 @@ export const useHeartbreakerGameEngine = () => {
 
   const handleGetGameLeaders = async () => {
     await axios
-      .get(`http://localhost:3030/heartbreakLeaders`)
+      .get(`${BE_URL}/heartbreakLeaders`)
       .then((res) => {
         setLeaderboard(res.data);
       })
@@ -122,7 +123,7 @@ export const useHeartbreakerGameEngine = () => {
     signature: string
   ) => {
     await axios
-      .post(`http://localhost:3030/withdraw`, { address, amount, signature })
+      .post(`${BE_URL}/withdraw`, { address, amount, signature })
       .then((res) => {
         handleWithdrawFromContract(res, address).then(() => {
           handleGetBalance(address);
