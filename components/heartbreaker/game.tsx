@@ -88,12 +88,19 @@ const Game = () => {
         height: heartRef.current.firstChild.offsetHeight,
       });
 
-      if (heartRef.current.firstChild.offsetWidth > 140) {
+      console.log(heartRef.current.firstChild.offsetWidth);
+      if (
+        heartRef.current.firstChild.offsetWidth > 60 &&
+        heartRef.current.firstChild.offsetWidth < 140
+      ) {
         dimention = 20;
-        space = 5;
+        space = 1;
+      } else if (heartRef.current.firstChild.offsetWidth > 140) {
+        dimention = 20;
+        space = 6;
       } else {
         dimention = 10;
-        space = 2;
+        space = -2;
       }
 
       heartRef.current.firstChild.style.width = `${
