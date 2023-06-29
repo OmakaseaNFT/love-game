@@ -19,7 +19,7 @@ const Game = () => {
   const heartRef: any = useRef(null);
   const tween: any = useRef(null);
   const heartTween: any = useRef(null);
-  const [dimensions, setDimensions] = useState({ width: 120, height: 120 });
+  const [dimensions, setDimensions] = useState({ width: 40, height: 40 });
   const [heartImage, setHeartImage] = useState(HeartStatic);
   const [bottomSpace, setBottomSpace] = useState(false);
   const {
@@ -56,12 +56,12 @@ const Game = () => {
       },
     });
 
-    heartTween.current = gsap.to(heartRef.current.firstChild, 6, {
+    heartTween.current = gsap.to(heartRef.current.firstChild, 25, {
       css: {
         height: "200px",
         width: "200px",
         transformOrigin: "50% 50%",
-        transform: "translateY(16px)",
+        transform: "translateY(35px)",
       },
       onComplete: () => {
         tween.current.restart();
@@ -175,14 +175,16 @@ const Game = () => {
           >
             <span style={{ margin: "auto", color: "white" }}>
               <p>NEXT GAME IN</p>
-              <p style={{position: "absolute", marginLeft: "2rem"}}>{gameTimer/100}</p>
+              <p style={{ position: "absolute", marginLeft: "2rem" }}>
+                {gameTimer / 100}
+              </p>
             </span>
           </div>
         )}
         <div
           ref={heartRef}
-          className={`absolute inset-0 flex items-end justify-center ${
-            bottomSpace ? "bottom-[28px]" : "bottom-[48px]"
+          className={`absolute inset-0 flex items-end justify-center -ml-1 ${
+            bottomSpace ? "bottom-[48px]" : "bottom-[53px]"
           }
           }`}
         >
