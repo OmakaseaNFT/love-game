@@ -97,10 +97,10 @@ const Game = () => {
         space = 1;
       } else if (heartRef.current.firstChild.offsetWidth > 140) {
         dimention = 20;
-        space = 6;
+        space = 8;
       } else {
         dimention = 10;
-        space = -2;
+        space = -1;
       }
 
       heartRef.current.firstChild.style.width = `${
@@ -206,7 +206,7 @@ const Game = () => {
         <div
           ref={heartRef}
           className={`absolute inset-0 flex items-end justify-center -ml-1 ${
-            bottomSpace ? "bottom-[48px]" : "bottom-[53px]"
+            bottomSpace ? "bottom-[48px]" : "bottom-[54px]"
           }
           }`}
         >
