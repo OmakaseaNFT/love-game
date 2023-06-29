@@ -123,8 +123,8 @@ const Game = () => {
 
     TweenLite.set(heartRef.current.firstChild, {
       css: {
-        height: "120px",
-        width: "120px",
+        height: "40px",
+        width: "40px",
         transformOrigin: "50% 50%",
       },
     });
@@ -173,7 +173,10 @@ const Game = () => {
               zIndex: 100,
             }}
           >
-            <span style={{ margin: "auto", color: "white" }}>
+            <span
+              style={{ margin: "auto", color: "white" }}
+              onClick={() => handleStartStopClick()}
+            >
               <p>NEXT GAME IN</p>
               <p style={{ position: "absolute", marginLeft: "2rem" }}>
                 {gameTimer / 100}
