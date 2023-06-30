@@ -172,13 +172,15 @@ const Control = () => {
               />
               <div>
                 <button
-                  className="w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[10px] py-[2px]"
+                  disabled={Number(balanceUpdateAmount) <= 0}
+                  className={`w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[10px] py-[2px] ${Number(balanceUpdateAmount) <= 0 ? 'btnDisabled' : ''}`}
                   onClick={() => handleDeposit(address!, balanceUpdateAmount)}
                 >
                   Deposit
                 </button>
                 <button
-                  className="w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[10px] py-[2px]"
+                  disabled={Number(balanceUpdateAmount) <= 0}
+                  className={`w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[10px] py-[2px] ${Number(balanceUpdateAmount) <= 0 ? 'btnDisabled' : ''}`}
                   onClick={() => handleWithdraw(address!, balanceUpdateAmount)}
                 >
                   Withdraw
@@ -194,9 +196,8 @@ const Control = () => {
               <div
                 onClick={() => setSelectedPoint(val)}
                 key={index}
-                className={`${
-                  selectedPoint == val ? "bg-[#0A0080] text-white" : ""
-                } border-2 border-[#0A0080] text-[12px] text-[#0A0080] px-[6px] rounded-sm font-bold text-center flex flex-row items-center`}
+                className={`${selectedPoint == val ? "bg-[#0A0080] text-white" : ""
+                  } border-2 border-[#0A0080] text-[12px] text-[#0A0080] px-[6px] rounded-sm font-bold text-center flex flex-row items-center`}
               >
                 {val} {"%"}
               </div>
@@ -233,9 +234,8 @@ const Control = () => {
                 readOnly={gameIsLive || !presetIsLive}
                 disabled={gameIsLive || !presetIsLive}
                 onChange={handleMultiplierChange}
-                className={`text-[#0A0080] px-[3px] text-[14px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full ${
-                  gameIsLive || !presetIsLive ? "bg-gray-400" : "bg-white"
-                }`}
+                className={`text-[#0A0080] px-[3px] text-[14px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full ${gameIsLive || !presetIsLive ? "bg-gray-400" : "bg-white"
+                  }`}
               />
             </div>
           </div>
@@ -263,11 +263,11 @@ const Control = () => {
                   invalidBetAmount || presetLocked
                     ? DeadButton
                     : handleButtonType(
-                        presetIsLive,
-                        userInPlay,
-                        gameIsLive,
-                        invalidBetAmount
-                      )
+                      presetIsLive,
+                      userInPlay,
+                      gameIsLive,
+                      invalidBetAmount
+                    )
                 }
                 width={67}
                 height={54}
