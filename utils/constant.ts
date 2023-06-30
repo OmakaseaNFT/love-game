@@ -46,4 +46,4 @@ export const HOT_JAR_VERSION = 6;
 export const TELEGRAM_LINK = "https://t.me/loveethereum";
 export const TWITTER_LINK = "https://twitter.com/lovegameeth";
 export const HEARTBREAKER_SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL!;
-export const HEARTBREAKER_CONTRACT_ADDRESS = process.env.HEARTBREAKER_CONTRACT_ADDRESS!;
+export const HEARTBREAKER_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_HEARTBREAKER_CONTRACT_ADDRESS!;

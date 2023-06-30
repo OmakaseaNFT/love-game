@@ -193,7 +193,6 @@ export const useHeartbreakerGameEngine = () => {
       abi,
       signer
     ) as LoveTokenAbi;
-    console.log("contractAddressLove", contractAddressLove);
     
     try {
       const tx = await contract.transfer(
