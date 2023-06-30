@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { HeartBreakerContext } from "../../system/context/HeartbreakerContext";
 
 const HeartBreakTable = () => {
-  const headerList = ["Round", "Crash", "Date/Time", "Total Play", "Total Won"];
+  const headerList = ["Round", "Break", "Date/Time", "Total Play", "Total Won"];
   const { gameHistory } = useContext(HeartBreakerContext);
 
   return (

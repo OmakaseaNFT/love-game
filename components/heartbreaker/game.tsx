@@ -232,7 +232,7 @@ const Game = () => {
             />
           )}
         </div>
-        <div className="flex flex-row absolute bottom-1 right-1 h-[20px] w-[50px]">
+        <div className="flex flex-row absolute bottom-1 right-[20%] h-[20px] w-[50px]">
           <span className="text-white relative text-bold text-[1.3rem]">
             <p className="absolute">x{mult.toFixed(2)}</p>
           </span>
