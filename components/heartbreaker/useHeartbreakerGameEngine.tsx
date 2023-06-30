@@ -7,19 +7,28 @@ import {
   HEARTBREAKER_CONTRACT_ADDRESS,
   HEARTBREAKER_SOCKET_URL,
   LOVE_TOKEN_SEPOLIA_CONTRACT,
-  BE_URL
+  BE_URL,
 } from "../../utils/constant";
 import {
   HeartbreakerAbi,
   HeartbreakerAbiInterface,
 } from "../../system/HeartbreakerAbi";
 import { LoveTokenAbi } from "../../system/LoveTokenAbi";
+import {
+  requestErrorState,
+  requestPendingState,
+  requestSuccessState,
+  useRequestState,
+} from "../../system/hooks/useRequestState";
+import { set } from "mongoose";
 
 export const useHeartbreakerGameEngine = () => {
   const [balance, setBalance] = useState<number>(0);
   const [socket, setSocket] = useState<Socket>();
   const [mult, setMult] = useState<number>(1);
-  const [multiplierToStopAt, setMultiplierToStopAt] = useState<string | undefined>("0");
+  const [multiplierToStopAt, setMultiplierToStopAt] = useState<
+    string | undefined
+  >("0");
   const [gameIsLive, setGameIsLive] = useState<boolean>(false);
   const [gameResults, setGameResults] = useState<any>([]);
   const [amountToPlay, setAmountToPlay] = useState(0);
@@ -27,6 +36,7 @@ export const useHeartbreakerGameEngine = () => {
   const [leaderboard, setLeaderboard] = useState<any>([]);
   const [gameTimer, setGameTimer] = useState<any>(0);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const { requestState, setRequestState } = useRequestState();
 
   const { address } = useAccount();
 
@@ -51,7 +61,7 @@ export const useHeartbreakerGameEngine = () => {
 
     socket.on("startGame", (data) => {
       setGameIsLive(true);
-      setGameTimer(0)
+      setGameTimer(0);
     });
 
     socket.on("timer", (data) => {
@@ -124,15 +134,24 @@ export const useHeartbreakerGameEngine = () => {
     amount: number,
     signature: string
   ) => {
+    if (!amount) return;
+    setRequestState(requestPendingState);
     await axios
       .post(`${BE_URL}/withdraw`, { address, amount, signature })
       .then((res) => {
-        handleWithdrawFromContract(res, address).then(() => {
-          handleGetBalance(address);
-        });
+        handleWithdrawFromContract(res, address)
+          .then(() => {
+            handleGetBalance(address);
+            setRequestState(requestSuccessState);
+          })
+          .catch(() => {
+            setErrorMessage("Withdraw failed");
+            setRequestState(requestErrorState);
+          });
       })
       .catch(() => {
         setErrorMessage("Withdraw failed");
+        setRequestState(requestErrorState);
       });
   };
 
@@ -158,13 +177,13 @@ export const useHeartbreakerGameEngine = () => {
       );
       await tx.wait(2);
     } catch (e) {
-      console.log(e);
+      throw e;
     }
   };
 
   const handleDeposit = async (address: string, amount: number) => {
-    
-    
+    if (!amount) return;
+    setRequestState(requestPendingState);
     const provider = new ethers.providers.Web3Provider(
       (window as any).ethereum
     );
@@ -179,10 +198,15 @@ export const useHeartbreakerGameEngine = () => {
       const tx = await contract.transfer(
         HEARTBREAKER_CONTRACT_ADDRESS,
         ethers.utils.parseEther(amount.toString())
-      );
+      )
+   
+      
       await tx.wait(2);
+      setRequestState(requestSuccessState);
       handleGetBalance(address);
-    } catch (e) {
+    } catch (e: any) {
+      setErrorMessage("Deposit failed");
+      setRequestState(requestErrorState);
       console.log(e);
     }
   };
@@ -211,6 +235,7 @@ export const useHeartbreakerGameEngine = () => {
     onSocketInit: handleSocketInit,
     onSetMultiplierToStopAt: (mult: string) => setMultiplierToStopAt(mult),
     onWithdraw: handleWithdraw,
+    setRequestState,
     multiplierToStopAt,
     balance,
     mult,
@@ -220,5 +245,7 @@ export const useHeartbreakerGameEngine = () => {
     gameHistory,
     leaderboard,
     gameTimer,
+    requestState,
+    errorMessage
   };
 };

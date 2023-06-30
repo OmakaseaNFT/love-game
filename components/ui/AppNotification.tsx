@@ -28,7 +28,7 @@ const AppNotification = ({
           </button>
         </div>
         <div className="flex flex-row items-center m-auto h-[100%] items-center overflow-hidden">
-          {icon && <Image alt="" src={icon ?? ""} width={48} height={48} />}
+          {icon && <Image alt="" src={icon ?? ""} width={28} height={28} />}
 
           <div
             className={`px-2 flex min-w-[110px] h-[100%] items-center overflow-x-hidden overflow-y-auto`}
