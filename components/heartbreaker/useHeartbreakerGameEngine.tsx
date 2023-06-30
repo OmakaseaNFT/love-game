@@ -45,6 +45,7 @@ export const useHeartbreakerGameEngine = () => {
       .get(`${BE_URL}/heartbreakPlayer?address=${address}`)
       .then((res) => {
         setBalance(parseFloat(res.data.balance));
+        setAmountToPlay(0)
       });
   };
 
@@ -88,7 +89,6 @@ export const useHeartbreakerGameEngine = () => {
 
   const handleBet = async (multiplierToStopAt: number, amount: number) => {
     setAmountToPlay(amount);
-    setBalance(balance - amount);
     if (!socket) return;
     socket.emit("bet", {
       address: address,
@@ -184,7 +184,7 @@ export const useHeartbreakerGameEngine = () => {
   const handleDeposit = async (address: string, amount: number) => {
     if (!amount) return;
     setRequestState(requestPendingState);
-    const provider = new ethers.providers.Web3Provider(
+    const provider = new ethers.providers.Web3Provider( 
       (window as any).ethereum
     );
     const signer = provider.getSigner();

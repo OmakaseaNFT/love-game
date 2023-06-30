@@ -48,7 +48,8 @@ const Control = () => {
 
   const handleSetPlay = () => {
     if (invalidBetAmount || presetLocked) return;
-    if (balance < parseFloat(customAmount)) return
+    if (balance < parseFloat(customAmount)) return;
+    if (!parseFloat(customAmount)) return;
 
     if (gameIsLive && userInPlay) {
       onStop(amountToPlay);
@@ -124,16 +125,14 @@ const Control = () => {
     // Regular expression to check for a valid number with up to 6 decimal places
     const regex = /^(\d+(\.\d{0,6})?|\.\d{1,6})$/;
 
-    if(regex.test(input)) {
+    if (regex.test(input)) {
       setCustomAmount(input);
     } else if (input === "") {
       setCustomAmount("");
     } else {
-      return
+      return;
     }
   };
-
-
 
   useEffect(() => {
     const amount = (selectedPoint / 100) * balance;
@@ -151,7 +150,7 @@ const Control = () => {
     const inValidMult = presetIsLive && Number(multiplierToStopAt) < 1.01;
 
     // If the amount entered in the field is greater than the balance it is invalid
-    if (parseFloat(customAmount) > balance || inValidMult) {
+    if (parseFloat(customAmount) > balance || inValidMult || !customAmount) {
       setInvalidBetAmount(true);
     } else {
       setInvalidBetAmount(false);
@@ -186,7 +185,9 @@ const Control = () => {
           <div className="flex flex-row space-x-2 border px-[4px] py-[5px]">
             <div className="mt-2">
               <div className="text-[9px]">$HeartBreak Balance</div>
-              <div className="text-[28px]">{balance.toFixed(6)}</div>
+              <div className="text-[28px]">
+                {(balance - amountToPlay).toFixed(6)}
+              </div>
             </div>
             <div>
               <input
@@ -197,14 +198,18 @@ const Control = () => {
               <div>
                 <button
                   disabled={Number(balanceUpdateAmount) <= 0}
-                  className={`w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[10px] py-[2px] ${Number(balanceUpdateAmount) <= 0 ? 'btnDisabled' : ''}`}
+                  className={`w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[10px] py-[2px] ${
+                    Number(balanceUpdateAmount) <= 0 ? "btnDisabled" : ""
+                  }`}
                   onClick={() => handleDeposit(address!, balanceUpdateAmount)}
                 >
                   Deposit
                 </button>
                 <button
                   disabled={Number(balanceUpdateAmount) <= 0}
-                  className={`w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[10px] py-[2px] ${Number(balanceUpdateAmount) <= 0 ? 'btnDisabled' : ''}`}
+                  className={`w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[10px] py-[2px] ${
+                    Number(balanceUpdateAmount) <= 0 ? "btnDisabled" : ""
+                  }`}
                   onClick={() => handleWithdraw(address!, balanceUpdateAmount)}
                 >
                   Withdraw
@@ -220,8 +225,9 @@ const Control = () => {
               <div
                 onClick={() => setSelectedPoint(val)}
                 key={index}
-                className={`${selectedPoint == val ? "bg-[#0A0080] text-white" : ""
-                  } border-2 border-[#0A0080] text-[12px] text-[#0A0080] px-[6px] rounded-sm font-bold text-center flex flex-row items-center`}
+                className={`${
+                  selectedPoint == val ? "bg-[#0A0080] text-white" : ""
+                } border-2 border-[#0A0080] text-[12px] text-[#0A0080] px-[6px] rounded-sm font-bold text-center flex flex-row items-center`}
               >
                 {val} {"%"}
               </div>
@@ -235,9 +241,11 @@ const Control = () => {
               placeholder="Custom Amount"
               type="text"
               value={customAmount}
-              // readOnly={gameIsLive}
+              readOnly={gameIsLive}
               onChange={handleCustomAmountChange}
-              className="text-[#0A0080] px-[3px] text-[14px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full"
+              className={`text-[#0A0080] px-[3px] text-[14px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full ${
+                gameIsLive ? "bg-gray-400" : "bg-white"
+              }`}
             />
           </div>
           <div className="flex  mt-[10px] flex-col">
@@ -258,8 +266,9 @@ const Control = () => {
                 readOnly={gameIsLive || !presetIsLive}
                 disabled={gameIsLive || !presetIsLive}
                 onChange={handleMultiplierChange}
-                className={`text-[#0A0080] px-[3px] text-[14px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full ${gameIsLive || !presetIsLive ? "bg-gray-400" : "bg-white"
-                  }`}
+                className={`text-[#0A0080] px-[3px] text-[14px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full ${
+                  gameIsLive || !presetIsLive ? "bg-gray-400" : "bg-white"
+                }`}
               />
             </div>
           </div>
@@ -271,7 +280,7 @@ const Control = () => {
                 PLAY
               </div>
               <div style={{ color: gameIsLive ? "#808080" : "black" }}>
-                {amountToPlay}
+                {Number(amountToPlay.toFixed(6))}
               </div>
             </div>
           </div>
@@ -287,11 +296,11 @@ const Control = () => {
                   invalidBetAmount || presetLocked
                     ? DeadButton
                     : handleButtonType(
-                      presetIsLive,
-                      userInPlay,
-                      gameIsLive,
-                      invalidBetAmount
-                    )
+                        presetIsLive,
+                        userInPlay,
+                        gameIsLive,
+                        invalidBetAmount
+                      )
                 }
                 width={67}
                 height={54}
