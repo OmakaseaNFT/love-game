@@ -44,7 +44,7 @@ export const useHeartbreakerGameEngine = () => {
     await axios
       .get(`${BE_URL}/heartbreakPlayer?address=${address}`)
       .then((res) => {
-        setBalance(Number(parseFloat(res.data.balance).toFixed(6)));
+        setBalance(parseFloat(res.data.balance));
       });
   };
 
@@ -201,7 +201,7 @@ export const useHeartbreakerGameEngine = () => {
         ethers.utils.parseEther(amount.toString())
       )
    
-      await tx.wait(2);
+      await tx.wait(1);
       setRequestState(requestSuccessState);
       handleGetBalance(address);
     } catch (e: any) {
