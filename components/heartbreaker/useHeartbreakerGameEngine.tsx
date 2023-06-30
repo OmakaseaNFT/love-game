@@ -44,7 +44,7 @@ export const useHeartbreakerGameEngine = () => {
     await axios
       .get(`${BE_URL}/heartbreakPlayer?address=${address}`)
       .then((res) => {
-        setBalance(res.data.balance);
+        setBalance(Number(parseFloat(res.data.balance).toFixed(6)));
       });
   };
 

@@ -16,7 +16,7 @@ const Control = () => {
   const points = [25, 50, 75, 100];
   const [selectedPoint, setSelectedPoint] = useState(10);
   const [active, setActive] = useState(true);
-  const [customAmount, setCustomAmount] = useState(0);
+  const [customAmount, setCustomAmount] = useState("0");
   const [userInPlay, setUserInPlay] = useState(false);
   const [invalidBetAmount, setInvalidBetAmount] = useState(false);
   const [balanceUpdateAmount, setBalanceUpdateAmount] = useState(0);
@@ -58,7 +58,10 @@ const Control = () => {
     if (!gameIsLive) {
       const usersMultiplierToStopAt = presetIsLive ? multiplierToStopAt : 0;
       const amount = (selectedPoint / 100) * balance;
-      onBet(Number(usersMultiplierToStopAt), customAmount || amount);
+      onBet(
+        Number(usersMultiplierToStopAt),
+        parseFloat(customAmount) || amount
+      );
     }
     return;
   };
@@ -111,9 +114,27 @@ const Control = () => {
     }
   };
 
+  const handleCustomAmountChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const input = event.target.value;
+    // Regular expression to check for a valid number with up to 6 decimal places
+    const regex = /^(\d+(\.\d{0,6})?|\.\d{1,6})$/;
+
+    if(regex.test(input)) {
+      setCustomAmount(input);
+    } else if (input === "") {
+      setCustomAmount("");
+    } else {
+      return
+    }
+  };
+
+
+
   useEffect(() => {
     const amount = (selectedPoint / 100) * balance;
-    setCustomAmount(parseFloat(amount.toFixed(2)));
+    setCustomAmount(amount.toFixed(6));
   }, [selectedPoint]);
 
   useEffect(() => {
@@ -127,7 +148,7 @@ const Control = () => {
     const inValidMult = presetIsLive && Number(multiplierToStopAt) < 1.01;
 
     // If the amount entered in the field is greater than the balance it is invalid
-    if (customAmount > balance || inValidMult) {
+    if (parseFloat(customAmount) > balance || inValidMult) {
       setInvalidBetAmount(true);
     } else {
       setInvalidBetAmount(false);
@@ -161,7 +182,7 @@ const Control = () => {
         <div className="border border-gray-500">
           <div className="flex flex-row space-x-2 border px-[4px] py-[5px]">
             <div className="mt-2">
-              <div className="text-[9px]">$HeartBrake Balance</div>
+              <div className="text-[9px]">$HeartBreak Balance</div>
               <div className="text-[28px]">{balance.toFixed(6)}</div>
             </div>
             <div>
@@ -211,8 +232,8 @@ const Control = () => {
               placeholder="Custom Amount"
               type="text"
               value={customAmount}
-              readOnly={gameIsLive}
-              onChange={(e) => setCustomAmount(Number(e.currentTarget.value))}
+              // readOnly={gameIsLive}
+              onChange={handleCustomAmountChange}
               className="text-[#0A0080] px-[3px] text-[14px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full"
             />
           </div>
@@ -242,7 +263,7 @@ const Control = () => {
         </div>
         <div className="flex flex-row justify-between mt-[10px] px-[10px]">
           <div className="flex-1">
-            <div className="border border-gray-600  px-[7px] py-[4px] w-[69px] ">
+            <div className="border border-gray-600  px-[7px] py-[4px] w-fit ">
               <div style={{ color: gameIsLive ? "#808080" : "black" }}>
                 PLAY
               </div>
@@ -278,28 +299,32 @@ const Control = () => {
         </div>
         <div className="px-[10px] flex-1">
           <div className="bg-black h-[22px] mt-[12px] ">
-            {!!userGameResult?.profit && userGameResult?.profit > 0 && (
-              <p
-                style={{
-                  backgroundColor: "blue",
-                  color: "white",
-                  textAlign: "center",
-                }}
-              >
-                YOU WON {userGameResult?.profit.toFixed(2)}
-              </p>
-            )}
-            {!!userGameResult?.profit && userGameResult?.profit < 0 && (
-              <p
-                style={{
-                  backgroundColor: "red",
-                  color: "white",
-                  textAlign: "center",
-                }}
-              >
-                HEARTBREAK BABY!!
-              </p>
-            )}
+            {!!userGameResult?.profit &&
+              userGameResult?.profit > 0 &&
+              !gameIsLive && (
+                <p
+                  style={{
+                    backgroundColor: "blue",
+                    color: "white",
+                    textAlign: "center",
+                  }}
+                >
+                  YOU WON {userGameResult?.profit.toFixed(6)}
+                </p>
+              )}
+            {!!userGameResult?.profit &&
+              userGameResult?.profit < 0 &&
+              !gameIsLive && (
+                <p
+                  style={{
+                    backgroundColor: "red",
+                    color: "white",
+                    textAlign: "center",
+                  }}
+                >
+                  HEARTBREAK BABY!!
+                </p>
+              )}
           </div>
         </div>
       </div>
