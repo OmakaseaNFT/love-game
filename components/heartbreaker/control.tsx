@@ -87,11 +87,12 @@ const Control = () => {
   };
 
   const handleWithdraw = async (address: string, withdrawAmount: number) => {
+    const message = `Withdraw ${withdrawAmount} from Heartbreaker`;
     try {
       const sig = await signMessageAsync({
-        message: `Withdraw ${withdrawAmount} from Heartbreaker`,
+        message,
       });
-      onWithdraw(address, withdrawAmount, sig);
+      onWithdraw(address, withdrawAmount, sig, message);
     } catch (e) {
       console.log(e);
     }

@@ -131,12 +131,13 @@ export const useHeartbreakerGameEngine = () => {
   const handleWithdraw = async (
     address: string,
     amount: number,
-    signature: string
+    signature: string,
+    message: string 
   ) => {
     if (!amount) return;
     setRequestState(requestPendingState);
     await axios
-      .post(`${BE_URL}/withdraw`, { address, amount, signature })
+      .post(`${BE_URL}/withdraw`, { address, amount, signature, message })
       .then((res) => {
         handleWithdrawFromContract(res, address)
           .then(() => {
@@ -200,7 +201,6 @@ export const useHeartbreakerGameEngine = () => {
         ethers.utils.parseEther(amount.toString())
       )
    
-      
       await tx.wait(2);
       setRequestState(requestSuccessState);
       handleGetBalance(address);

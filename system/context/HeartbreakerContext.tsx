@@ -15,7 +15,8 @@ export interface IHeartBreaker {
   onWithdraw: (
     address: string,
     withdrawAmount: number,
-    signature: string
+    signature: string,
+    message: string
   ) => Promise<void>;
   multiplierToStopAt: string | undefined;
   balance: number;
