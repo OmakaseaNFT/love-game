@@ -21,7 +21,11 @@ const Game = () => {
   const heartTween: any = useRef(null);
   const [switchImage, setSwitchImage] = useState(false);
   const [crack, setCrack] = useState(false);
-  const [breakWidth, setBreakWidth] = useState({ width: 0, height: 0 });
+  const [breakWidth, setBreakWidth] = useState({
+    width: 0,
+    height: 0,
+    translate: 0,
+  });
   const {
     balance,
     mult,
@@ -81,6 +85,7 @@ const Game = () => {
   };
 
   const handleStop = () => {
+    let size: number;
     if (isAnimating) {
       startSound.current.pause();
       startSound.current.currentTime = 0;
@@ -90,7 +95,26 @@ const Game = () => {
         const imgElement = heartRef.current.firstChild;
         const currentWidth = imgElement.offsetWidth;
         const currentHeight = imgElement.offsetHeight;
-        setBreakWidth({ width: currentWidth, height: currentHeight });
+        if (imgElement.offsetWidth > 170) {
+          size = 6;
+        } else if (
+          imgElement.offsetWidth > 100 &&
+          imgElement.offsetWidth < 155
+        ) {
+          size = 4;
+        } else if (
+          imgElement.offsetWidth > 155 &&
+          imgElement.offsetWidth < 170
+        ) {
+          size = 5;
+        } else {
+          size = 0;
+        }
+        setBreakWidth({
+          width: currentWidth - currentHeight * 0.3,
+          height: currentHeight - currentHeight * 0.3,
+          translate: size,
+        });
       }
 
       tween.current.pause();
@@ -190,9 +214,10 @@ const Game = () => {
           ) : (
             <Image
               src={HeartBreakImage}
-              width={breakWidth.width - 20}
-              height={breakWidth.height - 20}
+              width={breakWidth.width}
+              height={breakWidth.height}
               alt="ntap"
+              style={{ transform: `translateY(${breakWidth.translate}px)` }}
             />
           )}
         </div>
