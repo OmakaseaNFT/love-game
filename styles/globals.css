@@ -198,6 +198,12 @@ input:focus {
   bottom: -4px;
 }
 
+.btnDisabled {
+  background-color: #999999;
+  cursor: not-allowed;
+  color: gray;
+}
+
 .btn {
   background-color: #C1C1C1;
   border: 3px solid #ededed;
