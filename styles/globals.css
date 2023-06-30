@@ -437,3 +437,10 @@ input:focus {
   margin-top: -5px;
 }
 /* end rainbowkit close button */
+
+
+@media only screen and (max-width: 600px) {
+  .dialog {
+   width: 100% !important;
+  }
+}

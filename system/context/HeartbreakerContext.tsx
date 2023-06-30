@@ -1,6 +1,7 @@
 import { createContext } from "react";
 import { useHeartbreakerGameEngine } from "../../components/heartbreaker/useHeartbreakerGameEngine";
 import { Socket } from "socket.io-client";
+import { RequestState } from "../hooks/useRequestState";
 
 export interface IHeartBreaker {
   onBet: (multiplierToStopAt: number, amount: number) => Promise<void>;
@@ -9,6 +10,7 @@ export interface IHeartBreaker {
   onGetBalance: (address: string) => Promise<void>;
   onSocketInit: (socket: Socket) => void;
   onSetMultiplierToStopAt: (mult: string) => void;
+  setRequestState: (requestState: RequestState) => void;
   onWithdraw: (
     address: string,
     withdrawAmount: number,
@@ -37,6 +39,8 @@ export interface IHeartBreaker {
     profit: number;
     userAddress: string;
   }[];
+  requestState: RequestState
+  errorMessage: string
 }
 
 export const HeartBreakerContext = createContext<IHeartBreaker>(
