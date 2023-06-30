@@ -11,7 +11,6 @@ import {
 } from "../../utils/constant";
 import {
   HeartbreakerAbi,
-  HeartbreakerAbiInterface,
 } from "../../system/HeartbreakerAbi";
 import { LoveTokenAbi } from "../../system/LoveTokenAbi";
 import {
@@ -20,7 +19,6 @@ import {
   requestSuccessState,
   useRequestState,
 } from "../../system/hooks/useRequestState";
-import { set } from "mongoose";
 
 export const useHeartbreakerGameEngine = () => {
   const [balance, setBalance] = useState<number>(0);
@@ -36,8 +34,9 @@ export const useHeartbreakerGameEngine = () => {
   const [leaderboard, setLeaderboard] = useState<any>([]);
   const [gameTimer, setGameTimer] = useState<any>(0);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const { requestState, setRequestState } = useRequestState();
+  const [startAnimation, setStartAnimation] = useState<boolean>(false);
 
+  const { requestState, setRequestState } = useRequestState();
   const { address } = useAccount();
 
   const handleGetBalance = async (address: string) => {
@@ -45,7 +44,7 @@ export const useHeartbreakerGameEngine = () => {
       .get(`${BE_URL}/heartbreakPlayer?address=${address}`)
       .then((res) => {
         setBalance(parseFloat(res.data.balance));
-        setAmountToPlay(0)
+        setAmountToPlay(0);
       });
   };
 
@@ -64,6 +63,7 @@ export const useHeartbreakerGameEngine = () => {
       setMult(1);
       setGameIsLive(true);
       setGameTimer(0);
+      setStartAnimation(true);
     });
 
     socket.on("timer", (data) => {
@@ -72,6 +72,7 @@ export const useHeartbreakerGameEngine = () => {
 
     socket.on("endGame", (data) => {
       setGameIsLive(false);
+      setStartAnimation(false);
       setGameResults([]);
       handleGetGameHistory();
       handleGetGameLeaders();
@@ -132,7 +133,7 @@ export const useHeartbreakerGameEngine = () => {
     address: string,
     amount: number,
     signature: string,
-    message: string 
+    message: string
   ) => {
     if (!amount) return;
     setRequestState(requestPendingState);
@@ -184,7 +185,7 @@ export const useHeartbreakerGameEngine = () => {
   const handleDeposit = async (address: string, amount: number) => {
     if (!amount) return;
     setRequestState(requestPendingState);
-    const provider = new ethers.providers.Web3Provider( 
+    const provider = new ethers.providers.Web3Provider(
       (window as any).ethereum
     );
     const signer = provider.getSigner();
@@ -194,13 +195,13 @@ export const useHeartbreakerGameEngine = () => {
       abi,
       signer
     ) as LoveTokenAbi;
-    
+
     try {
       const tx = await contract.transfer(
         HEARTBREAKER_CONTRACT_ADDRESS,
         ethers.utils.parseEther(amount.toString())
-      )
-   
+      );
+
       await tx.wait(1);
       setRequestState(requestSuccessState);
       handleGetBalance(address);
@@ -237,6 +238,7 @@ export const useHeartbreakerGameEngine = () => {
     onWithdraw: handleWithdraw,
     setRequestState,
     onChangeBalance: (newBalance: number) => setBalance(newBalance),
+    startAnimation,
     multiplierToStopAt,
     balance,
     mult,
@@ -247,6 +249,6 @@ export const useHeartbreakerGameEngine = () => {
     leaderboard,
     gameTimer,
     requestState,
-    errorMessage
+    errorMessage,
   };
 };

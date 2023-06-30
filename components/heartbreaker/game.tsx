@@ -4,9 +4,6 @@ import Image from "next/image";
 import Heart from "../../assets/heart_beating.gif";
 import HeartStatic from "../../assets/heart-static.svg";
 import HeartBreakImage from "../../assets/half-heart-break.svg";
-import { useHeartbreakerGameEngine } from "./useHeartbreakerGameEngine";
-import { io } from "socket.io-client";
-import { HEARTBREAKER_SOCKET_URL } from "../../utils/constant";
 import { HeartBreakerContext } from "../../system/context/HeartbreakerContext";
 
 gsap.registerPlugin(TweenLite);
@@ -27,15 +24,10 @@ const Game = () => {
     translate: 0,
   });
   const {
-    balance,
     mult,
     gameIsLive,
     gameTimer,
-    onBet,
-    onStop,
-    onDeposit,
-    onGetBalance,
-    onSocketInit,
+    startAnimation
   } = useContext(HeartBreakerContext);
   const startSound = useRef(new Audio("/assets/beat.mp3"));
   const stopSound = useRef(new Audio("/assets/break.wav"));
@@ -143,16 +135,19 @@ const Game = () => {
   };
 
   useEffect(() => {
-    if (gameIsLive) {
+    if (startAnimation) {
       handleStartStopClick();
     }
-    if (!gameIsLive) {
+    if (!startAnimation) {
       handleStop();
       setTimeout(() => {
         handleResetClick();
       }, 5000);
     }
-  }, [gameIsLive]);
+    return () => {
+      startSound.current.pause();
+    }
+  }, [startAnimation]);
 
   return (
     <div className="relative inverseBorderStyle w-full h-full">
@@ -175,7 +170,7 @@ const Game = () => {
               justifyContent: "center",
               alignItems: "center",
               backgroundColor: "#08080880",
-              zIndex: 100,
+              zIndex: 101,
             }}
           >
             <span style={{ margin: "auto", color: "white" }}>
@@ -184,6 +179,22 @@ const Game = () => {
                 {!(gameTimer / 100) ? "" : gameTimer / 100}
               </p>
             </span>
+          </div>
+        )}
+        {!startAnimation && (
+          <div
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#08080880",
+              zIndex: 100,
+            }}
+          >
           </div>
         )}
         <div

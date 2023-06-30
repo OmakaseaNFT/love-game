@@ -43,6 +43,7 @@ export interface IHeartBreaker {
   }[];
   requestState: RequestState
   errorMessage: string
+  startAnimation: boolean
 }
 
 export const HeartBreakerContext = createContext<IHeartBreaker>(
