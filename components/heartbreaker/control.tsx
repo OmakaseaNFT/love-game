@@ -32,7 +32,7 @@ const Control = () => {
     gameResults,
     amountToPlay,
     requestState,
-    errorMessage, 
+    errorMessage,
     setRequestState,
     onBet,
     onStop,
@@ -176,13 +176,13 @@ const Control = () => {
               />
               <div>
                 <button
-                  className="w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[6px] py-[2px]"
+                  className="w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[10px] py-[2px]"
                   onClick={() => handleDeposit(address!, balanceUpdateAmount)}
                 >
                   Deposit
                 </button>
                 <button
-                  className="w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[6px] py-[2px]"
+                  className="w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[10px] py-[2px]"
                   onClick={() => handleWithdraw(address!, balanceUpdateAmount)}
                 >
                   Withdraw
