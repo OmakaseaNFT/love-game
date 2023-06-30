@@ -161,7 +161,7 @@ const Control = () => {
         <div className="border border-gray-500">
           <div className="flex flex-row space-x-2 border px-[4px] py-[5px]">
             <div className="mt-2">
-              <div className="text-[9px]">$LOVE AVAILABLE</div>
+              <div className="text-[9px]">$HeartBrake Balance</div>
               <div className="text-[28px]">{balance.toFixed(6)}</div>
             </div>
             <div>
