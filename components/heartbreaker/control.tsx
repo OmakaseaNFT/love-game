@@ -1,6 +1,6 @@
 import Image from "next/image";
 import DeadButton from "../../assets/dead-game-button.png";
-import StopButton from "../../assets/stop-button.png";
+import ExitButton from "../../assets/exit-button.png";
 import ActiveButton from "../../assets/active-game-button.png";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { ConnectHeartBreak } from "./connect";
@@ -71,7 +71,7 @@ const Control = () => {
     invalidBetAmount: boolean
   ) => {
     if (gameIsLive && userInPlay && amountToPlay > 0) {
-      return StopButton;
+      return ExitButton;
     }
     if ((gameIsLive && !userInPlay) || invalidBetAmount) {
       return DeadButton;
