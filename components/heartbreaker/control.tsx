@@ -277,8 +277,7 @@ const Control = () => {
                 PLAY
               </div>
               <div style={{ color: gameIsLive ? "#808080" : "black" }}>
-                {/* {Number(amountToPlay.toFixed(6))} */}
-                0.00
+                {Number(amountToPlay.toFixed(6))}
               </div>
             </div>
           </div>
