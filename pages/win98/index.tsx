@@ -184,8 +184,8 @@ const Win98 = (props: Props) => {
       icon: PaperIcon,
     },
     {
-      menu: "heartbreaker",
-      title: "HEARTBREAKER",
+      menu: "heartbreak",
+      title: "HEARTBREAK",
       component: <HeartBreaker />,
       width: "60%",
       height: "100%",
