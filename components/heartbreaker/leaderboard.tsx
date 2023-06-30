@@ -28,7 +28,7 @@ const LeaderBoard = () => {
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {!!leaderboard.length &&
-                  leaderboard.map((leader, index) => {
+                  leaderboard.filter((leader) => leader.user_address).map((leader, index) => {
                     return (
                       <tr key={`history-${index}`}>
                         <td className="border px-3 py-1 text-left text-xs font-medium text-gray-500">
