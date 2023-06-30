@@ -150,7 +150,7 @@ const Control = () => {
     const inValidMult = presetIsLive && Number(multiplierToStopAt) < 1.01;
 
     // If the amount entered in the field is greater than the balance it is invalid
-    if (parseFloat(customAmount) > balance || inValidMult || !customAmount) {
+    if (parseFloat(customAmount) > balance || inValidMult || !parseFloat(customAmount)) {
       setInvalidBetAmount(true);
     } else {
       setInvalidBetAmount(false);
@@ -185,7 +185,7 @@ const Control = () => {
           <div className="flex flex-row space-x-2 border px-[4px] py-[5px]">
             <div className="mt-2">
               <div className="text-[9px]">$HeartBreak Balance</div>
-              <div className="text-[28px]">
+              <div className="text-[18px] w-[5.2rem]">
                 {(balance - amountToPlay).toFixed(6)}
               </div>
             </div>
@@ -241,11 +241,8 @@ const Control = () => {
               placeholder="Custom Amount"
               type="text"
               value={customAmount}
-              readOnly={gameIsLive}
               onChange={handleCustomAmountChange}
-              className={`text-[#0A0080] px-[3px] text-[14px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full ${
-                gameIsLive ? "bg-gray-400" : "bg-white"
-              }`}
+              className={`text-[#0A0080] px-[3px] text-[14px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full`}
             />
           </div>
           <div className="flex  mt-[10px] flex-col">
@@ -263,11 +260,11 @@ const Control = () => {
                 value={multiplierToStopAt}
                 placeholder="1.01"
                 step={"0.01"}
-                readOnly={gameIsLive || !presetIsLive}
-                disabled={gameIsLive || !presetIsLive}
+                readOnly={!presetIsLive}
+                disabled={!presetIsLive}
                 onChange={handleMultiplierChange}
                 className={`text-[#0A0080] px-[3px] text-[14px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full ${
-                  gameIsLive || !presetIsLive ? "bg-gray-400" : "bg-white"
+                 !presetIsLive ? "bg-gray-400" : "bg-white"
                 }`}
               />
             </div>
@@ -275,12 +272,13 @@ const Control = () => {
         </div>
         <div className="flex flex-row justify-between mt-[10px] px-[10px]">
           <div className="flex-1">
-            <div className="border border-gray-600  px-[7px] py-[4px] w-fit ">
+            <div className="border border-gray-600 px-[7px] py-[4px] w-[4.3rem] ">
               <div style={{ color: gameIsLive ? "#808080" : "black" }}>
                 PLAY
               </div>
               <div style={{ color: gameIsLive ? "#808080" : "black" }}>
-                {Number(amountToPlay.toFixed(6))}
+                {/* {Number(amountToPlay.toFixed(6))} */}
+                0.00
               </div>
             </div>
           </div>
