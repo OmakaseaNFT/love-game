@@ -49,7 +49,7 @@ const Control = () => {
   const handleSetPlay = () => {
     if (invalidBetAmount || presetLocked) return;
     if (balance < parseFloat(customAmount)) return;
-    if (!parseFloat(customAmount)) return;
+    // if (!parseFloat(customAmount)) return;
 
     if (gameIsLive && userInPlay) {
       onStop(amountToPlay);
@@ -60,10 +60,10 @@ const Control = () => {
     }
     if (!gameIsLive) {
       const usersMultiplierToStopAt = presetIsLive ? multiplierToStopAt : 0;
-      const amount = (selectedPoint / 100) * balance;
+      
       onBet(
         Number(usersMultiplierToStopAt),
-        parseFloat(customAmount) || amount
+        parseFloat(customAmount)
       );
     }
     return;
@@ -150,7 +150,7 @@ const Control = () => {
     const inValidMult = presetIsLive && Number(multiplierToStopAt) < 1.01;
 
     // If the amount entered in the field is greater than the balance it is invalid
-    if (parseFloat(customAmount) > balance || inValidMult || !parseFloat(customAmount)) {
+    if (parseFloat(customAmount) > balance || inValidMult) {
       setInvalidBetAmount(true);
     } else {
       setInvalidBetAmount(false);
