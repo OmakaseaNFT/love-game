@@ -3,7 +3,6 @@ import DeadButton from "../../assets/dead-game-button.png";
 import ExitButton from "../../assets/exit-button.png";
 import ActiveButton from "../../assets/active-game-button.png";
 import { useContext, useEffect, useMemo, useState } from "react";
-import { ConnectHeartBreak } from "./connect";
 import {
   HeartBreakerContext,
   IHeartBreaker,
@@ -159,9 +158,6 @@ const Control = () => {
       errorMessage={errorMessage}
     >
       <div className="px-[5px]">
-        <div className="flex flex-row justify-end space-x-1 mb-1">
-          <ConnectHeartBreak />
-        </div>
         <div className="border border-gray-500">
           <div className="flex flex-row space-x-2 border px-[4px] py-[5px]">
             <div className="mt-2">
