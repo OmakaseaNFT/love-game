@@ -6,7 +6,7 @@ import { ethers } from "ethers";
 import {
   HEARTBREAKER_CONTRACT_ADDRESS,
   HEARTBREAKER_SOCKET_URL,
-  LOVE_TOKEN_SEPOLIA_CONTRACT,
+  contractAddressLove,
   BE_URL,
 } from "../../utils/constant";
 import {
@@ -72,7 +72,6 @@ export const useHeartbreakerGameEngine = () => {
     socket.on("endGame", (data) => {
       setGameIsLive(false);
       setGameResults([]);
-      setAmountToPlay(0);
       handleGetGameHistory();
       handleGetGameLeaders();
     });
@@ -89,8 +88,8 @@ export const useHeartbreakerGameEngine = () => {
 
   const handleBet = async (multiplierToStopAt: number, amount: number) => {
     setAmountToPlay(amount);
+    setBalance(balance - amount);
     if (!socket) return;
-
     socket.emit("bet", {
       address: address,
       multiplierToStopAt,
@@ -190,7 +189,7 @@ export const useHeartbreakerGameEngine = () => {
     const signer = provider.getSigner();
     const abi = require("../../utils/erc20abi.json");
     const contract = new ethers.Contract(
-      LOVE_TOKEN_SEPOLIA_CONTRACT,
+      contractAddressLove,
       abi,
       signer
     ) as LoveTokenAbi;
@@ -236,6 +235,7 @@ export const useHeartbreakerGameEngine = () => {
     onSetMultiplierToStopAt: (mult: string) => setMultiplierToStopAt(mult),
     onWithdraw: handleWithdraw,
     setRequestState,
+    onChangeBalance: (newBalance: number) => setBalance(newBalance),
     multiplierToStopAt,
     balance,
     mult,

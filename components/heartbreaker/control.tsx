@@ -32,6 +32,7 @@ const Control = () => {
     amountToPlay,
     requestState,
     errorMessage,
+    onChangeBalance,
     setRequestState,
     onBet,
     onStop,
@@ -47,6 +48,7 @@ const Control = () => {
 
   const handleSetPlay = () => {
     if (invalidBetAmount || presetLocked) return;
+    if (balance < parseFloat(customAmount)) return
 
     if (gameIsLive && userInPlay) {
       onStop(amountToPlay);
