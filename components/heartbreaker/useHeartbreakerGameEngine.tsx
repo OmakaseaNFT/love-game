@@ -60,6 +60,7 @@ export const useHeartbreakerGameEngine = () => {
     });
 
     socket.on("startGame", (data) => {
+      setMult(1);
       setGameIsLive(true);
       setGameTimer(0);
     });
@@ -72,7 +73,6 @@ export const useHeartbreakerGameEngine = () => {
       setGameIsLive(false);
       setGameResults([]);
       setAmountToPlay(0);
-      setMult(1);
       handleGetGameHistory();
       handleGetGameLeaders();
     });

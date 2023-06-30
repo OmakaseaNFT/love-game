@@ -29,10 +29,10 @@ const Dialog: FC<DialogProps> = ({
       <div
         style={
           maxHeight
-            ? { width: width, minHeight: height, maxHeight: height, height }
-            : { width: width, minHeight: height }
+            ? { width, minHeight: height, maxHeight: height, height }
+            : { width, minHeight: height }
         }
-        className="bg-[#C1C1C1] border-t-white border-l-white border-r-black border-b-black border-2 flex flex-col font-windows"
+        className={`dialog bg-[#C1C1C1] border-t-white border-l-white border-r-black border-b-black border-2 flex flex-col font-windows`}
       >
         <div className="h-[100%]">
           <div className=" flex justify-between items-center bg-[#0A0080] pl-1">
