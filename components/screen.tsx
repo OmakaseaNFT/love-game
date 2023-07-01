@@ -1,4 +1,6 @@
 import Etherscan from "../assets/etherscan.png";
+import HeartFace from "../assets/heart-face.png";
+import HeartNoFace from "../assets/heart-no-face.png";
 import Uniswap from "../assets/uniswap.png";
 import Wallet from "../assets/wallet.png";
 import Farm from "../assets/tree.png";
@@ -66,6 +68,12 @@ const Screen = ({
       icon: Paper,
       label: "Paper",
     },
+    {
+      onClick: () => setSelected("heartbreak"),
+      icon: HeartNoFace,
+      label: "HeartBreak",
+      logoHeight: 60,
+    },
   ];
 
   useEffect(() => {
@@ -122,10 +130,10 @@ const Screen = ({
                     >
                       <Image src={item.icon} alt="icon" height={55} />
                       {item.label && (
-                      <div className="text-[rgba(255,255,255,.7)] text-lg mt-[2px]">
-                        {item.label}
-                      </div>
-                    )}
+                        <div className="text-[rgba(255,255,255,.7)] text-lg mt-[2px]">
+                          {item.label}
+                        </div>
+                      )}
                     </div>
                   );
                 })}

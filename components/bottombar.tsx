@@ -3,6 +3,7 @@ import Computer from "../assets/computer.png";
 import Tree from "../assets/three.png";
 import Paper from "../assets/book.png";
 import Setting from "../assets/settings.png";
+import HeartFace from "../assets/heart-face.png";
 import Shutdown from "../assets/shutdown.png";
 import { useState } from "react";
 import { MdArrowRight } from "react-icons/md";
@@ -31,7 +32,7 @@ const BottomBar = (props: Props) => {
     },
     {
       menu: "heartbreak",
-      icon: "/assets/start-icon.png",
+      icon: HeartFace,
       name: "<u>H</u>EARTBREAK",
     },
     {
