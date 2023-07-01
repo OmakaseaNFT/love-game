@@ -158,17 +158,17 @@ export const useHeartbreakerGameEngine = () => {
   };
 
   const handleWithdrawFromContract = async (res: any, address: string) => {
-    const provider = new ethers.providers.Web3Provider(
-      (window as any).ethereum
-    );
-    const signer = provider.getSigner();
-    const abi = require("../../utils/heartbreaker.json");
-    const contract = new ethers.Contract(
-      HEARTBREAKER_CONTRACT_ADDRESS,
-      abi,
-      signer
-    ) as HeartbreakerAbi;
     try {
+      const provider = new ethers.providers.Web3Provider(
+        (window as any).ethereum
+      );
+      const signer = provider.getSigner();
+      const abi = require("../../utils/heartbreaker.json");
+      const contract = new ethers.Contract(
+        HEARTBREAKER_CONTRACT_ADDRESS,
+        abi,
+        signer
+      ) as HeartbreakerAbi;
       const tx = await contract.withdrawTokens(
         {
           ...res.data.recpt,
@@ -179,6 +179,7 @@ export const useHeartbreakerGameEngine = () => {
       );
       await tx.wait(2);
     } catch (e) {
+      console.log(e);
       throw e;
     }
   };
