@@ -258,6 +258,7 @@ const Control = () => {
               <p className="mr-[5px] text-[12px]">Preset Exit Multiplier </p>{" "}
               <input
                 type="checkbox"
+                disabled={true}
                 className="cursor-pointer accent-[#0A0080]"
                 onChange={() => setPresetIsLive(!presetIsLive)}
               />
@@ -269,7 +270,7 @@ const Control = () => {
                 placeholder="1.01"
                 step={"0.01"}
                 readOnly={!presetIsLive}
-                disabled={!presetIsLive}
+                disabled={true}
                 onChange={handleMultiplierChange}
                 className={`text-[#0A0080] px-[3px] text-[14px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full ${
                  !presetIsLive ? "bg-gray-400" : "bg-white"
