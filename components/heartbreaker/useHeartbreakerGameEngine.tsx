@@ -9,9 +9,7 @@ import {
   contractAddressLove,
   BE_URL,
 } from "../../utils/constant";
-import {
-  HeartbreakerAbi,
-} from "../../system/HeartbreakerAbi";
+import { HeartbreakerAbi } from "../../system/HeartbreakerAbi";
 import { LoveTokenAbi } from "../../system/LoveTokenAbi";
 import {
   requestErrorState,
@@ -35,6 +33,7 @@ export const useHeartbreakerGameEngine = () => {
   const [gameTimer, setGameTimer] = useState<any>(0);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [startAnimation, setStartAnimation] = useState<boolean>(false);
+  const [userExited, setUserExited] = useState<boolean>(false);
 
   const { requestState, setRequestState } = useRequestState();
   const { address } = useAccount();
@@ -76,6 +75,7 @@ export const useHeartbreakerGameEngine = () => {
       setGameResults([]);
       handleGetGameHistory();
       handleGetGameLeaders();
+      setUserExited(false);
     });
 
     socket.on("balanceUpdate", (data) => {
@@ -99,6 +99,7 @@ export const useHeartbreakerGameEngine = () => {
   };
 
   const handleStop = async (amount: number) => {
+    setUserExited(true);
     if (!socket) return;
 
     socket.emit("exit", {
@@ -238,6 +239,7 @@ export const useHeartbreakerGameEngine = () => {
     onWithdraw: handleWithdraw,
     setRequestState,
     onChangeBalance: (newBalance: number) => setBalance(newBalance),
+    userExited,
     startAnimation,
     multiplierToStopAt,
     balance,
