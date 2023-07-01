@@ -239,6 +239,7 @@ export const useHeartbreakerGameEngine = () => {
     onWithdraw: handleWithdraw,
     setRequestState,
     onChangeBalance: (newBalance: number) => setBalance(newBalance),
+    onSetErrorMessage: (message: string) => setErrorMessage(message),
     userExited,
     startAnimation,
     multiplierToStopAt,
