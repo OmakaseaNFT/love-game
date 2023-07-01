@@ -11,6 +11,7 @@ export interface IHeartBreaker {
   onSocketInit: (socket: Socket) => void;
   onSetMultiplierToStopAt: (mult: string) => void;
   setRequestState: (requestState: RequestState) => void;
+  onSetErrorMessage: (message: string) => void;
   onChangeBalance: (newBalance: number) => void;
   onWithdraw: (
     address: string,

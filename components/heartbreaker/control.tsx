@@ -9,6 +9,7 @@ import {
 } from "../../system/context/HeartbreakerContext";
 import { useAccount, useSignMessage } from "wagmi";
 import { TransactionNotificationWrapper } from "../ui/TransactionNotificationWrapper";
+import { requestErrorState } from "../../system/hooks/useRequestState";
 
 const Control = () => {
   const { address } = useAccount();
@@ -33,6 +34,7 @@ const Control = () => {
     requestState,
     errorMessage,
     userExited,
+    onSetErrorMessage,
     onChangeBalance,
     setRequestState,
     onBet,
@@ -91,6 +93,11 @@ const Control = () => {
   const handleWithdraw = async (address: string, withdrawAmount: number) => {
     const message = `Withdraw ${withdrawAmount} from Heartbreaker`;
     try {
+      if (withdrawAmount > balance) {
+        onSetErrorMessage("Withdraw amount is greater than balance");
+        setRequestState(requestErrorState);
+        throw new Error("Withdraw amount is greater than balance");
+      }
       const sig = await signMessageAsync({
         message,
       });
