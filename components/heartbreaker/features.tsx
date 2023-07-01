@@ -12,10 +12,10 @@ const Features = () => {
       title: "History",
       key: "history",
     },
-    {
-      title: "LeaderBoard",
-      key: "leaderboard",
-    },
+    // {
+    //   title: "LeaderBoard",
+    //   key: "leaderboard",
+    // },
     // {
     //   title: "Chat",
     //   key: "chat",
