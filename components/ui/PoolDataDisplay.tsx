@@ -5,12 +5,10 @@ interface IPoolDataDisplayProps {
 
 export const PoolDataDisplay = ({ title, data }: IPoolDataDisplayProps) => {
   return (
-    <div>
-      <div className="w-full flex flex-col">
-        <div className="text-xs">{title}</div>
-        <div className={title === "Multiplier" ? "text-black" : "text-gray-500"}>
-          <div>{data}</div>
-        </div>
+    <div className="w-full flex flex-col h-[40px] mt-[4px]">
+      <div className="text-xs whitespace-nowrap h-[20px] text-center font-semibold">{title}</div>
+      <div className={`text-center ${parseFloat(data) > 0 ? "text-black" : "text-gray-500"}`}>
+        {data}
       </div>
     </div>
   );

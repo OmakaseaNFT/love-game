@@ -229,7 +229,6 @@ export const useFetchFarmData = () => {
     );
   
     // const USDETHPool = new ethers.Contract(USDETHPoolAddy, poolABI, deployer);
-   
     const totalAllocPoint: any = await loveFarmContract.totalAllocPoint();
     const allocPoint: any = poolInfo.allocPoint;
   

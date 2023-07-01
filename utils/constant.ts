@@ -42,6 +42,8 @@ export const USDT_CONTRACT_ADDRESS = IS_DEV_ENV
   ? "0xdAC17F958D2ee523a2206206994597C13D831ec7"
   : "0xdAC17F958D2ee523a2206206994597C13D831ec7";
 export const HOT_JAR_SITE_ID = 3527265;
-export const HOT_JAR_VERSION = 6
+export const HOT_JAR_VERSION = 6;
 export const TELEGRAM_LINK = "https://t.me/loveethereum";
 export const TWITTER_LINK = "https://twitter.com/lovegameeth";
+export const HEARTBREAKER_SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL!;
+export const HEARTBREAKER_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_HEARTBREAKER_CONTRACT_ADDRESS!;

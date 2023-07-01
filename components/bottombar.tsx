@@ -22,12 +22,17 @@ const BottomBar = (props: Props) => {
     {
       menu: "farm",
       icon: Tree,
-      name: "<u>F</u>ARM",
+      name: "<u>F</u>arm",
     },
     {
       menu: "paper",
       icon: Paper,
-      name: "<u>P</u>APER",
+      name: "<u>P</u>aper",
+    },
+    {
+      menu: "heartbreak",
+      icon: "/assets/start-icon.png",
+      name: "<u>H</u>EARTBREAK",
     },
     {
       menu: "cp",

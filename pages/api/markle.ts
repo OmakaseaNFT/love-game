@@ -6,7 +6,7 @@ import Mongoose from "mongoose";
 import { MONGOO_URL } from "../../utils/constant";
 
 const uri = MONGOO_URL;
-export const runtime = 'edge'
+// export const runtime = 'edge'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   Mongoose.connect(uri)

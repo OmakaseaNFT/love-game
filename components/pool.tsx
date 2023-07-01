@@ -68,6 +68,9 @@ export const Pool = ({
     if (rawMessage.includes("withdraw") || rawMessage.includes("underflow")) {
       return "Check amounts and try again.";
     }
+    if (rawMessage.includes("unknown account")) {
+      return "Please connect your wallet to interact.";
+    }
     return rawMessage;
   };
 
@@ -174,18 +177,26 @@ export const Pool = ({
           <div className="w-[95%] sm:w-[97%] flex flex-col landscape:flex-row">
             <div className="w-full portrait:border-b-gray-600 portrait:border-b-2 portrait:mb-[0.8px]">
               <div className="w-full flex flex-row">
-                <div className={`w-[78%] ${boxStyle}`}>
-                  <div className="w-full flex flex-row justify-between items-center px-1">
-                    <Image src={pool.poolIcon} alt="" width={30} height={30} />
-                    <div className={`text-lg`}>{pool.poolName}</div>
-                    <PoolDataDisplay
-                      title="DEP FEE"
-                      data={`${pool.poolInfoValue * 100}%`}
-                    />
-                    <PoolDataDisplay
-                      title="Earned"
+                <div className={`w-[78%] pl-0 ${boxStyle}`}>
+                  <div className="w-full flex flex-row justify-between px-1">
+                    <div className="flex flex-row">
+                      <Image src={pool.poolIcon} alt="" width={30} height={30} />
+                      <div className={`text-lg leading-5 flex`}>
+                        <div className="my-auto mx-1">{pool.poolName}</div>
+                      </div>
+                    </div>
+                    <div className="mr-1">
+                      <PoolDataDisplay
+                        title="DEP FEE"
+                        data={`${pool.poolInfoValue * 100}%`}
+                      />
+                    </div>
+                    <div>
+                      <PoolDataDisplay
+                        title="Earned"
                       data={userPoolData?.pendingLove.toString() || "NA"}
-                    />
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className={`w-[22%] ${boxStyle}`}>
@@ -225,7 +236,7 @@ export const Pool = ({
           <div
             className={`${boxStyle3} ${
               expanded ? "" : "embossBorderBottomExpanded"
-            }`}
+              }`}
             style={{ marginBottom: "-10px" }}
           >
             <ExpandPoolUtilsButton
@@ -243,16 +254,16 @@ export const Pool = ({
             <div
               className={`relative w-full flex ${
                 canShowPosition() ? "flex-col" : "flex-row"
-              } sm:flex-row justify-between pt-0 sm:pt-2 sm:border-2 sm:border-t-0 sm:border-l-gray-200 sm:border-b-gray-600 sm:border-r-gray-200 pb-[8px] pr-0 sm:pr-[8px]`}
+                } sm:flex-row justify-between pt-0 sm:pt-2 sm:border-2 sm:border-t-0 sm:border-l-gray-200 sm:border-b-gray-600 sm:border-r-gray-200 pb-[8px] pr-0 sm:pr-[8px]`}
             >
               <div className="w-[100%] sm:w-[28%] flex border-2 sm:border-0 border-l-gray-600 border-r-0 sm:border-t-gray-600 border-t-0 border-b-0 sm:border-b-gray-100">
                 <div className="w-full border-l-gray-200 border-t-0 border-r-0 border-b-0 sm:border-b-gray-600 border-2 sm:border-0 flex">
                   <div
                     className={`flex flex-col text-[#0A0080] text-xs ml-2 ${
                       canShowPosition()
-                      ? "sm:ml-8 mt-1 mb-[-10px] sm:mb-auto"
+                        ? "sm:ml-8 mt-1 mb-[-10px] sm:mb-auto"
                         : "m-auto"
-                    }`}
+                      }`}
                   >
                     <div
                       onClick={() => {
@@ -281,7 +292,7 @@ export const Pool = ({
               <div
                 className={`flex flex-col ${
                   canShowPosition() ? "w-full" : "w-[68.1%]"
-                } sm:w-[72%]`}
+                  } sm:w-[72%]`}
               >
                 <div className="">
                   <div className="text-xs min-h-[16px] sm:min-h-0 embossBorderLeft sm:border-l-0 sm:before:border-l-0 text-right sm:text-left pr-1 pb-1 pr-2">
@@ -375,7 +386,7 @@ export const Pool = ({
                     poolIndex === 0
                       ? "ETH"
                       : USDT_CONTRACT_ADDRESS
-                  }`;
+                    }`;
                   window.open(url, "_blank");
                 }}
                 className="m-auto mb-[6px] btn h-8 w-[90%] sm:w-[290px] text-center"
