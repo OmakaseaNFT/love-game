@@ -50,6 +50,9 @@ const Control = () => {
   }, [gameResults]);
 
   const handleSetPlay = () => {
+    // If user is not connected, do nothing
+    if (!address) return;
+
     // If there is an invalid bet amount or the preset is locked, do nothing
     if (invalidBetAmount || presetLocked) return;
 
