@@ -50,24 +50,31 @@ const Control = () => {
   }, [gameResults]);
 
   const handleSetPlay = () => {
+    // If there is an invalid bet amount or the preset is locked, do nothing
     if (invalidBetAmount || presetLocked) return;
+
+    // If the users balance is less than the amount they want to play, do nothing
     if (balance < parseFloat(customAmount)) return;
+
+    // If the user has already exited the game, do nothing
     if (userExited) return;
 
+    // If the game is live and the user is not in play, do nothing
+    if (gameIsLive && !userInPlay) {
+      return;
+    }
+
+    // If the game is live and the user is in play, submit bet to exit at current multiplier
+    // and set the user to not in play
     if (gameIsLive && userInPlay) {
       onStop(amountToPlay);
       setUserInPlay(false);
     }
-    if (gameIsLive && !userInPlay) {
-      return;
-    }
+
+    // If the game is not live, submit bet to play at the selected multiplier
     if (!gameIsLive) {
       const usersMultiplierToStopAt = presetIsLive ? multiplierToStopAt : 0;
-      
-      onBet(
-        Number(usersMultiplierToStopAt),
-        parseFloat(customAmount)
-      );
+      onBet(Number(usersMultiplierToStopAt), parseFloat(customAmount));
     }
     return;
   };
@@ -78,15 +85,41 @@ const Control = () => {
     gameIsLive: boolean,
     invalidBetAmount: boolean
   ) => {
-    if (gameIsLive && userInPlay && amountToPlay > 0 && !userExited) {
+    /**
+     * CONDITIONS FOR SHOWING THE EXIT BUTTON
+     * - The game is live
+     * - And the user is in play
+     * - And the amount they bet is greater than zero
+     * - And they have not hit the exit button yet
+     * - And no preset multiplier has been set
+     */
+    if (gameIsLive && userInPlay && amountToPlay > 0 && !userExited && !presetIsLive) {
       return ExitButton;
     }
-    if ((gameIsLive && !userInPlay) || invalidBetAmount || userExited) {
+
+    /**
+     * CONDITIONS FOR BET DISABLED
+     * - The game has started but the user is not in play (no bet amount was made)
+     * - Or the game has not started and the bet amount is invalid
+     * - Or the game has started but the user has exited the game
+     * - Or the game has started and a preset multiplier has been set for the game
+     */
+    if ((gameIsLive && !userInPlay) || (!gameIsLive && invalidBetAmount) || (gameIsLive && userExited) || (gameIsLive && presetIsLive)) {
       return DeadButton;
     }
+
+     /**
+     * CONDITIONS FOR BET ENABLED
+     * - The game has not started 
+     * - And there is a valid bet amount
+     */
     if (!gameIsLive && !invalidBetAmount) {
       return ActiveButton;
     }
+
+    /**
+     * DEFAULT BUTTON IS INACTIVE
+     */
     return DeadButton;
   };
 
@@ -258,9 +291,15 @@ const Control = () => {
               <p className="mr-[5px] text-[12px]">Preset Exit Multiplier </p>{" "}
               <input
                 type="checkbox"
-                disabled={true}
+                disabled={gameIsLive}
                 className="cursor-pointer accent-[#0A0080]"
-                onChange={() => setPresetIsLive(!presetIsLive)}
+                onChange={() => {
+                  if (presetIsLive === true) {
+                    onSetMultiplierToStopAt("")
+                  }
+                  setPresetIsLive(!presetIsLive);
+                  
+                }}
               />
             </span>
             <div className="flex">
@@ -269,11 +308,10 @@ const Control = () => {
                 value={multiplierToStopAt}
                 placeholder="1.01"
                 step={"0.01"}
-                readOnly={!presetIsLive}
-                disabled={true}
+                readOnly={!presetIsLive || gameIsLive}
                 onChange={handleMultiplierChange}
                 className={`text-[#0A0080] px-[3px] text-[14px] border-l-gray-600 border-t-gray-600 border-r-gray-200 border-b-gray-200 border-2 w-full ${
-                 !presetIsLive ? "bg-gray-400" : "bg-white"
+                  !presetIsLive || gameIsLive ? "bg-gray-400" : "bg-white"
                 }`}
               />
             </div>
