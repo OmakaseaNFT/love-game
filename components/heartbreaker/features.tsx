@@ -51,7 +51,7 @@ const Features = () => {
         })}
       </div>
       <div
-        className={`border-t-1 border-l-gray-200 border-t-gray-200 border-r-gray-600 border border-b border-white p-2`}
+        className={`border-t-1 border-l-gray-200 border-t-gray-200 border-r-gray-600 border border-b border-white p-2 pb-4 overflow-x-auto`}
       >
         {renderBody()}
       </div>
