@@ -27,13 +27,23 @@ const AppNotification = ({
             <Image alt="" src="/assets/win98Close.png" width={16} height={16} />
           </button>
         </div>
-        <div className="flex flex-row items-center m-auto h-[100%] items-center overflow-hidden">
-          {icon && <Image alt="" src={icon ?? ""} width={38} height={38} />}
+        <div className="flex flex-row items-center m-auto h-[100%] items-center overflow-hidden justify-center">
+          <div className="flex flex-row w-2/3">
+            {icon && <Image alt="" src={icon ?? ""} width={38} height={38} />}
 
-          <div
-            className={`px-2 flex min-w-[110px] h-[100%] items-center overflow-x-hidden overflow-y-auto`}
-          >
-            <p style={{ width: "140px", maxHeight: "100%", textAlign: "center" }}>{text}</p>
+            <div
+              className={`px-2 flex min-w-[110px] h-[100%] items-center overflow-x-hidden overflow-y-auto`}
+            >
+              <p
+                style={{
+                  width: "140px",
+                  maxHeight: "100%",
+                  textAlign: "center",
+                }}
+              >
+                {text}
+              </p>
+            </div>
           </div>
         </div>
         {notificationKey === "transaction_pending" && <LoadingBar />}
