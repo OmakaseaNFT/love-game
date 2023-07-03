@@ -11,6 +11,7 @@ import { StartMenuListItem } from "./startMenuListItem";
 import { useCopyText } from "../system/hooks/useCopyText";
 import { truncateEthAddress } from "../system/appUtils";
 import { contractAddressLove } from "../utils/constant";
+import IconWithoutPot from "../assets/icon-without-pot.png";
 
 interface Props {
   setSelected: (selected: string) => void;
@@ -32,7 +33,7 @@ const BottomBar = (props: Props) => {
     },
     {
       menu: "heartbreak",
-      icon: HeartFace,
+      icon: IconWithoutPot,
       name: "<u>H</u>eartbreak",
     },
     {
