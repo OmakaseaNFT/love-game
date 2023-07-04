@@ -34,6 +34,7 @@ export const useHeartbreakerGameEngine = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [startAnimation, setStartAnimation] = useState<boolean>(false);
   const [userExited, setUserExited] = useState<boolean>(false);
+  const [lockTime, setLockTime] = useState<number>(0);
 
   const { requestState, setRequestState } = useRequestState();
   const { address } = useAccount();
@@ -42,6 +43,7 @@ export const useHeartbreakerGameEngine = () => {
     await axios
       .get(`${BE_URL}/heartbreakPlayer?address=${address}`)
       .then((res) => {
+        setLockTime(res.data.bettingLockTime);
         setBalance(parseFloat(res.data.balance));
         setAmountToPlay(0);
       });
@@ -91,6 +93,14 @@ export const useHeartbreakerGameEngine = () => {
   const handleBet = async (multiplierToStopAt: number, amount: number) => {
     setAmountToPlay(amount);
     if (!socket) return;
+
+    if (lockTime > 0) {
+      setErrorMessage(`Please wait ${(lockTime/60000).toFixed(2)} minutes before playing again`);
+      setRequestState(requestErrorState);
+      handleGetBalance(address!);
+      return
+    }
+
     socket.emit("bet", {
       address: address,
       multiplierToStopAt,
@@ -101,6 +111,13 @@ export const useHeartbreakerGameEngine = () => {
   const handleStop = async (amount: number) => {
     setUserExited(true);
     if (!socket) return;
+
+    if (lockTime > 0) {
+      setErrorMessage(`Please wait ${(lockTime/60000).toFixed(2)} minutes before playing again`);
+      setRequestState(requestErrorState);
+      handleGetBalance(address!);
+      return
+    }
 
     socket.emit("exit", {
       address: address,
@@ -141,18 +158,31 @@ export const useHeartbreakerGameEngine = () => {
     await axios
       .post(`${BE_URL}/withdraw`, { address, amount, signature, message })
       .then((res) => {
+        setLockTime(res.data.lockTime);
         handleWithdrawFromContract(res, address)
           .then(() => {
             handleGetBalance(address);
             setRequestState(requestSuccessState);
           })
           .catch(() => {
-            setErrorMessage("Withdraw failed");
+            if (lockTime) {
+              setErrorMessage(
+                `Withdraw locked for ${(lockTime / 60000).toFixed(2)} minutes`
+              );
+            } else {
+              setErrorMessage("Withdraw failed");
+            }
             setRequestState(requestErrorState);
           });
       })
       .catch(() => {
-        setErrorMessage("Withdraw failed");
+        if (lockTime) {
+          setErrorMessage(
+            `Withdraw locked. Try again in ${lockTime / 1000} seconds}`
+          );
+        } else {
+          setErrorMessage("Withdraw failed");
+        }
         setRequestState(requestErrorState);
       });
   };
@@ -179,6 +209,7 @@ export const useHeartbreakerGameEngine = () => {
       );
       await tx.wait(2);
     } catch (e) {
+      setErrorMessage("Withdraw failed");
       throw e;
     }
   };
@@ -253,5 +284,6 @@ export const useHeartbreakerGameEngine = () => {
     gameTimer,
     requestState,
     errorMessage,
+    lockTime,
   };
 };

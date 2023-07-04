@@ -34,6 +34,7 @@ const Control = () => {
     requestState,
     errorMessage,
     userExited,
+    lockTime,
     onSetErrorMessage,
     onChangeBalance,
     setRequestState,
