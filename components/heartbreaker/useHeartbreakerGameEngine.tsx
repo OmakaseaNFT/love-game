@@ -175,13 +175,13 @@ export const useHeartbreakerGameEngine = () => {
             setRequestState(requestErrorState);
           });
       })
-      .catch(() => {
+      .catch((err) => {
         if (lockTime) {
           setErrorMessage(
             `Withdraw locked. Try again in ${lockTime / 1000} seconds}`
           );
         } else {
-          setErrorMessage("Withdraw failed");
+          setErrorMessage(err?.response?.data || "Withdraw failed");
         }
         setRequestState(requestErrorState);
       });

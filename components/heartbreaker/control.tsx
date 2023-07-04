@@ -230,7 +230,7 @@ const Control = () => {
           <div className="flex flex-row space-x-2 border px-[4px] py-[5px]">
             <div className="mt-2">
               <div className="text-[9px]">$HeartBreak Balance</div>
-              <div className="text-[18px] w-[5.2rem]">
+              <div className="text-[16px] w-[5.2rem]">
                 {(balance - amountToPlay).toFixed(6)}
               </div>
             </div>
@@ -251,9 +251,9 @@ const Control = () => {
                   Deposit
                 </button>
                 <button
-                  disabled={Number(balanceUpdateAmount) <= 0}
+                  disabled={Number(balanceUpdateAmount) <= 0 || amountToPlay > 0}
                   className={`w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[10px] py-[2px] ${
-                    Number(balanceUpdateAmount) <= 0 ? "btnDisabled" : ""
+                    Number(balanceUpdateAmount) <= 0 || amountToPlay ? "btnDisabled" : ""
                   }`}
                   onClick={() => handleWithdraw(address!, balanceUpdateAmount)}
                 >
@@ -323,7 +323,7 @@ const Control = () => {
         </div>
         <div className="flex flex-row justify-between mt-[10px] px-[10px]">
           <div className="flex-1">
-            <div className="border border-gray-600 px-[7px] py-[4px] w-[4.3rem] ">
+            <div className="border border-gray-600 px-[7px] py-[4px] minW-[4.3rem] ">
               <div style={{ color: gameIsLive ? "#808080" : "black" }}>
                 PLAY
               </div>
