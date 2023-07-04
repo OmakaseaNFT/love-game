@@ -46,6 +46,7 @@ export interface IHeartBreaker {
   errorMessage: string
   startAnimation: boolean
   userExited: boolean
+  lockTime: number
 }
 
 export const HeartBreakerContext = createContext<IHeartBreaker>(
