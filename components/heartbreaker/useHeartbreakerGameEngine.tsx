@@ -116,6 +116,7 @@ export const useHeartbreakerGameEngine = () => {
     setAmountToPlay(amount);
     
     socket.emit("bet", {
+      address,
       multiplierToStopAt,
       amount,
       signature,
@@ -146,6 +147,7 @@ export const useHeartbreakerGameEngine = () => {
     }
 
     socket.emit("exit", {
+      address,
       amount,
       signature,
       message,
