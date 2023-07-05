@@ -40,3 +40,19 @@ export const getTermsAgreement = (
     }
     return "false";
 };
+
+export const getSigAndMsgFromStorage = (
+    address: string
+): { sig: string; msg: string } => {
+    if (typeof window !== "undefined") {
+        const storageSigAndMsg = localStorage.getItem(address);
+
+        if (storageSigAndMsg) {
+            const parsedSigAndMsg: { sig: string; msg: string } =
+                JSON.parse(storageSigAndMsg);
+            return parsedSigAndMsg;
+        }
+    }
+
+    return { sig: "", msg: "" };
+};

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { io, Socket } from "socket.io-client";
 import { ethers } from "ethers";
@@ -17,6 +17,7 @@ import {
   requestSuccessState,
   useRequestState,
 } from "../../system/hooks/useRequestState";
+import { AuthContext } from "../../system/context/AuthContext";
 
 export const useHeartbreakerGameEngine = () => {
   const [balance, setBalance] = useState<number>(0);
@@ -38,6 +39,7 @@ export const useHeartbreakerGameEngine = () => {
 
   const { requestState, setRequestState } = useRequestState();
   const { address } = useAccount();
+  const { signature, message, onAuthUser } = useContext(AuthContext);
 
   const handleGetBalance = async (address: string) => {
     await axios
@@ -91,20 +93,33 @@ export const useHeartbreakerGameEngine = () => {
   };
 
   const handleBet = async (multiplierToStopAt: number, amount: number) => {
-    setAmountToPlay(amount);
     if (!socket) return;
 
     if (lockTime > 0) {
-      setErrorMessage(`Please wait ${(lockTime/60000).toFixed(2)} minutes before playing again`);
+      setErrorMessage(
+        `Please wait ${(lockTime / 60000).toFixed(
+          2
+        )} minutes before playing again`
+      );
       setRequestState(requestErrorState);
       handleGetBalance(address!);
-      return
+      return;
     }
 
+    if (!signature || !message) {
+      setErrorMessage("Please sign the message to play");
+      setRequestState(requestErrorState);
+      onAuthUser();
+      return;
+    }
+
+    setAmountToPlay(amount);
+    
     socket.emit("bet", {
-      address: address,
       multiplierToStopAt,
       amount,
+      signature,
+      message,
     });
   };
 
@@ -113,15 +128,27 @@ export const useHeartbreakerGameEngine = () => {
     if (!socket) return;
 
     if (lockTime > 0) {
-      setErrorMessage(`Please wait ${(lockTime/60000).toFixed(2)} minutes before playing again`);
+      setErrorMessage(
+        `Please wait ${(lockTime / 60000).toFixed(
+          2
+        )} minutes before playing again`
+      );
       setRequestState(requestErrorState);
       handleGetBalance(address!);
-      return
+      return;
+    }
+
+    if (!signature || !message) {
+      setErrorMessage("Please sign the message to play");
+      setRequestState(requestErrorState);
+      onAuthUser();
+      return;
     }
 
     socket.emit("exit", {
-      address: address,
       amount,
+      signature,
+      message,
     });
   };
 
