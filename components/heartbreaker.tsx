@@ -11,7 +11,6 @@ export const HeartBreaker = () => {
 
   useEffect(() => {
     onAuthUser();
-    console.log("HeartBreaker");
   }, []);
 
   return (
