@@ -1,9 +1,4 @@
-import Etherscan from "../assets/etherscan.png";
-import Uniswap from "../assets/uniswap.png";
-import Wallet from "../assets/wallet.png";
-import Farm from "../assets/tree.png";
-import Paper from "../assets/book.png";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { Connect } from "./connect";
 import { useAccount } from "wagmi";
@@ -14,6 +9,7 @@ import {
   TWITTER_LINK,
   UNISWAP_LINK,
 } from "../utils/constant";
+import { FileThemeContext } from "../system/context/FileThemeContext";
 
 interface ScreenProps {
   children: ReactNode;
@@ -27,6 +23,7 @@ const Screen = ({
   wallpaper,
   onTrigger,
 }: ScreenProps) => {
+  const { files: { Etherscan, Uniswap, telegram, twitter, Farm, Paper } } = useContext(FileThemeContext)
   const { address, connector, isConnected } = useAccount();
   const [hide, setHide] = useState<boolean>(true);
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -43,13 +40,13 @@ const Screen = ({
     },
     {
       onClick: () => window.open(TWITTER_LINK, "_blank"),
-      icon: "/assets/logo_twitter.png",
+      icon: telegram,
       label: "Twitter",
       logoHeight: 60,
     },
     {
       onClick: () => window.open(TELEGRAM_LINK, "_blank"),
-      icon: "/assets/logo_telegram.png",
+      icon: twitter,
       label: "Telegram",
       logoHeight: 60,
     },

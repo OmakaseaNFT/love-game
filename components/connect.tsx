@@ -1,7 +1,9 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
-import Wallet from "../assets/wallet.png";
+import { FileThemeContext } from "../system/context/FileThemeContext";
+import { useContext } from "react";
 export const Connect = () => {
+  const { files: { Wallet } } = useContext(FileThemeContext)
   return (
     <ConnectButton.Custom>
       {({

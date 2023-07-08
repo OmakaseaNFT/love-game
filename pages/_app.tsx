@@ -15,6 +15,7 @@ import {
 } from "../utils/constant";
 import { useRouter } from "next/router";
 import { TermsAndConditionsWrapper } from "../components/ui/TermsAndConditionsWrapper";
+import { FileThemeProvider } from "../system/context/FileThemeContext";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
@@ -39,8 +40,8 @@ const wagmiConfig = createConfig({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { isConnected } = useAccount()
-  
+  const { isConnected } = useAccount();
+
   useEffect(() => {
     if (window.location.hostname === "www.love.game") {
       hotjar.initialize(HOT_JAR_SITE_ID, HOT_JAR_VERSION);
@@ -49,10 +50,16 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains} theme={null} id={isConnected ? "rainbowkitConnected" : "rainbowkitNotConnected"}>
-        <TermsAndConditionsWrapper>
-          <Component {...pageProps} />
-        </TermsAndConditionsWrapper>
+      <RainbowKitProvider
+        chains={chains}
+        theme={null}
+        id={isConnected ? "rainbowkitConnected" : "rainbowkitNotConnected"}
+      >
+        <FileThemeProvider>
+          <TermsAndConditionsWrapper>
+            <Component {...pageProps} />
+          </TermsAndConditionsWrapper>
+        </FileThemeProvider>
         <Analytics />
       </RainbowKitProvider>
     </WagmiConfig>

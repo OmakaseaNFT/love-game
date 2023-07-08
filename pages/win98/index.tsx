@@ -1,5 +1,5 @@
 import BottomBar from "../../components/bottombar";
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState, useLayoutEffect, useContext } from "react";
 import moment from "moment";
 import Dialog from "../../components/dialog";
 import Image from "next/image";
@@ -33,6 +33,7 @@ import { AppContracts } from "../../system/AppContracts";
 import { CopyAddressButton } from "../../components/copyAddressButton";
 import { useWrongNetwork } from "../../system/hooks/useWrongNetwork";
 import { HeartBreaker } from "../../components/heartbreaker";
+import { FileThemeContext } from "../../system/context/FileThemeContext";
 
 interface Props {
   lock?: Boolean;
@@ -49,6 +50,10 @@ interface Content {
 }
 
 const Win98 = (props: Props) => {
+  const {
+    files: { wallpaper, setWallpaper, background },
+  } = useContext(FileThemeContext);
+  console.log({wallpaper: wallpaper ?? background})
   const [scale, setScale] = useState<string>();
   const [start, setStart] = useState<boolean>(false);
   const [showBar, setShowBar] = useState<boolean>(false);
@@ -56,9 +61,6 @@ const Win98 = (props: Props) => {
   const { address } = useAccount();
   const [price, setPrice] = useState<number>(0);
   const [usdPrice, setUSDPrice] = useState<number>(0);
-  const [wallpaper, setWallpaper] = useState<string>(
-    "/assets/lovegame_background.png"
-  );
   const [claimContract, setClaimContract] = useState<any>(null);
   const [claimValue, setClaimValue] = useState<any>(
     (merkleData as any).claims[address as any]
@@ -158,7 +160,7 @@ const Win98 = (props: Props) => {
       title: "Control Panel",
       component: (
         <ControlPanel
-          backgroundImage={wallpaper}
+          backgroundImage={wallpaper ?? background}
           onChangeBG={(val: string) => setWallpaper(val)}
           closeMe={closeContent}
         />
@@ -245,7 +247,7 @@ const Win98 = (props: Props) => {
       ) : null}
 
       <Screen
-        wallpaper={wallpaper}
+        wallpaper={wallpaper ?? background}
         setSelected={setSelected}
         onTrigger={() => onClaim()}
       >
