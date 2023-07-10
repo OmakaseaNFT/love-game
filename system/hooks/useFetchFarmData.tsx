@@ -40,7 +40,8 @@ export const useFetchFarmData = () => {
   const getPoolData = async (usdContract: any, farmContract: LoveFarmAbi) => {
     setPoolDataLoading(true);
     try {
-      const pool = await farmContract.poolLength();
+      //REMOVE WHEN NEW POOLS ARE READY
+      const pool = 2;
       let poolInfo;
       let aprValue;
       let stakedLiquidity;
