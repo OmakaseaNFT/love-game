@@ -74,12 +74,12 @@ export const calculateStakedLiquidityWbtc = async (
 
   let WBTCReserves: any;
   let LOVEReserves: any;
-  if (WBTCLOVEToken0 == process.env.NEXT_PUBLIC_CONTRACT_WBTC) {
+  if (WBTCLOVEToken0 == contractAddressLove) {
     LOVEReserves = ethers.utils.formatUnits(WBTCLOVEReserves._reserve0, 18);
-    WBTCReserves = ethers.utils.formatUnits(WBTCLOVEReserves._reserve1, 18);
+    WBTCReserves = ethers.utils.formatUnits(WBTCLOVEReserves._reserve1, 8);
   } else {
     LOVEReserves = ethers.utils.formatUnits(WBTCLOVEReserves._reserve1, 18);
-    WBTCReserves = ethers.utils.formatUnits(WBTCLOVEReserves._reserve0, 18);
+    WBTCReserves = ethers.utils.formatUnits(WBTCLOVEReserves._reserve0, 8);
   }
 
   const WBTCInFarm =
@@ -123,7 +123,7 @@ export const calculateStakedLiquidityPepe = async (
   const PEPELOVEReserves = await lpContract.getReserves();
   let PEPEReserves: any;
   let LOVEReserves: any;
-  if (PEPELOVEToken0 == process.env.NEXT_PUBLIC_CONTRACT_PEPE) {
+  if (PEPELOVEToken0 == contractAddressLove) {
     LOVEReserves = ethers.utils.formatUnits(PEPELOVEReserves._reserve0, 18);
     PEPEReserves = ethers.utils.formatUnits(PEPELOVEReserves._reserve1, 18);
   } else {
@@ -247,7 +247,7 @@ export async function calculateAPRLoveWbtc(poolIndex: number) {
   const LOVE_WBTCReserves = await lpContract.getReserves();
   let loveReservesBN;
 
-  if (WBTC_TOKEN_ADDRESS == process.env.NEXT_PUBLIC_CONTRACT_WBTC) {
+  if (WBTC_TOKEN_ADDRESS == contractAddressLove) {
     loveReservesBN = LOVE_WBTCReserves._reserve0;
   } else {
     loveReservesBN = LOVE_WBTCReserves._reserve1;
@@ -265,13 +265,6 @@ export async function calculateAPRLoveWbtc(poolIndex: number) {
   const annualRewardInToken =
     (Number(lovePerBlock) * blocksPerYear * Number(allocPoint)) /
     Number(totalAllocPoint);
-
-  console.log("poolInfo", poolInfo);
-  console.log("loverReservesBN", loveReservesBN);
-  console.log("totalLiquidityLocked", totalLiquidityLocked);
-  console.log("totalLPSupply", totalLPSupply);
-  console.log("annualRewardInToken", annualRewardInToken);
-  console.log("totalLoveLocked", totalLoveLocked);
 
   const apr = (annualRewardInToken / Number(totalLoveLocked)) * 100;
   return Math.trunc(apr);
@@ -298,7 +291,7 @@ export async function calculateAPRLovePepe(poolIndex: number) {
   const LOVE_WBTCReserves = await lpContract.getReserves();
   let loveReservesBN;
 
-  if (PEPE_TOKEN_ADDRESS == process.env.NEXT_PUBLIC_CONTRACT_WBTC) {
+  if (PEPE_TOKEN_ADDRESS == contractAddressLove) {
     loveReservesBN = LOVE_WBTCReserves._reserve0;
   } else {
     loveReservesBN = LOVE_WBTCReserves._reserve1;
