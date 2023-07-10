@@ -21,6 +21,7 @@ import {
   useRequestState,
 } from "../../system/hooks/useRequestState";
 import { set } from "mongoose";
+import { IHeartbreakHistorySortOrder } from "../../interfaces/ISortOrder";
 
 export const useHeartbreakerGameEngine = () => {
   const [balance, setBalance] = useState<number>(0);
@@ -37,6 +38,10 @@ export const useHeartbreakerGameEngine = () => {
   const [gameTimer, setGameTimer] = useState<any>(0);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const { requestState, setRequestState } = useRequestState();
+  const [heartbreakHistorySortOrder, setHeartbreakHistorySortOrder] = useState<IHeartbreakHistorySortOrder>({
+    sortBy: 'total_amount',
+    order: 'DESC',
+  });
 
   const { address } = useAccount();
 
@@ -107,9 +112,12 @@ export const useHeartbreakerGameEngine = () => {
     });
   };
 
-  const handleGetGameHistory = async () => {
+  const handleGetGameHistory = async (sortOrder?: IHeartbreakHistorySortOrder) => {
+    if (!sortOrder) {
+      sortOrder = heartbreakHistorySortOrder
+    }
     await axios
-      .get(`${BE_URL}/heartbreakGames`)
+      .get(`${BE_URL}/heartbreakGames?sortby=${sortOrder.sortBy}&order=${sortOrder.order}`)
       .then((res) => {
         setGameHistory(res.data);
       })
@@ -117,6 +125,11 @@ export const useHeartbreakerGameEngine = () => {
         setGameHistory([]);
       });
   };
+
+  const handleSortGameHistory = (val: IHeartbreakHistorySortOrder) => {
+    setHeartbreakHistorySortOrder(val);
+    handleGetGameHistory(val);
+  }
 
   const handleGetGameLeaders = async () => {
     await axios
@@ -199,8 +212,8 @@ export const useHeartbreakerGameEngine = () => {
         HEARTBREAKER_CONTRACT_ADDRESS,
         ethers.utils.parseEther(amount.toString())
       )
-   
-      
+
+
       await tx.wait(2);
       setRequestState(requestSuccessState);
       handleGetBalance(address);
@@ -236,6 +249,7 @@ export const useHeartbreakerGameEngine = () => {
     onSetMultiplierToStopAt: (mult: string) => setMultiplierToStopAt(mult),
     onWithdraw: handleWithdraw,
     setRequestState,
+    onSortGameHistory: handleSortGameHistory,
     multiplierToStopAt,
     balance,
     mult,

@@ -2,6 +2,7 @@ import { createContext } from "react";
 import { useHeartbreakerGameEngine } from "../../components/heartbreaker/useHeartbreakerGameEngine";
 import { Socket } from "socket.io-client";
 import { RequestState } from "../hooks/useRequestState";
+import { IHeartbreakHistorySortOrder } from "../../interfaces/ISortOrder";
 
 export interface IHeartBreaker {
   onBet: (multiplierToStopAt: number, amount: number) => Promise<void>;
@@ -11,6 +12,7 @@ export interface IHeartBreaker {
   onSocketInit: (socket: Socket) => void;
   onSetMultiplierToStopAt: (mult: string) => void;
   setRequestState: (requestState: RequestState) => void;
+  onSortGameHistory: (val: IHeartbreakHistorySortOrder) => void;
   onWithdraw: (
     address: string,
     withdrawAmount: number,
@@ -29,6 +31,7 @@ export interface IHeartBreaker {
     crash: string;
     date_created: string;
   }[];
+
   leaderboard: {
     user_address: number;
     total_amount: string;
