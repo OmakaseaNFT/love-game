@@ -60,7 +60,6 @@ export const calculateStakedLiquidityWbtc = async (
   farmContract: LoveFarmAbi
 ) => {
   const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-  console.log("WBTCLOVEToken0");
 
   const usdBtcPoolContract = new ethers.Contract(
     USD_WBTC_POOL_ADDY,
@@ -84,7 +83,7 @@ export const calculateStakedLiquidityWbtc = async (
   }
 
   const WBTCInFarm =
-    (WBTCReserves * Number(lpBalanceFarm)) / Number(lpTotalSupply);
+    (WBTCReserves * Number(lpBalanceFarm)) / Number(lpTotalSupply) || 0;
   const WBTC_USDToken0 = await usdBtcPoolContract.token0();
   const WBTC_USDReserves = await usdBtcPoolContract.getReserves();
 
@@ -133,7 +132,7 @@ export const calculateStakedLiquidityPepe = async (
   }
 
   const PEPEInFarm =
-    (PEPEReserves * Number(lpBalanceFarm)) / Number(lpTotalSupply);
+    (PEPEReserves * Number(lpBalanceFarm)) / Number(lpTotalSupply) || 0;
 
   const PEPE_USDToken0 = await usdPepePoolContract.token0();
   const PEPE_USDReserves = await usdPepePoolContract.getReserves();
@@ -229,13 +228,7 @@ export async function calculateAPR(poolIndex: number) {
 export async function calculateAPRLoveWbtc(poolIndex: number) {
   const provider = new ethers.providers.Web3Provider((window as any).ethereum);
   const { loveFarmContract } = new AppContracts(provider);
-  const poolInfo = {
-    accLovePerShare: parseEther("0.000000000000000000"),
-    allocPoint: parseEther("0.000000000000000000"),
-    depositFeeBP: 1000,
-    lastRewardBlock: parseEther("0.000000000000000000"),
-    lpToken: "0xC149D5BbBf636006739754660eFEE3DAA1335dfe",
-  };
+  const poolInfo = await loveFarmContract.poolInfo(poolIndex);
 
   const LoveWbtcPoolAddy = poolInfo.lpToken;
 
@@ -278,13 +271,7 @@ export async function calculateAPRLoveWbtc(poolIndex: number) {
 export async function calculateAPRLovePepe(poolIndex: number) {
   const provider = new ethers.providers.Web3Provider((window as any).ethereum);
   const { loveFarmContract } = new AppContracts(provider);
-  const poolInfo = {
-    accLovePerShare: parseEther("0.000000000000000000"),
-    allocPoint: parseEther("0.000000000000000000"),
-    depositFeeBP: 1000,
-    lastRewardBlock: parseEther("0.000000000000000000"),
-    lpToken: "0xAEA41A9E1760fAe28f5C470a120e38501d6c1EdB",
-  };
+  const poolInfo = await loveFarmContract.poolInfo(poolIndex);
 
   const LovePepePoolAddy = poolInfo.lpToken;
 

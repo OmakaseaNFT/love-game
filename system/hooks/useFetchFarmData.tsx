@@ -42,37 +42,6 @@ export type GeneralPoolData = {
   poolIcon: string;
 };
 
-const mockPoolInfo = [
-  {
-    accLovePerShare: parseEther("0.000000000000000000"),
-    allocPoint: parseEther("0.000000000000000000"),
-    depositFeeBP: 1000,
-    lastRewardBlock: parseEther("0.000000000000000000"),
-    lpToken: "0xDD97FCe8441dABf221B330269750B18bA82b0CD6",
-  },
-  {
-    accLovePerShare: parseEther("0.000000000000000000"),
-    allocPoint: parseEther("0.000000000000000000"),
-    depositFeeBP: 1000,
-    lastRewardBlock: parseEther("0.000000000000000000"),
-    lpToken: "0xE24Ab719209A9844E59dBfEEe91ce7d8D482532e",
-  },
-  {
-    accLovePerShare: parseEther("0.000000000000000000"),
-    allocPoint: parseEther("0.000000000000000000"),
-    depositFeeBP: 1000,
-    lastRewardBlock: parseEther("0.000000000000000000"),
-    lpToken: "0xC149D5BbBf636006739754660eFEE3DAA1335dfe",
-  },
-  {
-    accLovePerShare: parseEther("0.000000000000000000"),
-    allocPoint: parseEther("0.000000000000000000"),
-    depositFeeBP: 1000,
-    lastRewardBlock: parseEther("0.000000000000000000"),
-    lpToken: "0xAEA41A9E1760fAe28f5C470a120e38501d6c1EdB",
-  },
-];
-
 export const useFetchFarmData = () => {
   const [farmData, setFarmData] = useState<GeneralPoolData[]>([]);
   const [poolDataLoading, setPoolDataLoading] = useState<boolean>(false);
@@ -82,8 +51,7 @@ export const useFetchFarmData = () => {
     try {
 
       /** TESTING */
-      const pool = 4
-      // const pool = await farmContract.poolLength();
+      const pool = await farmContract.poolLength();
       let poolInfo;
       let aprValue;
       let stakedLiquidity;
@@ -92,11 +60,7 @@ export const useFetchFarmData = () => {
       if (Number(pool) > 0) {
         for (let index = 0; index < Number(pool); index++) {
           // Get pool info from Farm contract.
-          // poolInfo = await farmContract.poolInfo(index);
-                /** TESTING */
-
-          poolInfo = mockPoolInfo[index];
-          console.log("POOL_INFO", poolInfo);
+          poolInfo = await farmContract.poolInfo(index);
 
           const totalAllocPoint = await farmContract.totalAllocPoint();
           const poolInfoReceipt = poolInfo.depositFeeBP / 10000;
@@ -162,7 +126,7 @@ export const useFetchFarmData = () => {
         }
 
         console.log(poolDataArr);
-        setFarmData(poolDataArr as unknown as GeneralPoolData[]);
+        setFarmData(poolDataArr);
         setPoolDataLoading(false);
       } else {
         setPoolDataLoading(false);
