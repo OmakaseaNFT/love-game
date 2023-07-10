@@ -265,6 +265,14 @@ export async function calculateAPRLoveWbtc(poolIndex: number) {
   const annualRewardInToken =
     (Number(lovePerBlock) * blocksPerYear * Number(allocPoint)) /
     Number(totalAllocPoint);
+
+  console.log("poolInfo", poolInfo);
+  console.log("loverReservesBN", loveReservesBN);
+  console.log("totalLiquidityLocked", totalLiquidityLocked);
+  console.log("totalLPSupply", totalLPSupply);
+  console.log("annualRewardInToken", annualRewardInToken);
+  console.log("totalLoveLocked", totalLoveLocked);
+
   const apr = (annualRewardInToken / Number(totalLoveLocked)) * 100;
   return Math.trunc(apr);
 }
@@ -305,7 +313,8 @@ export async function calculateAPRLovePepe(poolIndex: number) {
     .mul(loveReservesBN)
     .div(totalLPSupply);
   const annualRewardInToken =
-    (Number(lovePerBlock) * blocksPerYear * Number(allocPoint)) / Number(totalAllocPoint);
+    (Number(lovePerBlock) * blocksPerYear * Number(allocPoint)) /
+    Number(totalAllocPoint);
   const apr = (annualRewardInToken / Number(totalLoveLocked)) * 100;
   return Math.trunc(apr);
 }

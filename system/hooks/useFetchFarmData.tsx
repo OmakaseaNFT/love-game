@@ -49,7 +49,6 @@ export const useFetchFarmData = () => {
   const getPoolData = async (usdContract: any, farmContract: LoveFarmAbi) => {
     setPoolDataLoading(true);
     try {
-
       /** TESTING */
       const pool = await farmContract.poolLength();
       let poolInfo;
