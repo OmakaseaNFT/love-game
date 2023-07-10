@@ -13,6 +13,7 @@ export interface FileThemeCustomOptions {
   Paper: StaticImageData;
   Uniswap: StaticImageData;
   Wallet: StaticImageData;
+  startIcon: string;
   background: string;
   telegram: string;
   twitter: string;

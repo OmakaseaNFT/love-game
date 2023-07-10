@@ -12,6 +12,7 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     Paper,
     Uniswap,
     Wallet,
+    startIcon: '/assets/start-icon.png',
     background: '/assets/lovegame_background.png',
     telegram: '/assets/logo_telegram.png',
     twitter: '/assets/logo_twitter.png'

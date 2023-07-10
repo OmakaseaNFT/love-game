@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { thousandSeparator } from "../system/appUtils";
 import {
   ETHERSCAN_FAITH_LINK,
@@ -19,6 +19,7 @@ import { ExpandPoolUtilsButton } from "./ui/ExpandPoolUtilsButton";
 import { PoolDataDisplay } from "./ui/PoolDataDisplay";
 import { TransactionNotificationWrapper } from "./ui/TransactionNotificationWrapper";
 import { StakedLiquidityDataDisplay } from "./ui/StakedLiquidityDataDisplay";
+import { FileThemeContext } from "../system/context/FileThemeContext";
 
 interface ISingleStakePoolProps {
   fee: number;
@@ -48,6 +49,7 @@ export const SingleStakePool = ({
   address,
   onGetSingleStakingData,
 }: ISingleStakePoolProps) => {
+  const { files: { startIcon }} = useContext(FileThemeContext);
   const [expanded, setExpanded] = useState(true);
   const [isStakeVisible, setIsStakeVisible] = useState(true);
   const [stakeValue, setStakeValue] = useState<string>("");
@@ -150,7 +152,7 @@ export const SingleStakePool = ({
                 <div className={`w-[78%] ${boxStyle}`}>
                   <div className="w-full flex flex-row justify-between items-center px-1">
                     <Image
-                      src="/assets/start-icon.png"
+                      src={startIcon}
                       alt=""
                       width={20}
                       height={20}

@@ -40,13 +40,13 @@ const Screen = ({
     },
     {
       onClick: () => window.open(TWITTER_LINK, "_blank"),
-      icon: telegram,
+      icon: twitter,
       label: "Twitter",
       logoHeight: 60,
     },
     {
       onClick: () => window.open(TELEGRAM_LINK, "_blank"),
-      icon: twitter,
+      icon: telegram,
       label: "Telegram",
       logoHeight: 60,
     },

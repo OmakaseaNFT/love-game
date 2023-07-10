@@ -11,8 +11,6 @@ import Paper from "../../components/paper";
 import Farm from "../../components/farm";
 import Computer from "../../assets/computer.png";
 import Settings from "../../assets/settings.png";
-import PaperIcon from "../../assets/book.png";
-import FarmIcon from "../../assets/tree.png";
 import { useAccount } from "wagmi";
 import { ethers } from "ethers";
 import LoveFarmABI from "../../utils/lovefarm.json";
@@ -51,7 +49,7 @@ interface Content {
 
 const Win98 = (props: Props) => {
   const {
-    files: { wallpaper, setWallpaper, background },
+    files: { wallpaper, setWallpaper, background, Farm: FarmIcon, Paper: PaperIcon, startIcon },
   } = useContext(FileThemeContext);
   console.log({wallpaper: wallpaper ?? background})
   const [scale, setScale] = useState<string>();
@@ -290,10 +288,12 @@ const Win98 = (props: Props) => {
         </div>
         <div className="px-1 my-auto border-b-gray-300 items-center border-r-gray-300 border-l-gray-600 text-sm border-t-gray-600 max-w-[160px] w-full h-[30px] border-[3px] text-[18px] rounded-[2px] flex flex-row justify-center items-center mr-2">
           <div>
-            <img
+            <Image
               alt=""
               // quality={100}
-              src="/assets/start-icon.png"
+              width={20}
+              height={20}
+              src={startIcon}
               className="m-auto w-[20px] h-[20px] mr-2"
             />
           </div>

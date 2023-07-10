@@ -12,6 +12,7 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     Paper,
     Uniswap,
     Wallet,
+    startIcon: '/assets/skins/slavecoin/start-icon.gif',
     background: '/assets/skins/slavecoin/slavecoin_background.png',
     telegram: '/assets/logo_telegram.png',
     twitter: '/assets/logo_twitter.png'

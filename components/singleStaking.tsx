@@ -1,6 +1,6 @@
 import { MdArrowRight } from "react-icons/md";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { ethers } from "ethers";
 import PoolABI from "../utils/poolABI.json";
@@ -18,6 +18,7 @@ import { AppContracts } from "../system/AppContracts";
 import { FaithAbi } from "../system/FaithAbi";
 import { LoveTokenAbi } from "../system/LoveTokenAbi";
 import { set } from "mongoose";
+import { FileThemeContext } from "../system/context/FileThemeContext";
 
 const listLive = [1];
 type PoolData = {
@@ -33,6 +34,7 @@ type PoolData = {
   lovePerUser: any;
 };
 const SingleStaking = () => {
+  const { files: { startIcon }} = useContext(FileThemeContext);
   const [expanded, setExpanded] = useState<Number>(-1);
   const [farmData, setFarmData] = useState<any>([]);
   const [listPool, setListPool] = useState<any>([]);
@@ -290,7 +292,7 @@ const SingleStaking = () => {
                     <div className={`w-[78%] ${boxStyle}`}>
                       <div className="w-full flex flex-row justify-between items-center px-1">
                         <Image
-                          src="/assets/start-icon.png"
+                          src={startIcon}
                           alt=""
                           width={20}
                           height={20}

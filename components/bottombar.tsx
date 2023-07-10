@@ -1,15 +1,14 @@
 import Image from "next/image";
 import Computer from "../assets/computer.png";
-import Tree from "../assets/three.png";
-import Paper from "../assets/book.png";
 import Setting from "../assets/settings.png";
 import Shutdown from "../assets/shutdown.png";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { MdArrowRight } from "react-icons/md";
 import { StartMenuListItem } from "./startMenuListItem";
 import { useCopyText } from "../system/hooks/useCopyText";
 import { truncateEthAddress } from "../system/appUtils";
 import { contractAddressLove } from "../utils/constant";
+import { FileThemeContext } from "../system/context/FileThemeContext";
 
 interface Props {
   setSelected: (selected: string) => void;
@@ -17,11 +16,12 @@ interface Props {
 
 const BottomBar = (props: Props) => {
   const [showSide, setShowSide] = useState<boolean>(false);
+  const { files: { Farm, Paper, startIcon }} = useContext(FileThemeContext);
   const { onCopyText, copied } = useCopyText();
   const list = [
     {
       menu: "farm",
-      icon: Tree,
+      icon: Farm,
       name: "<u>F</u>arm",
     },
     {
@@ -31,7 +31,7 @@ const BottomBar = (props: Props) => {
     },
     {
       menu: "heartbreak",
-      icon: "/assets/start-icon.png",
+      icon: '/assets/start-icon.png',
       name: "<u>H</u>EARTBREAK",
     },
     {

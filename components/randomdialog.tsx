@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { FileThemeContext } from "../system/context/FileThemeContext";
+import Image from "next/image";
 
 interface LoveAlertsProps {
   hide: boolean;
@@ -21,6 +23,7 @@ const LoveAlerts: React.FC<LoveAlertsProps> = ({
   setHide,
   setFinish,
 }) => {
+  const { files: { startIcon }} = useContext(FileThemeContext);
   const [count, setCount] = useState<number>(0);
   const [boxes, setBoxes] = useState<Box[]>([]);
   const [windWH, setWindWH] = useState<any>(null);
@@ -119,11 +122,12 @@ const LoveAlerts: React.FC<LoveAlertsProps> = ({
           <div className="flex flex-row">
             <div className="w-[30%] flex">
               {box.msg == "LOVE" ? (
-                <img
-                  src="/assets/start-icon.png"
+                <Image
+                  src={startIcon}
                   onClick={() => boxAction(box)}
                   className="my-auto ml-[20px]"
                   width={50}
+                  height={50}
                   alt=""
                 />
               ) : (
