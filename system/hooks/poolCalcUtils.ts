@@ -287,14 +287,14 @@ export async function calculateAPRLovePepe(poolIndex: number) {
 
   const blocksPerYear = 2591500;
 
-  const PEPE_TOKEN_ADDRESS = await lpContract.token0();
-  const LOVE_WBTCReserves = await lpContract.getReserves();
+  const LOVE_PEPE_Token0 = await lpContract.token0();
+  const LOVE_PEPEReserves = await lpContract.getReserves();
   let loveReservesBN;
 
-  if (PEPE_TOKEN_ADDRESS == contractAddressLove) {
-    loveReservesBN = LOVE_WBTCReserves._reserve0;
+  if (LOVE_PEPE_Token0 == contractAddressLove) {
+    loveReservesBN = LOVE_PEPEReserves._reserve0;
   } else {
-    loveReservesBN = LOVE_WBTCReserves._reserve1;
+    loveReservesBN = LOVE_PEPEReserves._reserve1;
   }
 
   const lovePerBlock = await loveFarmContract.lovePerBlock();
