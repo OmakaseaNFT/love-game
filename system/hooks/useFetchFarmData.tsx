@@ -164,7 +164,7 @@ export const useFetchFarmData = () => {
         }
 
         console.log(poolDataArr);
-        setFarmData(poolDataArr);
+        setFarmData(poolDataArr as unknown as GeneralPoolData[]);
         setPoolDataLoading(false);
       } else {
         setPoolDataLoading(false);
