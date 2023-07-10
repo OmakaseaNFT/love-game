@@ -1,9 +1,16 @@
 import { ethers } from "ethers";
-import { contractAddressLove, ETHUSDTPoolAddy, USDCAddress } from "../../utils/constant";
+import {
+  contractAddressLove,
+  ETHUSDTPoolAddy,
+  USD_PEPE_POOL_ADDY,
+  USD_WBTC_POOL_ADDY,
+  USDCAddress,
+} from "../../utils/constant";
 import { LoveFarmAbi } from "../LoveFarmAbi";
 import { PoolAbi } from "../PoolAbi";
 import { AppContracts } from "../AppContracts";
 import axios from "axios";
+import { parseEther } from "viem";
 
 const lpContractAbi = require("../../utils/poolABI.json");
 
@@ -49,14 +56,23 @@ export const calculateStakedLiquidityEthLove = async (
 };
 
 export const calculateStakedLiquidityWbtc = async (
-  usdContract: PoolAbi,
   lpContract: PoolAbi,
   farmContract: LoveFarmAbi
 ) => {
+  const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+  console.log("WBTCLOVEToken0");
+
+  const usdBtcPoolContract = new ethers.Contract(
+    USD_WBTC_POOL_ADDY,
+    lpContractAbi,
+    provider
+  ) as PoolAbi;
+
   const lpBalanceFarm = await lpContract.balanceOf(farmContract.address);
   const lpTotalSupply = await lpContract.totalSupply();
   const WBTCLOVEToken0 = await lpContract.token0();
   const WBTCLOVEReserves = await lpContract.getReserves();
+
   let WBTCReserves: any;
   let LOVEReserves: any;
   if (WBTCLOVEToken0 == process.env.NEXT_PUBLIC_CONTRACT_WBTC) {
@@ -69,19 +85,39 @@ export const calculateStakedLiquidityWbtc = async (
 
   const WBTCInFarm =
     (WBTCReserves * Number(lpBalanceFarm)) / Number(lpTotalSupply);
-  const response = await axios.get("/api/prices");
+  const WBTC_USDToken0 = await usdBtcPoolContract.token0();
+  const WBTC_USDReserves = await usdBtcPoolContract.getReserves();
 
-  const BTCPriceUSD = response.data.price;
+  let USDAmount: any;
+  let WBTCAmount: any;
+  if (WBTC_USDToken0 == USDCAddress) {
+    USDAmount = ethers.utils.formatUnits(WBTC_USDReserves._reserve0, 6);
+    WBTCAmount = ethers.utils.formatUnits(WBTC_USDReserves._reserve1, 8);
+  } else {
+    USDAmount = ethers.utils.formatUnits(WBTC_USDReserves._reserve1, 6);
+    WBTCAmount = ethers.utils.formatUnits(WBTC_USDReserves._reserve0, 8);
+  }
+
+  const BTCPriceUSD = USDAmount / WBTCAmount;
+
   const BTCValueFarmUSD = WBTCInFarm * BTCPriceUSD;
+
   const totalValue = BTCValueFarmUSD * 2;
   return totalValue;
 };
 
 export const calculateStakedLiquidityPepe = async (
-  usdContract: PoolAbi,
   lpContract: PoolAbi,
   farmContract: LoveFarmAbi
 ) => {
+  const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+
+  const usdPepePoolContract = new ethers.Contract(
+    USD_PEPE_POOL_ADDY,
+    lpContractAbi,
+    provider
+  ) as PoolAbi;
+
   const lpBalanceFarm = await lpContract.balanceOf(farmContract.address);
   const lpTotalSupply = await lpContract.totalSupply();
   const PEPELOVEToken0 = await lpContract.token0();
@@ -98,9 +134,21 @@ export const calculateStakedLiquidityPepe = async (
 
   const PEPEInFarm =
     (PEPEReserves * Number(lpBalanceFarm)) / Number(lpTotalSupply);
-  const response = await axios.get("/api/prices?token=PEPE");
 
-  const PEPEPriceUSD = response.data.price;
+  const PEPE_USDToken0 = await usdPepePoolContract.token0();
+  const PEPE_USDReserves = await usdPepePoolContract.getReserves();
+
+  let USDAmount: any;
+  let PEPEAmount: any;
+  if (PEPE_USDToken0 == USDCAddress) {
+    USDAmount = ethers.utils.formatUnits(PEPE_USDReserves._reserve0, 6);
+    PEPEAmount = ethers.utils.formatUnits(PEPE_USDReserves._reserve1, 18);
+  } else {
+    USDAmount = ethers.utils.formatUnits(PEPE_USDReserves._reserve1, 6);
+    PEPEAmount = ethers.utils.formatUnits(PEPE_USDReserves._reserve0, 18);
+  }
+
+  const PEPEPriceUSD = USDAmount / PEPEAmount;
   const PEPEValueFarmUSD = PEPEInFarm * PEPEPriceUSD;
   const totalValue = PEPEValueFarmUSD * 2;
   return totalValue;
@@ -128,18 +176,6 @@ export const calculateStakedLiquidityUSDT = async (
 
   const USDTInFarm =
     (USDTReserves * Number(lpBalanceFarm)) / Number(lpTotalSupply);
-  const ETHUSDToken0 = await usdContract.token0();
-  const ETHUSDReserves = await usdContract.getReserves();
-
-  let USDAmount: any;
-  let ETHAmount: any;
-  if (ETHUSDToken0 == USDCAddress) {
-    USDAmount = ethers.utils.formatUnits(ETHUSDReserves._reserve0, 6);
-    ETHAmount = ethers.utils.formatUnits(ETHUSDReserves._reserve1, 18);
-  } else {
-    USDAmount = ethers.utils.formatUnits(ETHUSDReserves._reserve1, 6);
-    ETHAmount = ethers.utils.formatUnits(ETHUSDReserves._reserve0, 18);
-  }
 
   const ETHValueFarmUSD = USDTInFarm;
   const totalValue = ETHValueFarmUSD * 2;
@@ -193,7 +229,13 @@ export async function calculateAPR(poolIndex: number) {
 export async function calculateAPRLoveWbtc(poolIndex: number) {
   const provider = new ethers.providers.Web3Provider((window as any).ethereum);
   const { loveFarmContract } = new AppContracts(provider);
-  const poolInfo = await loveFarmContract.poolInfo(1);
+  const poolInfo = {
+    accLovePerShare: parseEther("0.000000000000000000"),
+    allocPoint: parseEther("0.000000000000000000"),
+    depositFeeBP: 1000,
+    lastRewardBlock: parseEther("0.000000000000000000"),
+    lpToken: "0xC149D5BbBf636006739754660eFEE3DAA1335dfe",
+  };
 
   const LoveWbtcPoolAddy = poolInfo.lpToken;
 
@@ -223,19 +265,26 @@ export async function calculateAPRLoveWbtc(poolIndex: number) {
     loveFarmContract.address
   );
   const totalLPSupply = await lpContract.totalSupply();
-  const totalLoveLocked = totalLiquidityLocked
-    .mul(loveReservesBN)
-    .div(totalLPSupply);
+  const totalLoveLocked =
+    loveReservesBN.isZero() || totalLPSupply.isZero()
+      ? 0
+      : totalLiquidityLocked.mul(loveReservesBN).div(totalLPSupply);
   const annualRewardInToken =
-    (Number(lovePerBlock) * blocksPerYear * allocPoint) / totalAllocPoint;
+    (Number(lovePerBlock) * blocksPerYear * Number(allocPoint)) /
+    Number(totalAllocPoint);
   const apr = (annualRewardInToken / Number(totalLoveLocked)) * 100;
   return Math.trunc(apr);
-
 }
 export async function calculateAPRLovePepe(poolIndex: number) {
   const provider = new ethers.providers.Web3Provider((window as any).ethereum);
   const { loveFarmContract } = new AppContracts(provider);
-  const poolInfo = await loveFarmContract.poolInfo(1);
+  const poolInfo = {
+    accLovePerShare: parseEther("0.000000000000000000"),
+    allocPoint: parseEther("0.000000000000000000"),
+    depositFeeBP: 1000,
+    lastRewardBlock: parseEther("0.000000000000000000"),
+    lpToken: "0xAEA41A9E1760fAe28f5C470a120e38501d6c1EdB",
+  };
 
   const LovePepePoolAddy = poolInfo.lpToken;
 
@@ -269,7 +318,7 @@ export async function calculateAPRLovePepe(poolIndex: number) {
     .mul(loveReservesBN)
     .div(totalLPSupply);
   const annualRewardInToken =
-    (Number(lovePerBlock) * blocksPerYear * allocPoint) / totalAllocPoint;
+    (Number(lovePerBlock) * blocksPerYear * Number(allocPoint)) / Number(totalAllocPoint);
   const apr = (annualRewardInToken / Number(totalLoveLocked)) * 100;
   return Math.trunc(apr);
 }

@@ -139,13 +139,11 @@ export const useFetchFarmData = () => {
             );
           } else if (index === 2) {
             stakedLiquidity = await calculateStakedLiquidityWbtc(
-              usdContract,
               lpContract,
               farmContract
             );
           } else if (index === 3) {
             stakedLiquidity = await calculateStakedLiquidityPepe(
-              usdContract,
               lpContract,
               farmContract
             );
