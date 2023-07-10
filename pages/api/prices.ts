@@ -48,14 +48,18 @@ async function getPepeToUsdPrice() {
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { token } = req.query;
-  let price;
-  if (token === "PEPE") {
-    price = await getPepeToUsdPrice();
+  try {
+    let price;
+    if (token === "PEPE") {
+      price = await getPepeToUsdPrice();
+      res.status(200).json({ price });
+    } else {
+      price = await getBtcToUsdPrice();
+    }
     res.status(200).json({ price });
-  } else {
-    price = await getBtcToUsdPrice();
+  } catch (error) {
+    res.status(500).json({ error });
   }
-  res.status(200).json({ price });
 };
 
 export default handler;
