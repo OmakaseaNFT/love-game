@@ -406,7 +406,7 @@ export const Pool = ({
               <button
                 onClick={() => {
                   const url = `https://app.uniswap.org/#/add/v2/${contractAddressLove}/${
-                    poolIndex === 0 ? "ETH" : USDT_CONTRACT_ADDRESS
+                   poolContractAddy(poolIndex)
                   }`;
                   window.open(url, "_blank");
                 }}
