@@ -57,42 +57,45 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     })
     .catch((err) => console.log(err));
 
-  try {
-    const price = await TokenPrice.findOne({ symbol: "PEPE" });
-    if (!price) {
-      const pepeInUsd = await getPepeToUsdPrice();
-      const currentTimestamp = Date.now();
-      const newPrice = new TokenPrice({
-        symbol: "PEPE",
-        price: pepeInUsd,
-        created_at: currentTimestamp,
-      });
-      newPrice.save();
-      res.status(200).json({ price: pepeInUsd });
-    } else if (price) {
-      const currentTimestamp = Date.now();
-      const fiveMinutesInMilliseconds = 5 * 60 * 1000;
+  const { token } = req.query;
 
-      const savedTimestamp = price.created_at; // Get the timestamp saved in the database
-
-      if (currentTimestamp > savedTimestamp + fiveMinutesInMilliseconds) {
-        // 5 minutes have elapsed
+  if (token === "PEPE") {
+    try {
+      const price = await TokenPrice.findOne({ symbol: "PEPE" });
+      if (!price) {
         const pepeInUsd = await getPepeToUsdPrice();
-        await TokenPrice.findOneAndUpdate({
+        const currentTimestamp = Date.now();
+        const newPrice = new TokenPrice({
           symbol: "PEPE",
           price: pepeInUsd,
-          created_at: Date.now(),
+          created_at: currentTimestamp,
         });
+        newPrice.save();
         res.status(200).json({ price: pepeInUsd });
-      } else {
-        // 5 minutes have not elapsed yet
-        const pepeInUsd = price.price;
-        res.json({ price: pepeInUsd });
+      } else if (price) {
+        const currentTimestamp = Date.now();
+        const fiveMinutesInMilliseconds = 5 * 60 * 1000;
+        const savedTimestamp = price.created_at; // Get the timestamp saved in the database
+
+        if (currentTimestamp > savedTimestamp + fiveMinutesInMilliseconds) {
+          // 5 minutes have elapsed
+          const pepeInUsd = await getPepeToUsdPrice();
+          await TokenPrice.findOneAndUpdate({
+            symbol: "PEPE",
+            price: pepeInUsd,
+            created_at: Date.now(),
+          });
+          res.status(200).json({ price: pepeInUsd });
+        } else {
+          // 5 minutes have not elapsed yet
+          const pepeInUsd = price.price;
+          res.json({ price: pepeInUsd });
+        }
       }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
     }
-  } catch (error) {
-    console.error(error);
-    res.status(500).send(error);
   }
 };
 
