@@ -19,8 +19,6 @@ async function getBtcToUsdPrice() {
         },
       }
     );
-    console.log("response", response.data.data[0].quote["USDT"].price);
-
     return response.data.data[0].quote["USDT"].price;
   } catch (error) {
     console.log("error", error);
@@ -42,8 +40,6 @@ async function getPepeToUsdPrice() {
         },
       }
     );
-    console.log("response", response.data.data[0].quote["USDT"].price);
-
     return response.data.data[0].quote["USDT"].price;
   } catch (error) {
     console.log("error", error);
