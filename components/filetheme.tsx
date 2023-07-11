@@ -25,7 +25,7 @@ export const FileTheme = ({}: FileThemeProps) => {
         <>
           <div
             onClick={() => {
-              !showBar && setShowBar(!showBar);
+              setShowBar(!showBar);
             }}
             className="relative cursor-pointer bg-white border-b-gray-300 border-r-gray-300 border-l-gray-600 text-sm border-t-gray-600 max-w-[500px] w-full h-[24px] border-[2px] text-[18px] rounded-[2px] flex flex-row justify-between items-center mr-2"
           >

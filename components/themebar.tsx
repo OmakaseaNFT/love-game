@@ -16,7 +16,6 @@ import {
 
 interface Props {
   setSelected: (selected: any) => void;
-  setShowBar: (showBar: any) => void;
 }
 
 const ThemeBar = (props: Props) => {
@@ -34,7 +33,6 @@ const ThemeBar = (props: Props) => {
              className="w-full"
              onClick={() => {
               props.setSelected(themeKey)
-              props.setShowBar?.(false)
             }}>
               {theme.name}
             </button>
