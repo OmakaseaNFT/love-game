@@ -10,7 +10,9 @@ import { AppContracts } from "../AppContracts";
 import { LoveFarmAbi } from "../LoveFarmAbi";
 import { PoolAbi } from "../PoolAbi";
 import {
+  calculateAPR,
   calculateAPRLovePepe,
+  calculateAPRLoveUsdt,
   calculateAPRLoveWbtc,
   calculateStakedLiquidityEthLove,
   calculateStakedLiquidityPepe,
@@ -148,94 +150,6 @@ export const useFetchFarmData = () => {
       fetchPoolData();
     }
   }, []);
-
-  async function calculateAPR(poolIndex: number) {
-    const provider = new ethers.providers.Web3Provider(
-      (window as any).ethereum
-    );
-    const { loveFarmContract } = new AppContracts(provider);
-    const poolInfo = await loveFarmContract.poolInfo(0);
-
-    const LOVEETHPoolAddy = poolInfo.lpToken;
-
-    const lpContract = new ethers.Contract(
-      LOVEETHPoolAddy,
-      lpContractAbi,
-      provider
-    );
-
-    // const USDETHPool = new ethers.Contract(USDETHPoolAddy, poolABI, deployer);
-    const totalAllocPoint: any = await loveFarmContract.totalAllocPoint();
-    const allocPoint: any = poolInfo.allocPoint;
-
-    const blocksPerYear = 2591500;
-
-    const LOVEETHToken0 = await lpContract.token0();
-    const LOVEETHReserves = await lpContract.getReserves();
-    let loveReservesBN;
-
-    if (LOVEETHToken0 == contractAddressLove) {
-      loveReservesBN = LOVEETHReserves._reserve0;
-    } else {
-      loveReservesBN = LOVEETHReserves._reserve1;
-    }
-
-    const lovePerBlock = await loveFarmContract.lovePerBlock();
-    const totalLiquidityLocked = await lpContract.balanceOf(
-      loveFarmContract.address
-    );
-    const totalLPSupply = await lpContract.totalSupply();
-    const totalLoveLocked = totalLiquidityLocked
-      .mul(loveReservesBN)
-      .div(totalLPSupply);
-    const annualRewardInToken =
-      (Number(lovePerBlock) * blocksPerYear * allocPoint) / totalAllocPoint;
-    const apr = (annualRewardInToken / Number(totalLoveLocked)) * 100;
-    return Math.trunc(apr);
-  }
-
-  async function calculateAPRLoveUsdt(poolIndex: number) {
-    const ETHUSDTPoolAddy = "0xE24Ab719209A9844E59dBfEEe91ce7d8D482532e";
-    const farm = "0xFb063b1ae6471E6795d6ad1FC7f47c1cAb1f3422";
-    const contractAddressLove = "0xB22C05CeDbF879a661fcc566B5a759d005Cf7b4C";
-    const provider = new ethers.providers.Web3Provider(
-      (window as any).ethereum
-    );
-    const lpContract = new ethers.Contract(
-      ETHUSDTPoolAddy,
-      lpContractAbi,
-      provider
-    );
-    const { loveFarmContract } = new AppContracts(provider);
-    const poolInfo = await loveFarmContract.poolInfo(1);
-    const totalAllocPoint: any = await loveFarmContract.totalAllocPoint();
-    const allocPoint: any = poolInfo.allocPoint;
-
-    const blocksPerYear = 2591500;
-
-    const ETHUSDTToken0 = await lpContract.token0();
-    const ETHUSDTReserves = await lpContract.getReserves();
-    let loveReservesBN;
-
-    if (ETHUSDTToken0 == contractAddressLove) {
-      loveReservesBN = ETHUSDTReserves._reserve0;
-    } else {
-      loveReservesBN = ETHUSDTReserves._reserve1;
-    }
-
-    const lovePerBlock = await loveFarmContract.lovePerBlock();
-    const totalLiquidityLocked = await lpContract.balanceOf(
-      loveFarmContract.address
-    );
-    const totalLPSupply = await lpContract.totalSupply();
-    const totalLoveLocked = totalLiquidityLocked
-      .mul(loveReservesBN)
-      .div(totalLPSupply);
-    const annualRewardInToken =
-      (Number(lovePerBlock) * blocksPerYear * allocPoint) / totalAllocPoint;
-    const apr = (annualRewardInToken / Number(totalLoveLocked)) * 100;
-    return apr;
-  }
 
   return {
     onGetFarmData: fetchPoolData,

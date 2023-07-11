@@ -10,6 +10,7 @@ import {
 import { AppContracts } from "../AppContracts";
 import { PoolAbi } from "../PoolAbi";
 import { LoveFarmAbi } from "../LoveFarmAbi";
+import axios from "axios";
 
 const lpContractAbi = require("../../utils/poolABI.json");
 
@@ -304,16 +305,6 @@ export const useFetchUserPoolData = () => {
     address: string,
     poolIndex: number
   ) => {
-    const provider = new ethers.providers.Web3Provider(
-      (window as any).ethereum
-    );
-
-    const usdPepePoolContract = new ethers.Contract(
-      USD_PEPE_POOL_ADDY,
-      lpContractAbi,
-      provider
-    ) as PoolAbi;
-
     const userInfo = await farmContract.userInfo(poolIndex, address);
     const lpBalanceUser = userInfo.amount;
     const lpTotalSupply = await lpContract.totalSupply();
@@ -337,20 +328,8 @@ export const useFetchUserPoolData = () => {
       (LOVEReserves * Number(lpBalanceUser.toString())) /
       Number(lpTotalSupply.toString());
 
-    const PEPE_USDToken0 = await usdPepePoolContract.token0();
-    const PEPE_USDReserves = await usdPepePoolContract.getReserves();
-
-    let USDAmount: any;
-    let PEPEAmount: any;
-    if (PEPE_USDToken0 == USDCAddress) {
-      USDAmount = ethers.utils.formatUnits(PEPE_USDReserves._reserve0, 6);
-      PEPEAmount = ethers.utils.formatUnits(PEPE_USDReserves._reserve1, 18);
-    } else {
-      USDAmount = ethers.utils.formatUnits(PEPE_USDReserves._reserve1, 6);
-      PEPEAmount = ethers.utils.formatUnits(PEPE_USDReserves._reserve0, 18);
-    }
-
-    const PEPEPriceUSD = USDAmount / PEPEAmount;
+    const response = await axios.get("/api/prices?token=PEPE");
+    const PEPEPriceUSD = response.data.price;
     const PEPEValueUserUSD = PEPEPerUser * PEPEPriceUSD;
 
     const totalValue = PEPEValueUserUSD * 2;
