@@ -227,22 +227,19 @@ export const Pool = ({
             </div>
             <div className="w-full">
               <div className="w-full flex flex-row">
-                <div className={`w-[34%] ${boxStyle2}`}>
+                <div className={`w-[50%] ${boxStyle2}`}>
                   <StakedLiquidityDataDisplay
                     title="Staked Liquidity"
                     data={`$${thousandSeparator(pool.stakedLiquidity)}`}
                   />
                 </div>
-                <div className={`w-[22%] ${boxStyle2}`}>
-                  <PoolDataDisplay title="Multiplier" data="1" />
-                </div>
-                <div className={`w-[22%] ${boxStyle2}`}>
+                <div className={`w-[25%] ${boxStyle2}`}>
                   <PoolDataDisplay
                     title="Available"
                     data={userPoolData?.lpAvailable.toString() || "NA"}
                   />
                 </div>
-                <div className={`w-[22%] ${boxStyle2}`}>
+                <div className={`w-[25%] ${boxStyle2}`}>
                   <PoolDataDisplay
                     title="Staked"
                     data={userPoolData?.stakedValue.toString() || "NA"}
