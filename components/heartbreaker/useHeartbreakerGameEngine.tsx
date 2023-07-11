@@ -38,10 +38,7 @@ export const useHeartbreakerGameEngine = () => {
   const [gameTimer, setGameTimer] = useState<any>(0);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const { requestState, setRequestState } = useRequestState();
-  const [heartbreakHistorySortOrder, setHeartbreakHistorySortOrder] = useState<IHeartbreakHistorySortOrder>({
-    sortBy: 'total_amount',
-    order: 'DESC',
-  });
+  const [heartbreakHistorySortOrder, setHeartbreakHistorySortOrder] = useState<IHeartbreakHistorySortOrder>();
 
   const { address } = useAccount();
 
@@ -113,11 +110,15 @@ export const useHeartbreakerGameEngine = () => {
   };
 
   const handleGetGameHistory = async (sortOrder?: IHeartbreakHistorySortOrder) => {
+    console.log('~~~~~ handleGetGameHistory heartbreakHistorySortOrder', heartbreakHistorySortOrder);
     if (!sortOrder) {
       sortOrder = heartbreakHistorySortOrder
+    } else {
+      setHeartbreakHistorySortOrder(sortOrder);
     }
+    console.log('sortOrder', sortOrder);
     await axios
-      .get(`${BE_URL}/heartbreakGames?sortby=${sortOrder.sortBy}&order=${sortOrder.order}`)
+      .get(`${BE_URL}/heartbreakGames?sortby=${sortOrder?.sortBy ?? 'total_amount'}&order=${sortOrder?.order ?? 'DESC'}`)
       .then((res) => {
         setGameHistory(res.data);
       })
@@ -127,7 +128,6 @@ export const useHeartbreakerGameEngine = () => {
   };
 
   const handleSortGameHistory = (val: IHeartbreakHistorySortOrder) => {
-    setHeartbreakHistorySortOrder(val);
     handleGetGameHistory(val);
   }
 
