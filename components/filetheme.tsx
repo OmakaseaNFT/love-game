@@ -1,38 +1,52 @@
-import { useContext } from "react";
-import { FileThemeContext, themeMap, FileTheme as FileThemeType } from "../system/context/FileThemeContext";
+import { useContext, useState } from "react";
+import {
+  FileThemeContext,
+  themeMap,
+  FileTheme as FileThemeType,
+} from "../system/context/FileThemeContext";
 import Image from "next/image";
+import ThemeBar from "./themebar";
 
 interface FileThemeProps {}
 export const FileTheme = ({}: FileThemeProps) => {
-  const { setFileTheme, files: { startIcon } } = useContext(FileThemeContext);
+  const {
+    setFileTheme,
+    fileTheme,
+  } = useContext(FileThemeContext);
+
+  const [showBar, setShowBar] = useState(false);
+
   return (
-    <div>
-      <div className="px-1 my-auto border-b-gray-300 items-center border-r-gray-300 border-l-gray-600 text-sm border-t-gray-600 max-w-[160px] w-full h-[30px] border-[3px] text-[18px] rounded-[2px] flex flex-row justify-center items-center mr-2">
-        <div>
-          <Image
-            alt=""
-            // quality={100}
-            width={20}
-            height={20}
-            src={startIcon}
-            className="m-auto w-[20px] h-[20px] mr-2"
-          />
+    <div className="px-6">
+      <div className="flex flex-row text-center gap-5 pt-3">
+        <div className="text-[14px] my-auto">
+          <u>T</u>heme:
         </div>
-        <div className="text-[11px] truncate mb-0">
-          = {111} ETH/${111}
-        </div>
-      </div>
-      {Object.keys(themeMap).map((themeKey) => {
-        const theme = themeMap[themeKey as FileThemeType];
-        return (
-          <button
-            key={theme.name}
-            onClick={() => setFileTheme(themeKey as FileThemeType)}
+        <>
+          <div
+            onClick={() => {
+              !showBar && setShowBar(!showBar);
+            }}
+            className="relative cursor-pointer bg-white border-b-gray-300 border-r-gray-300 border-l-gray-600 text-sm border-t-gray-600 max-w-[500px] w-full h-[24px] border-[2px] text-[18px] rounded-[2px] flex flex-row justify-between items-center mr-2"
           >
-            {theme.name}
-          </button>
-        )
-      })}
+            <div className="text-[14px] mb-0 pl-2">
+              {themeMap[fileTheme].name}
+            </div>
+            <Image
+              src={"/assets/win98ArrowDown.png"}
+              width={20}
+              height={20}
+              alt="start icon"
+              className="select-none"
+            />
+            {showBar ? (
+              <div className="absolute z-50 mt-[67px] w-full">
+                <ThemeBar setSelected={setFileTheme} setShowBar={setShowBar} />
+              </div>
+            ) : null}
+          </div>
+        </>
+      </div>
     </div>
   );
 };

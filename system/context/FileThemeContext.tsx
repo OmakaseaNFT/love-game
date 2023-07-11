@@ -20,20 +20,17 @@ export interface FileThemeCustomOptions {
   twitter: string;
 }
 
-interface FileThemeContextOptions extends FileThemeCustomOptions {
-  wallpaper: string;
-  setWallpaper: (wallpaper: string) => void;
-}
-
 export interface IFileTheme {
   fileTheme: FileTheme;
   setFileTheme: (id: FileTheme) => void;
-  files: FileThemeContextOptions;
+  files: FileThemeCustomOptions;
+  wallpaper?: string;
+  setWallpaper: (wallpaper: string) => void;
 }
 
 const defaultTheme: FileTheme = "love";
 
-export const themeMap: { [key in FileTheme]: Partial<FileThemeContextOptions> } = {
+export const themeMap: { [key in FileTheme]: Partial<FileThemeCustomOptions> } = {
   love: Love,
   "vaporwave-arcade": VaporwaveArcade,
 };
@@ -43,14 +40,11 @@ export const FileThemeContext = createContext<IFileTheme>({} as IFileTheme);
 export const FileThemeProvider = ({ children }: { children: any }) => {
   const [fileTheme, setFileTheme] = React.useState<FileTheme>("love");
   const [wallpaper, setWallpaper] = React.useState<string>();
-
   const files = React.useMemo(() => {
     return {
       ...themeMap[defaultTheme],
       ...themeMap[fileTheme],
-      setWallpaper,
-      wallpaper,
-    } as FileThemeContextOptions;
+    } as FileThemeCustomOptions;
   }, [fileTheme]);
   return (
     <FileThemeContext.Provider
@@ -58,6 +52,8 @@ export const FileThemeProvider = ({ children }: { children: any }) => {
         fileTheme,
         setFileTheme,
         files,
+        setWallpaper,
+        wallpaper,
       }}
     >
       {children}

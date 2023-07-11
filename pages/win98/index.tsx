@@ -49,9 +49,11 @@ interface Content {
 
 const Win98 = (props: Props) => {
   const {
-    files: { wallpaper, setWallpaper, background, Farm: FarmIcon, Paper: PaperIcon, startIcon },
+    files: { background, Farm: FarmIcon, Paper: PaperIcon, startIcon },
+    wallpaper,
+    setWallpaper,
   } = useContext(FileThemeContext);
-  console.log({wallpaper: wallpaper ?? background})
+  console.log({ wallpaper, background });
   const [scale, setScale] = useState<string>();
   const [start, setStart] = useState<boolean>(false);
   const [showBar, setShowBar] = useState<boolean>(false);
@@ -159,7 +161,9 @@ const Win98 = (props: Props) => {
       component: (
         <ControlPanel
           backgroundImage={wallpaper ?? background}
-          onChangeBG={(val: string) => setWallpaper(val)}
+          onChangeBG={(val: string) => {
+            setWallpaper(val);
+          }}
           closeMe={closeContent}
         />
       ),
