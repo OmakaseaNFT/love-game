@@ -41,7 +41,7 @@ export const FileTheme = ({}: FileThemeProps) => {
             />
             {showBar ? (
               <div className="absolute z-50 mt-[67px] w-full">
-                <ThemeBar setSelected={setFileTheme} setShowBar={setShowBar} />
+                <ThemeBar setSelected={setFileTheme} />
               </div>
             ) : null}
           </div>
