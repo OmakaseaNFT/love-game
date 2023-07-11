@@ -7,6 +7,7 @@ import Wallet from '../../assets/wallet.png'
 import { FileThemeCustomOptions } from '../../system/context/FileThemeContext'
 
 const themeMap : Partial<FileThemeCustomOptions> = {
+    name: 'Default',
     Etherscan,
     Farm,
     Paper,

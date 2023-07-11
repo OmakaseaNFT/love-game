@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { FileThemeContext } from "../system/context/FileThemeContext";
+import { FileThemeContext, themeMap, FileTheme as FileThemeType } from "../system/context/FileThemeContext";
 import Image from "next/image";
 
 interface FileThemeProps {}
@@ -22,8 +22,17 @@ export const FileTheme = ({}: FileThemeProps) => {
           = {111} ETH/${111}
         </div>
       </div>
-      <button onClick={() => setFileTheme("love")}>Love</button>
-      <button onClick={() => setFileTheme("slavecoin")}>Slavecoin</button>
+      {Object.keys(themeMap).map((themeKey) => {
+        const theme = themeMap[themeKey as FileThemeType];
+        return (
+          <button
+            key={theme.name}
+            onClick={() => setFileTheme(themeKey as FileThemeType)}
+          >
+            {theme.name}
+          </button>
+        )
+      })}
     </div>
   );
 };

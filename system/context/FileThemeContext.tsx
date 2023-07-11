@@ -2,12 +2,13 @@ import { StaticImageData } from "next/image";
 import React, { useEffect } from "react";
 import { createContext } from "react";
 
-import Slavecoin from "../../components/filetheme/Slavecoin";
+import VaporwaveArcade from "../../components/filetheme/VaporwaveArcade";
 import Love from "../../components/filetheme/Love";
 
-type FileTheme = "love" | "slavecoin";
+export type FileTheme = "love" | "vaporwave-arcade";
 
 export interface FileThemeCustomOptions {
+  name: string;
   Etherscan: StaticImageData;
   Farm: StaticImageData;
   Paper: StaticImageData;
@@ -17,7 +18,7 @@ export interface FileThemeCustomOptions {
   background: string;
   telegram: string;
   twitter: string;
-};
+}
 
 interface FileThemeContextOptions extends FileThemeCustomOptions {
   wallpaper: string;
@@ -32,9 +33,9 @@ export interface IFileTheme {
 
 const defaultTheme: FileTheme = "love";
 
-const themeMap: { [key in FileTheme]: Partial<FileThemeContextOptions> } = {
+export const themeMap: { [key in FileTheme]: Partial<FileThemeContextOptions> } = {
   love: Love,
-  slavecoin: Slavecoin,
+  "vaporwave-arcade": VaporwaveArcade,
 };
 
 export const FileThemeContext = createContext<IFileTheme>({} as IFileTheme);
@@ -48,7 +49,7 @@ export const FileThemeProvider = ({ children }: { children: any }) => {
       ...themeMap[defaultTheme],
       ...themeMap[fileTheme],
       setWallpaper,
-      wallpaper
+      wallpaper,
     } as FileThemeContextOptions;
   }, [fileTheme]);
   return (
