@@ -14,9 +14,10 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     Uniswap,
     Wallet,
     startIcon: '/assets/skins/vaporwave-arcade/start-icon.gif',
+    closeIcon: '/assets/skins/vaporwave-arcade/close.png',
     background: '/assets/skins/vaporwave-arcade/background.gif',
     telegram: '/assets/skins/vaporwave-arcade/logo_telegram.png',
-    twitter: '/assets/skins/vaporwave-arcade/logo_twitter.png'
+    twitter: '/assets/skins/vaporwave-arcade/logo_twitter.png',
 }
 
 export default themeMap

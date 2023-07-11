@@ -14,9 +14,10 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     Uniswap,
     Wallet,
     startIcon: '/assets/start-icon.png',
+    closeIcon: "/assets/win98Close.png",
     background: '/assets/lovegame_background.png',
     telegram: '/assets/logo_telegram.png',
-    twitter: '/assets/logo_twitter.png'
+    twitter: '/assets/logo_twitter.png',
 }
 
 export default themeMap

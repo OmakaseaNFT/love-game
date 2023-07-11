@@ -1,5 +1,6 @@
-import React, { FC, ReactNode, useState } from "react";
+import React, { FC, ReactNode, useContext, useState } from "react";
 import Image from "next/image";
+import { FileThemeContext } from "../system/context/FileThemeContext";
 
 interface DialogProps {
   children: ReactNode;
@@ -20,6 +21,7 @@ const Dialog: FC<DialogProps> = ({
   maxHeight,
   closeMe,
 }) => {
+  const { files: { closeIcon } } = useContext(FileThemeContext);
   const [isPressed, setIsPressed] = useState<boolean>(false);
   const handleMouseDown = () => setIsPressed(true);
   const handleMouseUp = () => setIsPressed(false);
@@ -40,7 +42,7 @@ const Dialog: FC<DialogProps> = ({
             <button onClick={() => closeMe()} className="mr-1">
               <Image
                 alt=""
-                src="/assets/win98Close.png"
+                src={closeIcon}
                 width={16}
                 height={16}
               />

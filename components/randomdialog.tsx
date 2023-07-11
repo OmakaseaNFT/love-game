@@ -23,7 +23,7 @@ const LoveAlerts: React.FC<LoveAlertsProps> = ({
   setHide,
   setFinish,
 }) => {
-  const { files: { startIcon }} = useContext(FileThemeContext);
+  const { files: { startIcon, closeIcon }} = useContext(FileThemeContext);
   const [count, setCount] = useState<number>(0);
   const [boxes, setBoxes] = useState<Box[]>([]);
   const [windWH, setWindWH] = useState<any>(null);
@@ -112,7 +112,7 @@ const LoveAlerts: React.FC<LoveAlertsProps> = ({
         >
           <div className="header text-white bg-blue-900 p-1 text-xs">
             <img
-              src="/assets/win98Close.png"
+              src={closeIcon}
               onClick={() => boxAction(box)}
               className="closeBtn float-right h-full cursor-pointer"
               alt=""

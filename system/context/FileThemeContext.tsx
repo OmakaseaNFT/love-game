@@ -15,6 +15,7 @@ export interface FileThemeCustomOptions {
   Uniswap: StaticImageData;
   Wallet: StaticImageData;
   startIcon: string;
+  closeIcon: string;
   background: string;
   telegram: string;
   twitter: string;
