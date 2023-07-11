@@ -2,7 +2,6 @@ import { ethers } from "ethers";
 import {
   contractAddressLove,
   ETHUSDTPoolAddy,
-  USD_PEPE_POOL_ADDY,
   USD_WBTC_POOL_ADDY,
   USDCAddress,
 } from "../../utils/constant";
@@ -10,7 +9,6 @@ import { LoveFarmAbi } from "../LoveFarmAbi";
 import { PoolAbi } from "../PoolAbi";
 import { AppContracts } from "../AppContracts";
 import axios from "axios";
-import { parseEther } from "viem";
 
 const lpContractAbi = require("../../utils/poolABI.json");
 
@@ -109,18 +107,11 @@ export const calculateStakedLiquidityPepe = async (
   lpContract: PoolAbi,
   farmContract: LoveFarmAbi
 ) => {
-  const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-
-  const usdPepePoolContract = new ethers.Contract(
-    USD_PEPE_POOL_ADDY,
-    lpContractAbi,
-    provider
-  ) as PoolAbi;
-
   const lpBalanceFarm = await lpContract.balanceOf(farmContract.address);
   const lpTotalSupply = await lpContract.totalSupply();
   const PEPELOVEToken0 = await lpContract.token0();
   const PEPELOVEReserves = await lpContract.getReserves();
+
   let PEPEReserves: any;
   let LOVEReserves: any;
   if (PEPELOVEToken0 == contractAddressLove) {
@@ -133,21 +124,10 @@ export const calculateStakedLiquidityPepe = async (
 
   const PEPEInFarm =
     (PEPEReserves * Number(lpBalanceFarm)) / Number(lpTotalSupply) || 0;
+    
+  const response = await axios.get("/api/prices?token=PEPE");
+  const PEPEPriceUSD = response.data.price;
 
-  const PEPE_USDToken0 = await usdPepePoolContract.token0();
-  const PEPE_USDReserves = await usdPepePoolContract.getReserves();
-
-  let USDAmount: any;
-  let PEPEAmount: any;
-  if (PEPE_USDToken0 == USDCAddress) {
-    USDAmount = ethers.utils.formatUnits(PEPE_USDReserves._reserve0, 6);
-    PEPEAmount = ethers.utils.formatUnits(PEPE_USDReserves._reserve1, 18);
-  } else {
-    USDAmount = ethers.utils.formatUnits(PEPE_USDReserves._reserve1, 6);
-    PEPEAmount = ethers.utils.formatUnits(PEPE_USDReserves._reserve0, 18);
-  }
-
-  const PEPEPriceUSD = USDAmount / PEPEAmount;
   const PEPEValueFarmUSD = PEPEInFarm * PEPEPriceUSD;
   const totalValue = PEPEValueFarmUSD * 2;
   return totalValue;
