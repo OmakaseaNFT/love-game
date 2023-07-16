@@ -97,7 +97,7 @@ const BottomBar = (props: Props) => {
               <div className="w-1/3 flex flex-row justify-center ">
                 <Image src={Settings} width={29} height={29} alt="icon" />
               </div>
-              <div className="text-[22px]">
+              <div className="text-[22px] whitespace-nowrap">
                 <span>
                   <u>C</u>ontrol Panel
                 </span>
