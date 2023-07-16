@@ -1,9 +1,8 @@
-import Etherscan from '../../assets/skins/slavecoin/etherscan.png'
-import Farm from '../../assets/skins/slavecoin/farm.png'
-import Background from '../../assets/skins/slavecoin/background.png'
-import Paper from '../../assets/skins/slavecoin/paper.png'
-import Uniswap from '../../assets/skins/slavecoin/uniswap.png'
-import Wallet from '../../assets/skins/slavecoin/wallet.png'
+import Etherscan from '../../assets/skins/vaporwave-arcade/etherscan.png'
+import Farm from '../../assets/skins/vaporwave-arcade/farm.png'
+import Paper from '../../assets/skins/vaporwave-arcade/paper.png'
+import Uniswap from '../../assets/skins/vaporwave-arcade/uniswap.png'
+import Wallet from '../../assets/skins/vaporwave-arcade/wallet.png'
 import { FileThemeCustomOptions } from '../../system/context/FileThemeContext'
 
 const themeMap : Partial<FileThemeCustomOptions> = {

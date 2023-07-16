@@ -7,12 +7,36 @@
   src: url('/fonts/W95FA.otf');
 }
 
+@font-face {
+  font-family: 'IBM3270';
+  src: url('/fonts/IBM3270.otf');
+}
+
 .W95FA {
   font-family: 'W95FA', Arial;
 }
 
+.IBM3270 {
+  font-family: 'IBM3270', Arial;
+}
+
+@layer base {
+  :root {
+    --font-family: 'W95FA', Arial;
+  }
+  .theme-love {
+    --font-family: 'W95FA', Arial;
+  }
+  .theme-vaporwave-arcade {
+    --font-family: 'IBM3270', Arial;
+  }
+}
+
+
+
+
 body {
-  font-family: 'W95FA';
+  font-family: var(--font-family);
   background-color: black;
 }
 

@@ -4,7 +4,6 @@ import { createContext } from "react";
 
 import VaporwaveArcade from "../../components/filetheme/VaporwaveArcade";
 import Love from "../../components/filetheme/Love";
-import useLocalStorage from "../hooks/useLocalStorage";
 
 export type FileTheme = "love" | "vaporwave-arcade";
 
@@ -41,15 +40,30 @@ export const themeMap: { [key in FileTheme]: Partial<FileThemeCustomOptions> } =
 export const FileThemeContext = createContext<IFileTheme>({} as IFileTheme);
 
 export const FileThemeProvider = ({ children }: { children: any }) => {
-  // const [fileTheme, setFileTheme] = React.useState<FileTheme>(defaultTheme);
   const [wallpaper, setWallpaper] = React.useState<string>();
-  const [fileTheme, setFileTheme] = useLocalStorage<FileTheme>("fileTheme", defaultTheme);
+  const [fileTheme, _setFileTheme] = React.useState<FileTheme>(() => {
+    return defaultTheme;
+  });
+
+  useEffect(() => {
+    const theme = JSON.parse(localStorage.getItem("fileTheme") || defaultTheme) as FileTheme;
+    if (theme !== fileTheme) {
+      _setFileTheme(theme);
+    }
+  }, [])
+
   const files = React.useMemo(() => {
     return {
       ...themeMap[defaultTheme],
       ...themeMap[fileTheme],
     } as FileThemeCustomOptions;
   }, [fileTheme]);
+
+  const setFileTheme = (fileTheme: FileTheme) => {
+    _setFileTheme(fileTheme);
+    localStorage.setItem("fileTheme", JSON.stringify(fileTheme));
+  }
+
   return (
     <FileThemeContext.Provider
       value={{
@@ -60,11 +74,7 @@ export const FileThemeProvider = ({ children }: { children: any }) => {
         wallpaper,
       }}
     >
-      <div
-        className={`${
-          fileTheme === "love" ? "theme-love" : "theme-vaporwave-arcade"
-        }`}
-      >
+      <div key={fileTheme} className={`${fileTheme === 'love' ? `theme-love` : `theme-vaporwave-arcade`}`}>
         {children}
       </div>
     </FileThemeContext.Provider>

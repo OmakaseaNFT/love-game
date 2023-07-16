@@ -1,3 +1,5 @@
+const { createThemes } = require("tw-colors");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -9,8 +11,21 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        "main": 'var(--font-family)'
+      }
+    },
   },
-  plugins: [],
-}
-
+  plugins: [
+    createThemes({
+      love: {
+        dialog: "#C1C1C1",
+      },
+      "vaporwave-arcade": {
+        dialog: "rgba(255,255,255,.1)",
+      },
+      
+    }),
+  ],
+};

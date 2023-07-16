@@ -1,10 +1,18 @@
+import { useContext } from "react";
+import { FileThemeContext } from "../../system/context/FileThemeContext";
+
 interface IStakingSelectTabProps {
-    onClick: () => void;
-    isSelected: boolean;
-    title: string;
+  onClick: () => void;
+  isSelected: boolean;
+  title: string;
 }
 
-export const StakingSelectTab = ({ onClick, isSelected, title }: IStakingSelectTabProps) => {
+export const StakingSelectTab = ({
+  onClick,
+  isSelected,
+  title,
+}: IStakingSelectTabProps) => {
+  const { fileTheme } = useContext(FileThemeContext);
   return (
     <div
       onClick={onClick}
@@ -14,7 +22,11 @@ export const StakingSelectTab = ({ onClick, isSelected, title }: IStakingSelectT
     >
       {title}
       {isSelected && (
-        <div className="w-full flex bg-[#C1C1C1] h-2 mb-[-4px]" />
+        <div
+          className={
+            fileTheme === "love" ? "w-full flex bg-[#C1C1C1] h-2 mb-[-4px]" : ""
+          }
+        />
       )}
     </div>
   );

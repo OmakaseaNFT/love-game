@@ -53,7 +53,6 @@ const Win98 = (props: Props) => {
     wallpaper,
     setWallpaper,
   } = useContext(FileThemeContext);
-  console.log({ wallpaper, background });
   const [scale, setScale] = useState<string>();
   const [start, setStart] = useState<boolean>(false);
   const [showBar, setShowBar] = useState<boolean>(false);
