@@ -17,6 +17,7 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     Wallet,
     Settings,
     Shutdown,
+    startLoveIcon: '/assets/startLove.png',
     startIcon: '/assets/start-icon.png',
     closeIcon: "/assets/win98Close.png",
     background: '/assets/lovegame_background.png',

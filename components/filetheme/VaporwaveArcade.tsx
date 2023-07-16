@@ -16,6 +16,7 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     Wallet,
     Settings,
     Shutdown,
+    startLoveIcon: '/assets/skins/vaporwave-arcade/startLove.png',
     startIcon: '/assets/skins/vaporwave-arcade/start-icon.gif',
     closeIcon: '/assets/skins/vaporwave-arcade/close.png',
     background: '/assets/skins/vaporwave-arcade/background.gif',

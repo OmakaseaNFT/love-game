@@ -49,7 +49,7 @@ interface Content {
 
 const Win98 = (props: Props) => {
   const {
-    files: { background, Farm: FarmIcon, Paper: PaperIcon, startIcon },
+    files: { background, Farm: FarmIcon, Paper: PaperIcon, startIcon, startLoveIcon },
     wallpaper,
     setWallpaper,
   } = useContext(FileThemeContext);
@@ -276,7 +276,7 @@ const Win98 = (props: Props) => {
               width="0"
               height="0"
               // quality={100}
-              src="/assets/startLove.png"
+              src={startLoveIcon}
               className="m-auto w-[80px] h-[22px]"
             />
           </button>

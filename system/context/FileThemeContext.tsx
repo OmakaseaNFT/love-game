@@ -16,6 +16,7 @@ export interface FileThemeCustomOptions {
   Wallet: StaticImageData;
   Settings: StaticImageData;
   Shutdown: StaticImageData;
+  startLoveIcon: string;
   startIcon: string;
   closeIcon: string;
   background: string;
