@@ -298,7 +298,7 @@ export const Pool = ({
                           "_blank"
                         );
                       }}
-                      className="cursor-pointer"
+                      className="cursor-pointer h-[20px] m-[3px]"
                     >
                       View Contract
                     </div>
