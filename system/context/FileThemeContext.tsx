@@ -14,11 +14,14 @@ export interface FileThemeCustomOptions {
   Paper: StaticImageData;
   Uniswap: StaticImageData;
   Wallet: StaticImageData;
+  Settings: StaticImageData;
+  Shutdown: StaticImageData;
   startIcon: string;
   closeIcon: string;
   background: string;
   telegram: string;
   twitter: string;
+  heartbreakIcon: string;
 }
 
 export interface IFileTheme {
@@ -46,7 +49,11 @@ export const FileThemeProvider = ({ children }: { children: any }) => {
   });
 
   useEffect(() => {
-    const theme = JSON.parse(localStorage.getItem("fileTheme") || defaultTheme) as FileTheme;
+    const localStorageFileTheme = localStorage.getItem("fileTheme");
+    if (!localStorageFileTheme) {
+      return;
+    }
+    const theme = JSON.parse(localStorageFileTheme) as FileTheme;
     if (theme !== fileTheme) {
       _setFileTheme(theme);
     }

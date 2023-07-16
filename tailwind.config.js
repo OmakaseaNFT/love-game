@@ -21,9 +21,13 @@ module.exports = {
     createThemes({
       love: {
         dialog: "#C1C1C1",
+        "button-hover-bg": "#0A0080",
+        "button-hover-text": "white"
       },
       "vaporwave-arcade": {
         dialog: "rgba(255,255,255,.1)",
+        "button-hover-bg": "#EC9B9B",
+        "button-hover-text": "black"
       },
       
     }),
