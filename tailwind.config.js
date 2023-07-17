@@ -25,7 +25,7 @@ module.exports = {
         "button-hover-text": "white"
       },
       "vaporwave-arcade": {
-        dialog: "rgba(255,255,255,.1)",
+        dialog: "#C1C1C1",//"rgba(255,255,255,.1)",
         "button-hover-bg": "#EC9B9B",
         "button-hover-text": "black"
       },
