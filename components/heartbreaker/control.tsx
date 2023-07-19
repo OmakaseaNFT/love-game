@@ -230,7 +230,7 @@ const Control = () => {
       setPresetLocked(false);
     }
   }, [multiplierToStopAt, presetIsLive, mult, presetLocked, gameIsLive]);
- 
+
   return (
     <TransactionNotificationWrapper
       requestState={requestState}
@@ -375,7 +375,8 @@ const Control = () => {
         <div className="px-[10px] flex-1">
           <div className="bg-black h-[24px] mt-[12px] overflow-hidden">
             {!!userGameResult?.profit &&
-              userGameResult?.profit > 0 && !showMaxProfit &&
+              userGameResult?.profit > 0 &&
+              !showMaxProfit &&
               !gameIsLive && (
                 <p
                   style={{
@@ -388,7 +389,8 @@ const Control = () => {
                 </p>
               )}
             {!!userGameResult?.profit &&
-              userGameResult?.profit < 0 && !showMaxProfit &&
+              userGameResult?.profit < 0 &&
+              !showMaxProfit &&
               !gameIsLive && (
                 <p
                   style={{
@@ -400,15 +402,10 @@ const Control = () => {
                   HEARTBREAK BABY!!
                 </p>
               )}
-            {/* {maxProfit && (
-              <div id="scroll-container">
-                <div id="scroll-text" style={{color: "green"}}>This is scrolling text.</div>
-              </div>
-            )} */}
             {!!maxProfit && showMaxProfit && (
               <div className="flex justify-center items-center h-[100%]">
                 <p
-                id="scroll-text"
+                  id="scroll-text"
                   style={{
                     backgroundColor: "black",
                     color: "white",
