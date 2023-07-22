@@ -1,10 +1,55 @@
 import { useState, useEffect } from "react";
+import { requestErrorState, requestPendingState, requestSuccessState, useRequestState } from "../system/hooks/useRequestState";
+import { ethers } from "ethers";
+import { LOVESKIN_CONTRACT_ADDRESS, contractAddressLove } from "../utils/constant";
+import { LoveTokenAbi } from "../system/LoveTokenAbi";
 
 interface Props {
   closeMe: () => void;
 }
 
 const MintSkin = ({ closeMe }: Props) => {
+  const { requestState, setRequestState } = useRequestState();
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const handleDeposit = async (address: string, amount: number) => {
+    if (!amount) return;
+    setRequestState(requestPendingState);
+    const provider = new ethers.providers.Web3Provider(
+      (window as any).ethereum
+    );
+    const signer = provider.getSigner();
+    const abi = require("../utils/erc20abi.json");
+    const contract = new ethers.Contract(
+      contractAddressLove,
+      abi,
+      signer
+    ) as LoveTokenAbi;
+
+
+    // const loveskin = new ethers.Contract(
+
+    // )
+
+    try {
+      // check approval
+      const tx = await contract.transfer(
+        LOVESKIN_CONTRACT_ADDRESS,
+        ethers.utils.parseEther(amount.toString())
+      );
+      //approve
+
+      // get 
+
+      
+
+      await tx.wait(1);
+      setRequestState(requestSuccessState);
+    } catch (e: any) {
+      setErrorMessage("Deposit failed");
+      setRequestState(requestErrorState);
+      console.log(e);
+    }
+  };
   return (
     <div className="w-full flex flex-col pt-[6px]">
       <div className="flex-col w-full">

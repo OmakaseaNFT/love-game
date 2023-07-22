@@ -18,7 +18,8 @@ export const FileTheme = ({}: FileThemeProps) => {
   const [showPayment, setShowPayment] = useState(false);
 
   const openPayment = () => {
-    setShowPayment(true);
+    setFileTheme(testFileTheme);
+    // setShowPayment(true);
   };
 
   const closePayment = () => {
@@ -39,7 +40,7 @@ export const FileTheme = ({}: FileThemeProps) => {
           </Dialog>
         </div>
       )}
-      <div className="flex flex-row text-center gap-5 pt-3">
+      <div className="flex flex-row text-center gap-5 pt-3 w-[82%]">
         <div className="text-[14px] my-auto">
           <u>T</u>heme:
         </div>
@@ -69,7 +70,7 @@ export const FileTheme = ({}: FileThemeProps) => {
         </>
       </div>
       {/* border-b-gray-300 border-r-gray-300 border-l-gray-600 text-sm border-t-gray-600  */}
-      <div className="w-[70%] aspect-[1.3] m-auto mt-4 border-2 border-b-gray-300 border-r-gray-300 border-l-gray-600 text-sm border-t-gray-600">
+      <div className="w-[70%] aspect-[1.3] m-auto my-5 border-2 border-b-gray-300 border-r-gray-300 border-l-gray-600 text-sm border-t-gray-600">
         <div
           className="w-full h-full bg-[#008081]"
           style={{

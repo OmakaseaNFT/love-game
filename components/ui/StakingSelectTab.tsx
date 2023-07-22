@@ -17,17 +17,11 @@ export const StakingSelectTab = ({
     <div
       onClick={onClick}
       className={`cursor-pointer w-[110px] sm:w-[150px] pt-1 text-center border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-0 border-2 ${
-        isSelected ? "text-gray-800" : "text-gray-500"
+        isSelected ? "text-gray-800" : "text-reduced-text"
       }`}
     >
       {title}
-      {isSelected && (
-        <div
-          className={
-            fileTheme === "love" ? "w-full flex bg-[#C1C1C1] h-2 mb-[-4px]" : ""
-          }
-        />
-      )}
+      {isSelected && <div className={"w-full flex bg-tab h-2 mb-[-4px]"} />}
     </div>
   );
 };

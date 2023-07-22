@@ -15,7 +15,7 @@ const Paper = () => {
   ];
   return (
     <div className="w-full flex flex-col">
-      <div className="text-gray-500 mt-1">
+      <div className="text-reduced-text mt-1">
         {menuBars.map((item, idx) => (
           <span
             key={idx}

@@ -54,10 +54,10 @@ export const FileThemeProvider = ({ children }: { children: any }) => {
     if (!localStorageFileTheme) {
       return;
     }
-    const theme = JSON.parse(localStorageFileTheme) as FileTheme;
-    if (theme !== fileTheme) {
-      _setFileTheme(theme);
-    }
+    // const theme = JSON.parse(localStorageFileTheme) as FileTheme;
+    // if (theme !== fileTheme) {
+    //   _setFileTheme(theme);
+    // }
   }, [])
 
   const files = React.useMemo(() => {
