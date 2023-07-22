@@ -14,6 +14,9 @@ module.exports = {
     extend: {
       fontFamily: {
         "main": 'var(--font-family)'
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       }
     },
   },
@@ -31,7 +34,7 @@ module.exports = {
         tab: "#7E71AC",
         "button-hover-bg": "#EC9B9B",
         "button-hover-text": "black",
-        "reduced-text": 'rgb(75, 85, 99)'
+        "reduced-text": 'rgb(75, 85, 99)',
       },
       
     }),

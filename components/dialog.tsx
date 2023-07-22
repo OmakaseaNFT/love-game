@@ -107,7 +107,7 @@ const DialogVaporwaveArcade: FC<DialogWithThemeProps> = ({
         className={`dialog bg-dialog rounded-lg z-20 backdrop-blur flex flex-col font-windows border-black border pb-2`}
       >
         <div className="h-[100%]">
-          <div className="mx-2 mt-2 pl-3 py-2 bg-[#3C5CAC] flex justify-between items-center rounded border-black border">
+          <div className="mx-2 mt-2 pl-3 py-2 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-[#D14B9C99] via-[#D0F53B99] to-[#00C2FF99] flex justify-between items-center rounded border-black border">
             <div className="text-white text-sm">{title}</div>
             <button onClick={() => closeMe()} className="mr-1">
               <Image alt="" src={closeIcon} width={20} height={20} />
