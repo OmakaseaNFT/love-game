@@ -6,6 +6,9 @@ import Uniswap from '../../assets/uniswap.png'
 import Wallet from '../../assets/wallet.png'
 import Shutdown from '../../assets/shutdown.png'
 import Settings from '../../assets/settings.png'
+import DeadButton from "../../assets/dead-game-button.png";
+import ExitButton from "../../assets/exit-button.png";
+import ActiveButton from "../../assets/active-game-button.png";
 import { FileThemeCustomOptions } from '../../system/context/FileThemeContext'
 
 const themeMap : Partial<FileThemeCustomOptions> = {
@@ -24,6 +27,9 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     telegram: '/assets/logo_telegram.png',
     twitter: '/assets/logo_twitter.png',
     heartbreakIcon: '/assets/start-icon.png',
+    heartbreakActiveButton: ActiveButton,
+    heartbreakExitButton: ExitButton,
+    heartbreakDeadButton: DeadButton,
 }
 
 export default themeMap

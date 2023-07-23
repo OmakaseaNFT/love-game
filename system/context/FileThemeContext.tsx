@@ -23,6 +23,9 @@ export interface FileThemeCustomOptions {
   telegram: string;
   twitter: string;
   heartbreakIcon: string;
+  heartbreakActiveButton: StaticImageData;
+  heartbreakExitButton: StaticImageData;
+  heartbreakDeadButton: StaticImageData;
 }
 
 export interface IFileTheme {
@@ -33,7 +36,7 @@ export interface IFileTheme {
   setWallpaper: (wallpaper: string) => void;
 }
 
-const defaultTheme: FileTheme = "love";
+const defaultTheme: FileTheme = "vaporwave-arcade";
 
 export const themeMap: { [key in FileTheme]: Partial<FileThemeCustomOptions> } =
   {

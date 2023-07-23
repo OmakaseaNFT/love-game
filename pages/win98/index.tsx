@@ -259,6 +259,7 @@ const Win98 = (props: Props) => {
             height={selectedContent?.height ?? "200px"}
             title={selectedContent?.title ?? ""}
             maxHeight={selectedContent?.maxHeight}
+            id={selectedContent?.menu ?? ""}
           >
             {selectedContent?.component}
           </Dialog>

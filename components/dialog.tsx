@@ -1,8 +1,8 @@
 import React, { FC, ReactNode, useContext, useState } from "react";
 import Image from "next/image";
 import { FileThemeContext } from "../system/context/FileThemeContext";
-
 interface DialogProps {
+  id: string;
   children: ReactNode;
   title: string;
   buttonText?: string;
@@ -17,7 +17,6 @@ interface DialogWithThemeProps extends DialogProps {
   setPressed: (isPressed: boolean) => void;
   handleMouseDown: () => void;
   handleMouseUp: () => void;
-  customStyle?: string;
 }
 
 const DialogLove: FC<DialogWithThemeProps> = ({
@@ -79,6 +78,7 @@ const DialogLove: FC<DialogWithThemeProps> = ({
 };
 
 const DialogVaporwaveArcade: FC<DialogWithThemeProps> = ({
+  id,
   children,
   title,
   buttonText,
@@ -90,10 +90,9 @@ const DialogVaporwaveArcade: FC<DialogWithThemeProps> = ({
   handleMouseUp,
   isPressed,
   setPressed,
-  customStyle,
 }) => {
   const {
-    files: { closeIcon },
+    files: { closeIcon }, fileTheme
   } = useContext(FileThemeContext);
 
   return (
@@ -101,13 +100,34 @@ const DialogVaporwaveArcade: FC<DialogWithThemeProps> = ({
       <div
         style={
           maxHeight
-            ? { width, minHeight: height, maxHeight: height, height }
-            : { width, minHeight: height }
+            ? {
+                width,
+                minHeight: height,
+                maxHeight: height,
+                height,
+                backgroundImage: fileTheme == 'vaporwave-arcade' && id == 'heartbreak' ? "url('/assets/skins/vaporwave-arcade/heartbreak_background.png')" : "",
+                backgroundSize: "100% 100%",
+              }
+            : {
+                width,
+                minHeight: height,
+                backgroundImage: fileTheme == 'vaporwave-arcade' && id == 'heartbreak' ? "url('/assets/skins/vaporwave-arcade/heartbreak_background.png')" : "",
+                backgroundSize: "100% 100%",
+              }
         }
-        className={`dialog bg-dialog rounded-lg z-20 backdrop-blur flex flex-col font-windows border-black border pb-2`}
+        className={`
+        ${id === "heartbreak" ? "bg-opacity-50" : "bg-dialog"}
+        dialog  rounded-lg z-20 backdrop-blur flex flex-col font-windows border-2 pb-2`}
       >
         <div className="h-[100%]">
-          <div className="mx-2 mt-2 pl-3 py-2 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-[#D14B9C99] via-[#D0F53B99] to-[#00C2FF99] flex justify-between items-center rounded border-black border">
+          <div
+            className={`${
+              id === "heartbreak"
+                ? "bg-[#E22D5988] border-[#E57395]"
+                : "border-black bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-[#D14B9C99] via-[#D0F53B99] to-[#00C2FF99]"
+            } 
+          mx-2 mt-2 pl-3 py-2 flex justify-between items-center rounded  border`}
+          >
             <div className="text-white text-sm">{title}</div>
             <button onClick={() => closeMe()} className="mr-1">
               <Image alt="" src={closeIcon} width={20} height={20} />
@@ -145,6 +165,7 @@ const Dialog: FC<DialogProps> = ({
   height,
   maxHeight,
   closeMe,
+  id,
 }) => {
   const { fileTheme } = useContext(FileThemeContext);
   const [isPressed, setIsPressed] = useState<boolean>(false);
@@ -156,6 +177,7 @@ const Dialog: FC<DialogProps> = ({
       return (
         <>
           <DialogVaporwaveArcade
+            id={id}
             title={title}
             buttonText={buttonText}
             width={width}
@@ -175,6 +197,7 @@ const Dialog: FC<DialogProps> = ({
       return (
         <>
           <DialogLove
+            id={id}
             title={title}
             buttonText={buttonText}
             width={width}
