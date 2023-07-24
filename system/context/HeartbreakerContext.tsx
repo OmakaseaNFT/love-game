@@ -2,6 +2,7 @@ import { createContext } from "react";
 import { useHeartbreakerGameEngine } from "../../components/heartbreaker/useHeartbreakerGameEngine";
 import { Socket } from "socket.io-client";
 import { RequestState } from "../hooks/useRequestState";
+import { GameHistory, GameResult, LeaderBoard } from "../types";
 
 export interface IHeartBreaker {
   onBet: (multiplierToStopAt: number, amount: number) => Promise<void>;
@@ -25,28 +26,14 @@ export interface IHeartBreaker {
   gameIsLive: boolean;
   amountToPlay: number;
   gameTimer: number;
-  gameHistory: {
-    game_number: number;
-    total_amount: string;
-    total_profit: string;
-    crash: string;
-    date_created: string;
-  }[];
-  leaderboard: {
-    user_address: number;
-    total_amount: string;
-    total_profit: string;
-  }[];
-  gameResults: {
-    gameNumber: number;
-    profit: number;
-    userAddress: string;
-  }[];
-  requestState: RequestState
-  errorMessage: string
-  startAnimation: boolean
-  userExited: boolean
-  lockTime: number
+  gameHistory: GameHistory[];
+  leaderboard: LeaderBoard[];
+  gameResults: GameResult[];
+  requestState: RequestState;
+  errorMessage: string;
+  startAnimation: boolean;
+  userExited: boolean;
+  lockTime: number;
 }
 
 export const HeartBreakerContext = createContext<IHeartBreaker>(
