@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { HeartBreakerContext } from "../../system/context/HeartbreakerContext";
 
 const LeaderBoard = () => {
-  const headerList = ["Account", "Total Play", "Total Won"];
+  const headerList = ["Account", "Total Net Gains"];
   const { leaderboard } = useContext(HeartBreakerContext);
 
   return (
@@ -33,9 +33,6 @@ const LeaderBoard = () => {
                       <tr key={`history-${index}`}>
                         <td className="border px-3 py-1 text-left text-xs font-medium text-gray-500">
                           {leader.user_address}
-                        </td>
-                        <td className="border px-3 py-1 text-left text-xs font-medium text-gray-500">
-                          {Number(leader.total_amount).toFixed(2)}
                         </td>
                         <td className="border px-3 py-1 text-left text-xs font-medium text-gray-500">
                           {Number(leader.total_profit).toFixed(2)}
