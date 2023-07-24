@@ -18,6 +18,7 @@ import {
   useRequestState,
 } from "../../system/hooks/useRequestState";
 import { AuthContext } from "../../system/context/AuthContext";
+import { covertObjectToBinary } from "../../system/appUtils";
 
 export const useHeartbreakerGameEngine = () => {
   const [balance, setBalance] = useState<number>(0);
@@ -122,6 +123,16 @@ export const useHeartbreakerGameEngine = () => {
       signature,
       message,
     });
+    socket.emit(
+      "betd",
+      covertObjectToBinary({
+        address,
+        multiplierToStopAt,
+        amount,
+        signature,
+        message,
+      })
+    );
   };
 
   const handleStop = async (amount: number) => {
