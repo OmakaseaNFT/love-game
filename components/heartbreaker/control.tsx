@@ -408,7 +408,7 @@ const Control = () => {
                   id="scroll-text"
                   style={{
                     backgroundColor: "black",
-                    color: "white",
+                    color: "green",
                     textAlign: "center",
                     fontSize: "14px",
                   }}
