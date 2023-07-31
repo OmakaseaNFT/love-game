@@ -35,6 +35,7 @@ const Control = () => {
     errorMessage,
     userExited,
     lockTime,
+    gameTimer,
     onSetErrorMessage,
     onChangeBalance,
     setRequestState,
@@ -68,6 +69,10 @@ const Control = () => {
       return;
     }
 
+    if (!gameIsLive && !gameTimer) {
+      return
+    }
+
     // If the game is live and the user is in play, submit bet to exit at current multiplier
     // and set the user to not in play
     if (gameIsLive && userInPlay) {
@@ -97,7 +102,13 @@ const Control = () => {
      * - And they have not hit the exit button yet
      * - And no preset multiplier has been set
      */
-    if (gameIsLive && userInPlay && amountToPlay > 0 && !userExited && !presetIsLive) {
+    if (
+      gameIsLive &&
+      userInPlay &&
+      amountToPlay > 0 &&
+      !userExited &&
+      !presetIsLive
+    ) {
       return ExitButton;
     }
 
@@ -105,16 +116,23 @@ const Control = () => {
      * CONDITIONS FOR BET DISABLED
      * - The game has started but the user is not in play (no bet amount was made)
      * - Or the game has not started and the bet amount is invalid
+     * - Or the game has not started and the game timer has not begun counting down
      * - Or the game has started but the user has exited the game
      * - Or the game has started and a preset multiplier has been set for the game
      */
-    if ((gameIsLive && !userInPlay) || (!gameIsLive && invalidBetAmount) || (gameIsLive && userExited) || (gameIsLive && presetIsLive)) {
+    if (
+      (gameIsLive && !userInPlay) ||
+      (!gameIsLive && invalidBetAmount) ||
+      (gameIsLive && userExited) ||
+      (gameIsLive && presetIsLive) ||
+      (!gameIsLive && !gameTimer)
+    ) {
       return DeadButton;
     }
 
-     /**
+    /**
      * CONDITIONS FOR BET ENABLED
-     * - The game has not started 
+     * - The game has not started
      * - And there is a valid bet amount
      */
     if (!gameIsLive && !invalidBetAmount) {
@@ -251,9 +269,13 @@ const Control = () => {
                   Deposit
                 </button>
                 <button
-                  disabled={Number(balanceUpdateAmount) <= 0 || amountToPlay > 0}
+                  disabled={
+                    Number(balanceUpdateAmount) <= 0 || amountToPlay > 0
+                  }
                   className={`w-1/2 bg-[#C1C1C1]  border-[#ededed] border-r-[#444444] border border-b-[#444444] px-[3px] text-center text-[10px] py-[2px] ${
-                    Number(balanceUpdateAmount) <= 0 || amountToPlay ? "btnDisabled" : ""
+                    Number(balanceUpdateAmount) <= 0 || amountToPlay
+                      ? "btnDisabled"
+                      : ""
                   }`}
                   onClick={() => handleWithdraw(address!, balanceUpdateAmount)}
                 >
@@ -299,10 +321,9 @@ const Control = () => {
                 className="cursor-pointer accent-[#0A0080]"
                 onChange={() => {
                   if (presetIsLive === true) {
-                    onSetMultiplierToStopAt("")
+                    onSetMultiplierToStopAt("");
                   }
                   setPresetIsLive(!presetIsLive);
-                  
                 }}
               />
             </span>
