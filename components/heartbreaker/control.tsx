@@ -69,6 +69,7 @@ const Control = () => {
       return;
     }
 
+    // If the game is not live and the timer has not started, do nothing
     if (!gameIsLive && !gameTimer) {
       return
     }
