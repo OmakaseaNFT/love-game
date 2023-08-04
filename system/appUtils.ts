@@ -58,7 +58,7 @@ export const getSigAndMsgFromStorage = (
 };
 
 
-export function covertObjectToBinary(obj: any) {
+export function convertObjectToBinary(obj: any) {
     let output = '',
         input = JSON.stringify(obj) // convert the json to string.
     // loop over the string and convert each charater to binary string.

@@ -18,7 +18,7 @@ import {
   useRequestState,
 } from "../../system/hooks/useRequestState";
 import { AuthContext } from "../../system/context/AuthContext";
-import { covertObjectToBinary } from "../../system/appUtils";
+import { convertObjectToBinary } from "../../system/appUtils";
 
 export const useHeartbreakerGameEngine = () => {
   const [balance, setBalance] = useState<number>(0);
@@ -115,17 +115,10 @@ export const useHeartbreakerGameEngine = () => {
     }
 
     setAmountToPlay(amount);
-    
-    socket.emit("bet", {
-      address,
-      multiplierToStopAt,
-      amount,
-      signature,
-      message,
-    });
+
     socket.emit(
-      "betd",
-      covertObjectToBinary({
+      "bet",
+      convertObjectToBinary({
         address,
         multiplierToStopAt,
         amount,
@@ -157,12 +150,15 @@ export const useHeartbreakerGameEngine = () => {
       return;
     }
 
-    socket.emit("exit", {
-      address,
-      amount,
-      signature,
-      message,
-    });
+    socket.emit(
+      "exit",
+      convertObjectToBinary({
+        address,
+        amount,
+        signature,
+        message,
+      })
+    );
   };
 
   const handleGetGameHistory = async () => {
