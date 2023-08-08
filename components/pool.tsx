@@ -62,7 +62,7 @@ export const Pool = ({
     }
   }, [address, poolIndex, lpContractAddress]);
 
-  const canShowPosition = () => !!address
+  const canShowPosition = () => !!address;
 
   const message = (rawMessage: string) => {
     if (rawMessage.includes("withdraw") || rawMessage.includes("underflow")) {
@@ -165,7 +165,20 @@ export const Pool = ({
   };
 
   const dataIsUpdating = requestPendingState || userDataPending;
-
+  const poolContractAddy = (poolIndex: number) => {
+    switch (poolIndex) {
+      case 0:
+        return "ETH";
+      case 1:
+        return USDT_CONTRACT_ADDRESS;
+      case 2:
+        return process.env.NEXT_PUBLIC_CONTRACT_WBTC;
+      case 3:
+        return process.env.NEXT_PUBLIC_CONTRACT_PEPE;
+      default:
+        return "ETH";
+    }
+  };
   return (
     <TransactionNotificationWrapper
       requestState={requestState}
@@ -180,7 +193,12 @@ export const Pool = ({
                 <div className={`w-[78%] pl-0 ${boxStyle}`}>
                   <div className="w-full flex flex-row justify-between px-1">
                     <div className="flex flex-row">
-                      <Image src={pool.poolIcon} alt="" width={30} height={30} />
+                      <Image
+                        src={pool.poolIcon}
+                        alt=""
+                        width={30}
+                        height={30}
+                      />
                       <div className={`text-lg leading-5 flex`}>
                         <div className="my-auto mx-1">{pool.poolName}</div>
                       </div>
@@ -194,7 +212,7 @@ export const Pool = ({
                     <div>
                       <PoolDataDisplay
                         title="Earned"
-                      data={userPoolData?.pendingLove.toString() || "NA"}
+                        data={userPoolData?.pendingLove.toString() || "NA"}
                       />
                     </div>
                   </div>
@@ -209,22 +227,19 @@ export const Pool = ({
             </div>
             <div className="w-full">
               <div className="w-full flex flex-row">
-                <div className={`w-[34%] ${boxStyle2}`}>
+                <div className={`w-[50%] ${boxStyle2}`}>
                   <StakedLiquidityDataDisplay
                     title="Staked Liquidity"
                     data={`$${thousandSeparator(pool.stakedLiquidity)}`}
                   />
                 </div>
-                <div className={`w-[22%] ${boxStyle2}`}>
-                  <PoolDataDisplay title="Multiplier" data="1" />
-                </div>
-                <div className={`w-[22%] ${boxStyle2}`}>
+                <div className={`w-[25%] ${boxStyle2}`}>
                   <PoolDataDisplay
                     title="Available"
                     data={userPoolData?.lpAvailable.toString() || "NA"}
                   />
                 </div>
-                <div className={`w-[22%] ${boxStyle2}`}>
+                <div className={`w-[25%] ${boxStyle2}`}>
                   <PoolDataDisplay
                     title="Staked"
                     data={userPoolData?.stakedValue.toString() || "NA"}
@@ -267,7 +282,10 @@ export const Pool = ({
                   >
                     <div
                       onClick={() => {
-                        window.open(`https://app.uniswap.org/#/add/v2/${poolIndex === 0 ? "ETH" : USDT_CONTRACT_ADDRESS}/${contractAddressLove}`, "_blank");
+                        window.open(
+                          `https://app.uniswap.org/#/add/v2/${poolContractAddy(poolIndex)}/${contractAddressLove}`,
+                          "_blank"
+                        );
                       }}
                       className="cursor-pointer"
                     >
@@ -275,9 +293,12 @@ export const Pool = ({
                     </div>
                     <div
                       onClick={() => {
-                        window.open(`https://etherscan.io/address/${lpContractAddress}`, "_blank");
+                        window.open(
+                          `https://etherscan.io/address/${lpContractAddress}`,
+                          "_blank"
+                        );
                       }}
-                      className="cursor-pointer"
+                      className="cursor-pointer h-[20px] m-[3px]"
                     >
                       View Contract
                     </div>
@@ -295,8 +316,7 @@ export const Pool = ({
                   } sm:w-[72%]`}
               >
                 <div className="">
-                  <div className="text-xs min-h-[16px] sm:min-h-0 embossBorderLeft sm:border-l-0 sm:before:border-l-0 text-right sm:text-left pr-1 pb-1 pr-2">
-                  </div>
+                  <div className="text-xs min-h-[16px] sm:min-h-0 embossBorderLeft sm:border-l-0 sm:before:border-l-0 text-right sm:text-left pr-1 pb-1 pr-2"></div>
                   <div className="embossBorderBottom block sm:hidden" />
                 </div>
                 <div className="w-full flex flex-row border-l-gray-600 sm:border-t-gray-600 border-t-0 sm:border-t-2 border-r-gray-100 border-b-gray-100 border-2 p-[0.5px]">
@@ -383,10 +403,8 @@ export const Pool = ({
               <button
                 onClick={() => {
                   const url = `https://app.uniswap.org/#/add/v2/${contractAddressLove}/${
-                    poolIndex === 0
-                      ? "ETH"
-                      : USDT_CONTRACT_ADDRESS
-                    }`;
+                   poolContractAddy(poolIndex)
+                  }`;
                   window.open(url, "_blank");
                 }}
                 className="m-auto mb-[6px] btn h-8 w-[90%] sm:w-[290px] text-center"

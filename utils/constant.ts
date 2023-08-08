@@ -34,6 +34,8 @@ export const ETHERSCAN_FAITH_LINK = `https://etherscan.io/address/${contractAddr
 export const LOVE_POOLS = [
   { name: "LOVE-ETH", icon: "/assets/love_eth.svg" },
   { name: "LOVE-USDT", icon: "/assets/love_usdt.svg" },
+  { name: "LOVE-WBTC", icon: "/assets/love_wbtc.svg" },
+  { name: "LOVE-PEPE", icon: "/assets/love_pepe.svg" },
 ];
 export const BLOCKS_PER_YEAR = 2591500;
 export const IS_DEV_ENV = process.env.NEXT_PUBLIC_NODE_ENV === "dev";
@@ -42,6 +44,11 @@ export const USDT_CONTRACT_ADDRESS = IS_DEV_ENV
   ? "0xdAC17F958D2ee523a2206206994597C13D831ec7"
   : "0xdAC17F958D2ee523a2206206994597C13D831ec7";
 export const HOT_JAR_SITE_ID = 3527265;
-export const HOT_JAR_VERSION = 6
+export const HOT_JAR_VERSION = 6;
 export const TELEGRAM_LINK = "https://t.me/loveethereum";
 export const TWITTER_LINK = "https://twitter.com/lovegameeth";
+export const HEARTBREAKER_SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL!;
+export const HEARTBREAKER_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_HEARTBREAKER_CONTRACT_ADDRESS!;
+export const ETHUSDTPoolAddy = "0xE24Ab719209A9844E59dBfEEe91ce7d8D482532e"
+export const USD_WBTC_POOL_ADDY = process.env.NEXT_PUBLIC_USD_WBTC_POOL_ADDY!;
+export const USD_PEPE_POOL_ADDY = process.env.NEXT_PUBLIC_USD_PEPE_POOL_ADDY!;

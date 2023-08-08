@@ -32,6 +32,7 @@ import { PoolAbi } from "../../system/PoolAbi";
 import { AppContracts } from "../../system/AppContracts";
 import { CopyAddressButton } from "../../components/copyAddressButton";
 import { useWrongNetwork } from "../../system/hooks/useWrongNetwork";
+import { HeartBreaker } from "../../components/heartbreaker";
 
 interface Props {
   lock?: Boolean;
@@ -44,6 +45,7 @@ interface Content {
   width?: string;
   height: string;
   icon: any;
+  maxHeight?: boolean;
 }
 
 const Win98 = (props: Props) => {
@@ -182,6 +184,15 @@ const Win98 = (props: Props) => {
       icon: PaperIcon,
     },
     {
+      menu: "heartbreak",
+      title: "HEARTBREAK",
+      component: <HeartBreaker />,
+      width: "60%",
+      height: "100%",
+      icon: PaperIcon,
+      maxHeight: true,
+    },
+    {
       menu: "cp",
       title: "ERROR!",
       component: <div className="text-center w-full">ADDRESS NOT FOUND !</div>,
@@ -244,6 +255,7 @@ const Win98 = (props: Props) => {
             width={selectedContent?.width ?? "94%"}
             height={selectedContent?.height ?? "200px"}
             title={selectedContent?.title ?? ""}
+            maxHeight={selectedContent?.maxHeight}
           >
             {selectedContent?.component}
           </Dialog>
