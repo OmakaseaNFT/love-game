@@ -198,6 +198,12 @@ input:focus {
   bottom: -4px;
 }
 
+.btnDisabled {
+  background-color: #999999;
+  cursor: not-allowed;
+  color: gray;
+}
+
 .btn {
   background-color: #C1C1C1;
   border: 3px solid #ededed;
@@ -437,3 +443,10 @@ input:focus {
   margin-top: -5px;
 }
 /* end rainbowkit close button */
+
+
+@media only screen and (max-width: 600px) {
+  .dialog {
+   width: 100% !important;
+  }
+}

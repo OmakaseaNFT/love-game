@@ -19,7 +19,7 @@ import { TermsAndConditionsWrapper } from "../components/ui/TermsAndConditionsWr
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true"
-      ? [goerli]
+      ? [sepolia]
       : [mainnet]),
   ],
   [publicProvider()]

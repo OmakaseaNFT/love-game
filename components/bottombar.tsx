@@ -30,6 +30,11 @@ const BottomBar = (props: Props) => {
       name: "<u>P</u>aper",
     },
     {
+      menu: "heartbreak",
+      icon: "/assets/start-icon.png",
+      name: "<u>H</u>EARTBREAK",
+    },
+    {
       menu: "cp",
       icon: Setting,
       name: "<u>S</u>ettings",

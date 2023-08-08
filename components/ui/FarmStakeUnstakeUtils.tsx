@@ -38,13 +38,27 @@ export const FarmStakeUnstakeUtils = ({
   onChangeStakeValue,
   onChangeUnstakeValue,
 }: IFarmStakeUnstakeUtilsProps) => {
+  const tokenText = (poolIndex: number) => {
+    switch (poolIndex) {
+      case 0:
+        return "ETH";
+      case 1:
+        return "USDT";
+      case 2:
+        return "WBTC";
+      case 3:
+        return "PEPE";
+      default:
+        return "ETH";
+    }
+  };
   return (
     <div className="flex flex-col m-auto sm:ml-2">
       <div>{poolName}</div>
       <div className="flex flex-row w-[300px] justify-between">
         <div className="flex flex-col text-xs text-[#0A0080] my-2">
-          <div>{lovePerUser} LOVE</div>
-          <div>{`${ethPerUser} ${poolIndex === 0 ? "ETH" : "USDT"}`}</div>
+          <div>{Number(lovePerUser).toFixed(6)} LOVE</div>
+          <div>{`${Number(ethPerUser).toFixed(6)} ${tokenText(poolIndex)}`}</div>
         </div>
         <div className="flex flex-col justify-between">
           <div />
