@@ -106,7 +106,7 @@ export const FarmStakeUnstakeUtils = ({
               ? `${formatEther(availableBalance)} LP`
               : `${formatEther(stakedBalance)} LP`}
           </div>
-          <div className="flex flex-row gap-1">
+          <div className="flex flex-row justify-between w-[132px]">
             <input
               type="text"
               value={isStakeVisible ? stakeValue : unStakeValue}
@@ -130,7 +130,10 @@ export const FarmStakeUnstakeUtils = ({
             </button>
           </div>
           <div
-            className="btn mb-1"
+            className="btn mb-1 w-[132px]"
+            style={{
+              marginLeft: 0,
+            }}
             onClick={
               isStakeVisible
                 ? () => depositToFarmContract(stakeValue)
