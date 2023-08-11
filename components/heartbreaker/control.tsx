@@ -116,7 +116,6 @@ const Control = () => {
      * - Or the game has started but the user has exited the game
      * - Or the game has started and a preset multiplier has been set for the game
      */
-
     if (
       (gameIsLive && !userInPlay) ||
       (!gameIsLive && invalidBetAmount) ||

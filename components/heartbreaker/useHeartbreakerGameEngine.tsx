@@ -38,7 +38,7 @@ export const useHeartbreakerGameEngine = () => {
   const [lockTime, setLockTime] = useState<number>(0);
   const [maxProfit, setMaxProfit] = useState<number>(0);
   const [showMaxProfit, setShowMaxProfit] = useState<boolean>(false);
-    
+
   const { requestState, setRequestState } = useRequestState();
   const { address } = useAccount();
   const { signature, message, onAuthUser } = useContext(AuthContext);
@@ -92,7 +92,7 @@ export const useHeartbreakerGameEngine = () => {
     socket.on("gameResults", (data) => {
       setGameResults(JSON.parse(data));
     });
-
+    
     socket.on("maxProfit", (data) => {
       setMaxProfit(data.maxProfit);
     });
