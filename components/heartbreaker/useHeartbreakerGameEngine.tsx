@@ -50,7 +50,6 @@ export const useHeartbreakerGameEngine = () => {
       .then((res) => {
         setLockTime(res.data.bettingLockTime);
         setBalance(parseFloat(res.data.balance));
-        setAmountToPlay(0);
       });
   };
 
@@ -83,6 +82,7 @@ export const useHeartbreakerGameEngine = () => {
       handleGetGameHistory();
       handleGetGameLeaders();
       setUserExited(false);
+      setAmountToPlay(0);
     });
 
     socket.on("balanceUpdate", (data) => {
