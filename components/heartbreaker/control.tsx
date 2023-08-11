@@ -34,6 +34,8 @@ const Control = () => {
     requestState,
     errorMessage,
     userExited,
+    maxProfit,
+    showMaxProfit,
     lockTime,
     gameTimer,
     onSetErrorMessage,
@@ -380,9 +382,10 @@ const Control = () => {
           </div>
         </div>
         <div className="px-[10px] flex-1">
-          <div className="bg-black h-[22px] mt-[12px] ">
+          <div className="bg-black h-[24px] mt-[12px] overflow-hidden">
             {!!userGameResult?.profit &&
               userGameResult?.profit > 0 &&
+              !showMaxProfit &&
               !gameIsLive && (
                 <p
                   style={{
@@ -396,6 +399,7 @@ const Control = () => {
               )}
             {!!userGameResult?.profit &&
               userGameResult?.profit < 0 &&
+              !showMaxProfit &&
               !gameIsLive && (
                 <p
                   style={{
@@ -407,6 +411,21 @@ const Control = () => {
                   HEARTBREAK BABY!!
                 </p>
               )}
+            {!!maxProfit && showMaxProfit && (
+              <div className="flex justify-center items-center h-[100%]">
+                <p
+                  id="scroll-text"
+                  style={{
+                    backgroundColor: "black",
+                    color: "green",
+                    textAlign: "center",
+                    fontSize: "14px",
+                  }}
+                >
+                  MAX PROFIT {maxProfit.toFixed(6)}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
