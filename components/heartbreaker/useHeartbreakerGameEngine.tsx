@@ -120,7 +120,6 @@ export const useHeartbreakerGameEngine = () => {
     }
 
     setAmountToPlay(amount);
-
     socket.emit("bet", {
       address,
       multiplierToStopAt,
