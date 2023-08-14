@@ -37,6 +37,8 @@ export const useHeartbreakerGameEngine = () => {
   const [startAnimation, setStartAnimation] = useState<boolean>(false);
   const [userExited, setUserExited] = useState<boolean>(false);
   const [lockTime, setLockTime] = useState<number>(0);
+  const [maxProfit, setMaxProfit] = useState<number>(0);
+  const [showMaxProfit, setShowMaxProfit] = useState<boolean>(false);
 
   const { requestState, setRequestState } = useRequestState();
   const { address } = useAccount();
@@ -48,7 +50,6 @@ export const useHeartbreakerGameEngine = () => {
       .then((res) => {
         setLockTime(res.data.bettingLockTime);
         setBalance(parseFloat(res.data.balance));
-        setAmountToPlay(0);
       });
   };
 
@@ -81,6 +82,7 @@ export const useHeartbreakerGameEngine = () => {
       handleGetGameHistory();
       handleGetGameLeaders();
       setUserExited(false);
+      setAmountToPlay(0);
     });
 
     socket.on("balanceUpdate", (data) => {
@@ -90,6 +92,10 @@ export const useHeartbreakerGameEngine = () => {
 
     socket.on("gameResults", (data) => {
       setGameResults(JSON.parse(data));
+    });
+    
+    socket.on("maxProfit", (data) => {
+      setMaxProfit(data.maxProfit);
     });
   };
 
@@ -115,7 +121,6 @@ export const useHeartbreakerGameEngine = () => {
     }
 
     setAmountToPlay(amount);
-
     socket.emit("bet", {
       address,
       multiplierToStopAt,
@@ -293,6 +298,15 @@ export const useHeartbreakerGameEngine = () => {
     }
   }, [address]);
 
+  useEffect(() => {
+    if (gameTimer === 500) {
+      setShowMaxProfit(true);
+    }
+    if (!gameIsLive && gameTimer === 0) {
+      setShowMaxProfit(false);
+    }
+  }, [gameTimer, gameIsLive]);
+
   return {
     onBet: handleBet,
     onStop: handleStop,
@@ -318,5 +332,7 @@ export const useHeartbreakerGameEngine = () => {
     requestState,
     errorMessage,
     lockTime,
+    maxProfit,
+    showMaxProfit
   };
 };

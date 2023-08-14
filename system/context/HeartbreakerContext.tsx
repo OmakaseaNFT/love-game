@@ -34,6 +34,8 @@ export interface IHeartBreaker {
   startAnimation: boolean;
   userExited: boolean;
   lockTime: number;
+  maxProfit: number
+  showMaxProfit: boolean
 }
 
 export const HeartBreakerContext = createContext<IHeartBreaker>(
