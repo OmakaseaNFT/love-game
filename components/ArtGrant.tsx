@@ -84,7 +84,7 @@ const ArtGrant = () => {
 
     const values = {
       owner: getAddressSigner,
-      spender: "0x570322Cd5Ee9A4EC341Bc85233C062cBA4724de0",
+      spender: loveNFTAddress,
       value: valueData,
       nonce: nonces,
       deadline: deadline,
