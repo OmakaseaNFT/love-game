@@ -14,7 +14,7 @@ const ArtGrant = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    setMultiply(parseInt(value) * 10000);
+    setMultiply(parseInt(value) * 11000);
   }, [value]);
   function getTimestampInSeconds() {
     return Math.floor(Date.now() / 1000);
@@ -182,7 +182,7 @@ const ArtGrant = () => {
           <div className="w-1/3">
             <div className="text-[48px]">COMPUTE $LOVE</div>
             <div className="text-base">@beauti_100</div>
-            <div className="text-[32px]">10000 Love</div>
+            <div className="text-[32px]">11000 Love</div>
             <div className="text-base">Amount to mint</div>
 
             <div>
