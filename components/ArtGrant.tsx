@@ -217,7 +217,7 @@ const ArtGrant = () => {
               {loading ? "Loading..." : "Mint Now"}
             </button>
             {success && (
-              <div className="text-red-400 mt-2">Minted Successfully</div>
+              <div className="text-green-400 mt-2">Minted Successfully</div>
             )}
             <div className="text-red-400 mt-2">{error}</div>
           </div>

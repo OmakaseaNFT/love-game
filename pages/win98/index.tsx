@@ -11,6 +11,7 @@ import Paper from "../../components/paper";
 import Farm from "../../components/farm";
 import Computer from "../../assets/computer.png";
 import Settings from "../../assets/settings.png";
+import MintLove from "../../assets/mint_nft.png";
 import PaperIcon from "../../assets/book.png";
 import FarmIcon from "../../assets/tree.png";
 import { useAccount } from "wagmi";
@@ -184,11 +185,11 @@ const Win98 = (props: Props) => {
     },
     {
       menu: "art_grant",
-      title: "ART Grant",
+      title: "Mint NFT",
       component: <ArtGrant />,
       width: "720px",
       height: "300px",
-      icon: FarmIcon,
+      icon: MintLove,
     },
     {
       menu: "heartbreak",
