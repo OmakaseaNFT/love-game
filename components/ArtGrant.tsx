@@ -137,13 +137,13 @@ const ArtGrant = () => {
 
         await tx.wait(2);
         setSuccess(true);
+        setLoading(false);
       } catch (error: any) {
         setError("There was an error with the transaction");
       }
     } else {
       setError("Not enough balance!");
     }
-    setLoading(false);
   };
 
   const menuBars = [
