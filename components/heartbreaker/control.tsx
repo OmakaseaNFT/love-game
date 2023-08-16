@@ -37,6 +37,7 @@ const Control = () => {
     maxProfit,
     showMaxProfit,
     lockTime,
+    gameTimer,
     onSetErrorMessage,
     onChangeBalance,
     setRequestState,
@@ -68,6 +69,11 @@ const Control = () => {
     // If the game is live and the user is not in play, do nothing
     if (gameIsLive && !userInPlay) {
       return;
+    }
+
+    // If the game is not live and the timer has not started, do nothing
+    if (!gameIsLive && !gameTimer) {
+      return
     }
 
     // If the game is live and the user is in play, submit bet to exit at current multiplier
@@ -113,6 +119,7 @@ const Control = () => {
      * CONDITIONS FOR BET DISABLED
      * - The game has started but the user is not in play (no bet amount was made)
      * - Or the game has not started and the bet amount is invalid
+     * - Or the game has not started and the game timer has not begun counting down
      * - Or the game has started but the user has exited the game
      * - Or the game has started and a preset multiplier has been set for the game
      */
@@ -120,7 +127,8 @@ const Control = () => {
       (gameIsLive && !userInPlay) ||
       (!gameIsLive && invalidBetAmount) ||
       (gameIsLive && userExited) ||
-      (gameIsLive && presetIsLive)
+      (gameIsLive && presetIsLive) ||
+      (!gameIsLive && !gameTimer)
     ) {
       return DeadButton;
     }
