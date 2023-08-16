@@ -180,7 +180,7 @@ const ArtGrant = () => {
             <Image alt="" src="/assets/art_side.jpg" width={400} height={400} />
           </div>
           <div className="w-1/3">
-            <div className="text-[48px]">COLLECTION NAME</div>
+            <div className="text-[48px]">COMPUTE $LOVE</div>
             <div className="text-base">@beauti_100</div>
             <div className="text-[32px]">10000 Love</div>
             <div className="text-base">Amount to mint</div>
