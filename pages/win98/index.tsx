@@ -11,6 +11,7 @@ import Paper from "../../components/paper";
 import Farm from "../../components/farm";
 import Computer from "../../assets/computer.png";
 import Settings from "../../assets/settings.png";
+import MintLove from "../../assets/mint_nft.png";
 import PaperIcon from "../../assets/book.png";
 import FarmIcon from "../../assets/tree.png";
 import { useAccount } from "wagmi";
@@ -33,6 +34,7 @@ import { AppContracts } from "../../system/AppContracts";
 import { CopyAddressButton } from "../../components/copyAddressButton";
 import { useWrongNetwork } from "../../system/hooks/useWrongNetwork";
 import { HeartBreaker } from "../../components/heartbreaker";
+import ArtGrant from "../../components/ArtGrant";
 
 interface Props {
   lock?: Boolean;
@@ -56,9 +58,7 @@ const Win98 = (props: Props) => {
   const { address } = useAccount();
   const [price, setPrice] = useState<number>(0);
   const [usdPrice, setUSDPrice] = useState<number>(0);
-  const [wallpaper, setWallpaper] = useState<string>(
-    "/assets/lovegame_background.png"
-  );
+  const [wallpaper, setWallpaper] = useState<string>("/assets/art_bg.jpg");
   const [claimContract, setClaimContract] = useState<any>(null);
   const [claimValue, setClaimValue] = useState<any>(
     (merkleData as any).claims[address as any]
@@ -182,6 +182,14 @@ const Win98 = (props: Props) => {
       width: "400px",
       height: "400px",
       icon: PaperIcon,
+    },
+    {
+      menu: "art_grant",
+      title: "Mint NFT",
+      component: <ArtGrant />,
+      width: "720px",
+      height: "300px",
+      icon: MintLove,
     },
     {
       menu: "heartbreak",

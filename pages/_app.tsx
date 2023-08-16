@@ -5,6 +5,7 @@ import type { AppProps } from "next/app";
 import { configureChains, createConfig, WagmiConfig, useAccount } from "wagmi";
 import { mainnet, goerli, sepolia } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { Analytics } from "@vercel/analytics/react";
 import { useEffect } from "react";
 import { hotjar } from "react-hotjar";
@@ -22,7 +23,15 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
       ? [sepolia]
       : [mainnet]),
   ],
-  [publicProvider()]
+  [
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http: process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? 
+        `https://crimson-empty-glitter.ethereum-sepolia.quiknode.pro/0d67f844110595a04f83b3ab1b0530d91526b619/` :
+        `https://hidden-compatible-morning.quiknode.pro/c0ae6201d2c21e8169474f08851141fefdb1532f/`,
+      }),
+    }),
+  ]
 );
 
 const { connectors } = getDefaultWallets({
