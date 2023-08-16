@@ -4,8 +4,8 @@ import LoveNFTABI from "../utils/loveNFT.json";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const loveNFTAddress = "0x570322Cd5Ee9A4EC341Bc85233C062cBA4724de0";
-const loveTokenAddress = "0x2aA7b05CaDCb2A6604544131D556d68b5c18635e";
+const loveNFTAddress = process.env.NEXT_PUBLIC_FEATURED_NFT_MINT_ADDRESS;
+const loveTokenAddress = process.env.NEXT_PUBLIC_CONTRACT_LOVE;
 const ArtGrant = () => {
   const [multiply, setMultiply] = useState(0);
   const [value, setValue] = useState<string>("");
@@ -31,13 +31,13 @@ const ArtGrant = () => {
     const chainId = (await provider.getNetwork()).chainId;
 
     const loveNFTContract = new ethers.Contract(
-      loveNFTAddress,
+      loveNFTAddress as string,
       LoveNFTABI,
       provider
     ) as any;
 
     const myTokenContract = new ethers.Contract(
-      loveTokenAddress,
+      loveTokenAddress as string,
       TestingABI,
       provider
     ) as any;
@@ -162,7 +162,7 @@ const ArtGrant = () => {
   ];
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col h-[500px]">
       <div className="text-gray-500 mt-1">
         {menuBars.map((item, idx) => (
           <span
