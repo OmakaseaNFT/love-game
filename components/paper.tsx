@@ -134,7 +134,7 @@ const Paper = () => {
   return (
     <div className="flex flex-row items-center mt-[40px]">
       <div className="mr-2 w-2/3">
-        <Image alt="" src="/assets/lovenft.png" width={2000} height={2000} />
+        <Image alt="" src="/assets/lovenft.png" width={20} height={20} />
       </div>
       <div className="w-1/3">
         <div className="text-[20px]">COLLECTION NAME</div>
