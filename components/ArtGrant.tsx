@@ -140,9 +140,11 @@ const ArtGrant = () => {
         setLoading(false);
       } catch (error: any) {
         setError("There was an error with the transaction");
+        setLoading(false);
       }
     } else {
       setError("Not enough balance!");
+      setLoading(false);
     }
   };
 
