@@ -22,7 +22,7 @@ const BottomBar = (props: Props) => {
     {
       menu: "art_grant",
       icon: Tree,
-      name: "Art Grant",
+      name: "<u>M</u>int NFT",
     },
     {
       menu: "farm",
