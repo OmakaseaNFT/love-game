@@ -33,6 +33,7 @@ import { AppContracts } from "../../system/AppContracts";
 import { CopyAddressButton } from "../../components/copyAddressButton";
 import { useWrongNetwork } from "../../system/hooks/useWrongNetwork";
 import { HeartBreaker } from "../../components/heartbreaker";
+import ArtGrant from "../../components/ArtGrant";
 
 interface Props {
   lock?: Boolean;
@@ -182,6 +183,14 @@ const Win98 = (props: Props) => {
       width: "400px",
       height: "400px",
       icon: PaperIcon,
+    },
+    {
+      menu: "art_grant",
+      title: "ART Grant",
+      component: <ArtGrant />,
+      width: "720px",
+      height: "300px",
+      icon: FarmIcon,
     },
     {
       menu: "heartbreak",

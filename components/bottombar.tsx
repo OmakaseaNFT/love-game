@@ -20,6 +20,11 @@ const BottomBar = (props: Props) => {
   const { onCopyText, copied } = useCopyText();
   const list = [
     {
+      menu: "art_grant",
+      icon: Tree,
+      name: "Art Grant",
+    },
+    {
       menu: "farm",
       icon: Tree,
       name: "<u>F</u>arm",
