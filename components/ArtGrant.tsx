@@ -10,6 +10,8 @@ const ArtGrant = () => {
   const [multiply, setMultiply] = useState(0);
   const [value, setValue] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     setMultiply(parseInt(value) * 10000);
@@ -19,6 +21,8 @@ const ArtGrant = () => {
   }
 
   const handleMint = async () => {
+    setLoading(true);
+    setSuccess(false);
     const provider = new ethers.providers.Web3Provider(
       (window as any).ethereum
     );
@@ -41,7 +45,6 @@ const ArtGrant = () => {
     const getAddressSigner = await signer.getAddress();
     const myTokenBalance = await myTokenContract.balanceOf(getAddressSigner);
 
-    console.log("kontole", myTokenBalance);
     const nonces = await myTokenContract.nonces(getAddressSigner);
 
     const domain = {
@@ -133,12 +136,14 @@ const ArtGrant = () => {
         );
 
         await tx.wait(2);
+        setSuccess(true);
       } catch (error: any) {
         setError("There was an error with the transaction");
       }
     } else {
       setError("Not enough balance!");
     }
+    setLoading(false);
   };
 
   const menuBars = [
@@ -205,10 +210,15 @@ const ArtGrant = () => {
             <button
               className="btn text-[32px]"
               onClick={() => handleMint()}
-              disabled={isNaN(parseInt(value)) || parseInt(value) === 0}
+              disabled={
+                isNaN(parseInt(value)) || parseInt(value) === 0 || loading
+              }
             >
-              Mint Now
+              {loading ? "Loading..." : "Mint Now"}
             </button>
+            {success && (
+              <div className="text-red-400 mt-2">Minted Successfully</div>
+            )}
             <div className="text-red-400 mt-2">{error}</div>
           </div>
         </div>

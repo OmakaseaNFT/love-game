@@ -57,9 +57,7 @@ const Win98 = (props: Props) => {
   const { address } = useAccount();
   const [price, setPrice] = useState<number>(0);
   const [usdPrice, setUSDPrice] = useState<number>(0);
-  const [wallpaper, setWallpaper] = useState<string>(
-    "/assets/lovegame_background.png"
-  );
+  const [wallpaper, setWallpaper] = useState<string>("/assets/art_bg.jpg");
   const [claimContract, setClaimContract] = useState<any>(null);
   const [claimValue, setClaimValue] = useState<any>(
     (merkleData as any).claims[address as any]

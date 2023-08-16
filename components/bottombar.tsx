@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Computer from "../assets/computer.png";
+import Mint from "../assets/mint_nft.png";
 import Tree from "../assets/three.png";
 import Paper from "../assets/book.png";
 import Setting from "../assets/settings.png";
@@ -21,7 +22,7 @@ const BottomBar = (props: Props) => {
   const list = [
     {
       menu: "art_grant",
-      icon: Tree,
+      icon: Mint,
       name: "<u>M</u>int NFT",
     },
     {
