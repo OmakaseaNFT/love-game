@@ -294,9 +294,12 @@ export const useHeartbreakerGameEngine = () => {
   useEffect(() => {
     if (address) {
       handleGetBalance(address);
-      handleGetGameLeaders();
     }
   }, [address]);
+
+  useEffect(() => {
+    handleGetGameLeaders();
+  },[])
 
   useEffect(() => {
     if (gameTimer === 500) {
