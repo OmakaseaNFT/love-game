@@ -17,7 +17,6 @@ import { formatUnits } from "ethers/lib/utils";
 import { AppContracts } from "../system/AppContracts";
 import { FaithAbi } from "../system/FaithAbi";
 import { LoveTokenAbi } from "../system/LoveTokenAbi";
-import { set } from "mongoose";
 
 const listLive = [1];
 type PoolData = {
