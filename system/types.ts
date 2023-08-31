@@ -14,6 +14,5 @@ export type GameHistory = {
 
 export type LeaderBoard = {
   user_address: number;
-  total_amount: string;
-  total_profit: string;
+  profit: string;
 };
