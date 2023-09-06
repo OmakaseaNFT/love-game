@@ -1,8 +1,8 @@
 import Etherscan from "../assets/etherscan.png";
 import Uniswap from "../assets/uniswap.png";
-import Wallet from "../assets/wallet.png";
 import Farm from "../assets/tree.png";
 import Paper from "../assets/book.png";
+import Claim from "../assets/claim.png";
 import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
 import { Connect } from "./connect";
@@ -66,6 +66,11 @@ const Screen = ({
       icon: Paper,
       label: "Paper",
     },
+    {
+      onClick: () => onTrigger(),
+      icon: Claim,
+      label: "Claim $WAR"
+    }
   ];
 
   useEffect(() => {
@@ -79,7 +84,7 @@ const Screen = ({
         backgroundImage: `url(${wallpaper ?? ""})`,
       }}
     >
-      <LoveAlerts hide={hide} setHide={setHide} setFinish={onTrigger} />
+      {/* <LoveAlerts hide={hide} setHide={setHide} setFinish={onTrigger} /> */}
       {hide ? (
         <div className="w-full h-full flex">
           {children}
