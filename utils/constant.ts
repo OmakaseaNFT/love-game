@@ -5,6 +5,8 @@ export const contractAddressLoveClaim: string =
 export const rpc_url: string = process.env.NEXT_PUBLIC_JSON_RPC_URL || "";
 export const contractAddressLove: string =
   process.env.NEXT_PUBLIC_CONTRACT_LOVE || "";
+export const contractAddressWar: string =
+  process.env.NEXT_PUBLIC_CONTRACT_WAR || "";
 export const USDETHPoolAddy: string =
   process.env.NEXT_PUBLIC_CONTRACT_USDETHPoolAddy || "";
 export const ETHLOVEPoolAddy: string =
@@ -14,7 +16,6 @@ export const USDCAddress: string =
 export const ETHLPAddy: string =
   process.env.NEXT_PUBLIC_CONTRACT_LOVE_ETH_LP || "";
 export const BE_URL: string = process.env.NEXT_PUBLIC_API || "";
-export const MONGOO_URL: string = process.env.MONGOO_URL || "";
 export const ETHERSCAN_CLAIM_LINK =
   "https://etherscan.io/address/0xB22C05CeDbF879a661fcc566B5a759d005Cf7b4C";
 export const ETHERSCAN_FARM_LINK =
@@ -39,7 +40,7 @@ export const LOVE_POOLS = [
 ];
 export const BLOCKS_PER_YEAR = 2591500;
 export const IS_DEV_ENV = process.env.NEXT_PUBLIC_NODE_ENV === "dev";
-export const CHAIN_ID = IS_DEV_ENV ? 5 : 1;
+export const CHAIN_ID = IS_DEV_ENV ? 11155111 : 1;
 export const USDT_CONTRACT_ADDRESS = IS_DEV_ENV
   ? "0xdAC17F958D2ee523a2206206994597C13D831ec7"
   : "0xdAC17F958D2ee523a2206206994597C13D831ec7";

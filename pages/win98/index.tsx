@@ -2,11 +2,10 @@ import BottomBar from "../../components/bottombar";
 import { useEffect, useState, useLayoutEffect } from "react";
 import moment from "moment";
 import Dialog from "../../components/dialog";
-import Image from "next/image";
 import Screen from "../../components/screen";
 import ActiveButton from "../../components/activeButton";
 import ControlPanel from "../../components/controlPanel";
-import Claim from "../../components/claim";
+import ClaimWarTokens from "../../components/claimWarTokens";
 import Paper from "../../components/paper";
 import Farm from "../../components/farm";
 import Computer from "../../assets/computer.png";
@@ -60,9 +59,6 @@ const Win98 = (props: Props) => {
     "/assets/lovegame_background.png"
   );
   const [claimContract, setClaimContract] = useState<any>(null);
-  const [claimValue, setClaimValue] = useState<any>(
-    (merkleData as any).claims[address as any]
-  );
 
   const useIsomorphicLayoutEffect =
     typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -77,21 +73,6 @@ const Win98 = (props: Props) => {
     };
   }, []);
 
-  const onClaim = async () => {
-    setSelectedContent(contents[1]);
-    try {
-      const response = await axios.post(`/api/markle`, {
-        address: address,
-      });
-
-      if (response) {
-        setSelectedContent(contents[4]);
-      }
-    } catch (error) {
-      console.error("No Address Found!", error);
-      setSelectedContent(contents[6]);
-    }
-  };
   useEffect(() => {
     if ((window as any).ethereum) {
       const provider = new ethers.providers.Web3Provider(
@@ -200,6 +181,14 @@ const Win98 = (props: Props) => {
       height: "80px",
       icon: Settings,
     },
+    {
+      menu: "claim",
+      title: "CLAIM",
+      component: <ClaimWarTokens />,
+      width: "350px",
+      height: "180px",
+      icon: Computer
+    },
   ];
 
   useIsomorphicLayoutEffect(() => {
@@ -247,7 +236,7 @@ const Win98 = (props: Props) => {
       <Screen
         wallpaper={wallpaper}
         setSelected={setSelected}
-        onTrigger={() => onClaim()}
+        onTrigger={() => setSelectedContent(contents[5])}
       >
         {selectedContent?.title && (
           <Dialog
