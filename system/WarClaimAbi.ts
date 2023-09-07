@@ -32,7 +32,6 @@ export interface WarClaimAbiInterface extends utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "claim(bytes32,bytes)": FunctionFragment;
-    "claimAmount()": FunctionFragment;
     "claimFinished()": FunctionFragment;
     "decimals()": FunctionFragment;
     "decreaseAllowance(address,uint256)": FunctionFragment;
@@ -40,16 +39,19 @@ export interface WarClaimAbiInterface extends utils.Interface {
     "hasClaimed(address)": FunctionFragment;
     "hashMessage(address,address,bytes4)": FunctionFragment;
     "increaseAllowance(address,uint256)": FunctionFragment;
-    "mint(address,uint256)": FunctionFragment;
+    "lpAddress()": FunctionFragment;
+    "maxSupply()": FunctionFragment;
+    "mintRemaining()": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
+    "setLPAddress(address)": FunctionFragment;
     "signerAddress()": FunctionFragment;
     "symbol()": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
+    "transferFromLP(address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "updateClaimAmount(uint256)": FunctionFragment;
   };
 
   getFunction(
@@ -58,7 +60,6 @@ export interface WarClaimAbiInterface extends utils.Interface {
       | "approve"
       | "balanceOf"
       | "claim"
-      | "claimAmount"
       | "claimFinished"
       | "decimals"
       | "decreaseAllowance"
@@ -66,16 +67,19 @@ export interface WarClaimAbiInterface extends utils.Interface {
       | "hasClaimed"
       | "hashMessage"
       | "increaseAllowance"
-      | "mint"
+      | "lpAddress"
+      | "maxSupply"
+      | "mintRemaining"
       | "name"
       | "owner"
+      | "setLPAddress"
       | "signerAddress"
       | "symbol"
       | "totalSupply"
       | "transfer"
       | "transferFrom"
+      | "transferFromLP"
       | "transferOwnership"
-      | "updateClaimAmount"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -90,10 +94,6 @@ export interface WarClaimAbiInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "claim",
     values: [BytesLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "claimAmount",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "claimFinished",
@@ -114,12 +114,18 @@ export interface WarClaimAbiInterface extends utils.Interface {
     functionFragment: "increaseAllowance",
     values: [string, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "lpAddress", values?: undefined): string;
+  encodeFunctionData(functionFragment: "maxSupply", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "mint",
-    values: [string, BigNumberish]
+    functionFragment: "mintRemaining",
+    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "setLPAddress",
+    values: [string]
+  ): string;
   encodeFunctionData(
     functionFragment: "signerAddress",
     values?: undefined
@@ -138,22 +144,18 @@ export interface WarClaimAbiInterface extends utils.Interface {
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [string]
+    functionFragment: "transferFromLP",
+    values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "updateClaimAmount",
-    values: [BigNumberish]
+    functionFragment: "transferOwnership",
+    values: [string]
   ): string;
 
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "claimAmount",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "claimFinished",
     data: BytesLike
@@ -173,9 +175,18 @@ export interface WarClaimAbiInterface extends utils.Interface {
     functionFragment: "increaseAllowance",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "lpAddress", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "maxSupply", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "mintRemaining",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setLPAddress",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "signerAddress",
     data: BytesLike
@@ -191,11 +202,11 @@ export interface WarClaimAbiInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferOwnership",
+    functionFragment: "transferFromLP",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "updateClaimAmount",
+    functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
 
@@ -293,8 +304,6 @@ export interface WarClaimAbi extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
-    claimAmount(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     claimFinished(overrides?: CallOverrides): Promise<[boolean]>;
 
     decimals(overrides?: CallOverrides): Promise<[number]>;
@@ -324,15 +333,22 @@ export interface WarClaimAbi extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
-    mint(
-      to: string,
-      amount: BigNumberish,
+    lpAddress(overrides?: CallOverrides): Promise<[string]>;
+
+    maxSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    mintRemaining(
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
+
+    setLPAddress(
+      _lpAddress: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<ContractTransaction>;
 
     signerAddress(overrides?: CallOverrides): Promise<[string]>;
 
@@ -353,13 +369,14 @@ export interface WarClaimAbi extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
-    transferOwnership(
-      newOwner: string,
+    transferFromLP(
+      to: string,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
-    updateClaimAmount(
-      amount: BigNumberish,
+    transferOwnership(
+      newOwner: string,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
   };
@@ -383,8 +400,6 @@ export interface WarClaimAbi extends BaseContract {
     signature: BytesLike,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
-
-  claimAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
   claimFinished(overrides?: CallOverrides): Promise<boolean>;
 
@@ -415,15 +430,22 @@ export interface WarClaimAbi extends BaseContract {
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
-  mint(
-    to: string,
-    amount: BigNumberish,
+  lpAddress(overrides?: CallOverrides): Promise<string>;
+
+  maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+  mintRemaining(
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
   name(overrides?: CallOverrides): Promise<string>;
 
   owner(overrides?: CallOverrides): Promise<string>;
+
+  setLPAddress(
+    _lpAddress: string,
+    overrides?: Overrides & { from?: string }
+  ): Promise<ContractTransaction>;
 
   signerAddress(overrides?: CallOverrides): Promise<string>;
 
@@ -444,13 +466,14 @@ export interface WarClaimAbi extends BaseContract {
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
-  transferOwnership(
-    newOwner: string,
+  transferFromLP(
+    to: string,
+    amount: BigNumberish,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
-  updateClaimAmount(
-    amount: BigNumberish,
+  transferOwnership(
+    newOwner: string,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
@@ -474,8 +497,6 @@ export interface WarClaimAbi extends BaseContract {
       signature: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    claimAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
     claimFinished(overrides?: CallOverrides): Promise<boolean>;
 
@@ -504,15 +525,17 @@ export interface WarClaimAbi extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    mint(
-      to: string,
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    lpAddress(overrides?: CallOverrides): Promise<string>;
+
+    maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+    mintRemaining(overrides?: CallOverrides): Promise<void>;
 
     name(overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
+
+    setLPAddress(_lpAddress: string, overrides?: CallOverrides): Promise<void>;
 
     signerAddress(overrides?: CallOverrides): Promise<string>;
 
@@ -533,13 +556,14 @@ export interface WarClaimAbi extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    transferOwnership(
-      newOwner: string,
+    transferFromLP(
+      to: string,
+      amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    updateClaimAmount(
-      amount: BigNumberish,
+    transferOwnership(
+      newOwner: string,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -598,8 +622,6 @@ export interface WarClaimAbi extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
-    claimAmount(overrides?: CallOverrides): Promise<BigNumber>;
-
     claimFinished(overrides?: CallOverrides): Promise<BigNumber>;
 
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
@@ -627,15 +649,22 @@ export interface WarClaimAbi extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
-    mint(
-      to: string,
-      amount: BigNumberish,
+    lpAddress(overrides?: CallOverrides): Promise<BigNumber>;
+
+    maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+    mintRemaining(
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    setLPAddress(
+      _lpAddress: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<BigNumber>;
 
     signerAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -656,13 +685,14 @@ export interface WarClaimAbi extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
-    transferOwnership(
-      newOwner: string,
+    transferFromLP(
+      to: string,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
-    updateClaimAmount(
-      amount: BigNumberish,
+    transferOwnership(
+      newOwner: string,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
   };
@@ -690,8 +720,6 @@ export interface WarClaimAbi extends BaseContract {
       signature: BytesLike,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
-
-    claimAmount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     claimFinished(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -725,15 +753,22 @@ export interface WarClaimAbi extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
-    mint(
-      to: string,
-      amount: BigNumberish,
+    lpAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    maxSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    mintRemaining(
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    setLPAddress(
+      _lpAddress: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
 
     signerAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -754,13 +789,14 @@ export interface WarClaimAbi extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
-    transferOwnership(
-      newOwner: string,
+    transferFromLP(
+      to: string,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
-    updateClaimAmount(
-      amount: BigNumberish,
+    transferOwnership(
+      newOwner: string,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
   };
