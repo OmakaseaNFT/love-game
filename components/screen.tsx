@@ -3,6 +3,7 @@ import LoveIcon from "../assets/love-icon.png";
 import UniswapIcon from "../assets/uniswap.png";
 import PaperIcon from "../assets/book.png";
 import WarIcon from "../assets/war-icon.png";
+import WarBanner from "../assets/war-banner.gif";
 import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
 import { Connect } from "./connect";
@@ -80,6 +81,14 @@ const Screen = ({
         backgroundImage: `url(${wallpaper ?? ""})`,
       }}
     >
+      <div className="absolute inset-0 flex items-center justify-center">
+        <Image
+          src={WarBanner}
+          alt="scrolling war banner gif"
+          height={240}
+          width={360}
+        />
+      </div>
       <div className="w-full h-full flex">
         {children}
         <div className="flex flex-row justify-between w-full p-8 sm:p-0">
