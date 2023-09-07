@@ -55,17 +55,17 @@ const Screen = ({
     {
       onClick: () => setSelected("farm"),
       icon: FarmIcon,
-      label: "Farm",
-    },
-    {
-      onClick: () => setSelected("paper"),
-      icon: PaperIcon,
-      label: "Paper",
+      label: "Farm $LOVE",
     },
     {
       onClick: () => onTrigger(),
       icon: ClaimIcon,
       label: "Claim $WAR"
+    },
+    {
+      onClick: () => setSelected("paper"),
+      icon: PaperIcon,
+      label: "Paper",
     }
   ];
 
