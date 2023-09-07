@@ -81,7 +81,7 @@ const Screen = ({
         backgroundImage: `url(${wallpaper ?? ""})`,
       }}
     >
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 flex items-center justify-center z-0">
         <Image
           src={WarBanner}
           alt="scrolling war banner gif"
@@ -89,7 +89,7 @@ const Screen = ({
           width={360}
         />
       </div>
-      <div className="w-full h-full flex">
+      <div className="w-full h-full flex z-10">
         {children}
         <div className="flex flex-row justify-between w-full p-8 sm:p-0">
           <div className="w-[110px] sm:w-[200px]">
