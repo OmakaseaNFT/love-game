@@ -12,21 +12,11 @@ import Computer from "../../assets/computer.png";
 import Settings from "../../assets/settings.png";
 import PaperIcon from "../../assets/book.png";
 import FarmIcon from "../../assets/tree.png";
-import { useAccount } from "wagmi";
 import { ethers } from "ethers";
-import LoveFarmABI from "../../utils/lovefarm.json";
-import LoveClaimABI from "../../utils/loveclaim.json";
 import {
-  ETHLOVEPoolAddy,
   USDCAddress,
-  contractAddressLoveClaim,
-  contractAddressLoveFarm,
 } from "../../utils/constant";
-import merkleData from "../../utils/claimdata.json";
-import axios from "axios";
-import PoolABI from "../../utils/poolABI.json";
 import { contractAddressLove } from "../../utils/constant";
-import { truncateEthAddress } from "../../system/appUtils";
 import { PoolAbi } from "../../system/PoolAbi";
 import { AppContracts } from "../../system/AppContracts";
 import { CopyAddressButton } from "../../components/copyAddressButton";
@@ -49,16 +39,13 @@ interface Content {
 
 const Win98 = (props: Props) => {
   const [scale, setScale] = useState<string>();
-  const [start, setStart] = useState<boolean>(false);
   const [showBar, setShowBar] = useState<boolean>(false);
   const [time, setTime] = useState(moment().format("HH:mm"));
-  const { address } = useAccount();
   const [price, setPrice] = useState<number>(0);
   const [usdPrice, setUSDPrice] = useState<number>(0);
   const [wallpaper, setWallpaper] = useState<string>(
     "/assets/lovegame_background.png"
   );
-  const [claimContract, setClaimContract] = useState<any>(null);
 
   const useIsomorphicLayoutEffect =
     typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -185,7 +172,7 @@ const Win98 = (props: Props) => {
       menu: "claim",
       title: "CLAIM",
       component: <ClaimWarTokens />,
-      width: "350px",
+      width: "180px",
       height: "180px",
       icon: Computer
     },
