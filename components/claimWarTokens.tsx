@@ -2,12 +2,10 @@ import Image from "next/image";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ContractTransaction, providers } from "ethers";
-import { useAccount, useSignMessage } from "wagmi";
+import { useNetwork, useAccount, useSignMessage } from "wagmi";
 
 import WarIcon from "../assets/war-icon.png";
 import { AppContracts } from "../system/AppContracts";
-import { useWrongNetwork } from "../system/hooks/useWrongNetwork";
-import { WalletConnectButton } from "./ui/WallectConnectButton";
 
 import {
   requestErrorState,
@@ -26,17 +24,14 @@ const rickRoll = () =>
 
 
 const ClaimWarTokens = () => {
-  const { address } = useAccount({
-    onDisconnect() {
-      window.location.reload();
-    },
-  });
-  const { isWrongNetwork } = useWrongNetwork();
-  const [, setPrevWrongNetwork] = useState<boolean>(false);
+  const { address } = useAccount();
+  const { chain } = useNetwork();
+  const [isWrongNetwork, setWrongNetwork] = useState<boolean>(false);
 
   useEffect(() => {
-    setPrevWrongNetwork(isWrongNetwork);
-  }, [isWrongNetwork]);
+    const isGoodNetwork = chain?.unsupported == false
+    setWrongNetwork(!isGoodNetwork);
+  }, [chain]);
 
   const provider = new providers.Web3Provider((window as any).ethereum);
   const signer = provider.getSigner();
@@ -98,19 +93,11 @@ const ClaimWarTokens = () => {
   };
 
   return (isWrongNetwork || !address) ? (
-    <WalletConnectButton
-      connectWalletElement={
-        <p className="cursor-pointer hover:opacity-70">
-          Connect Wallet
-        </p>
-      }
-      walletConnectedElement={<></>}
-      wrongNetworkElement={
-        <p className="cursor-pointer hover:opacity-70">
-          Switch Network
-        </p>
-      }
-    />
+    <div className="flex flex-col gap-1 justify-center items-center mt-4 mx-auto">
+      <p className="cursor-pointer hover:opacity-70">
+        { !address ? "Connect Account" : "Switch Network" }
+      </p>
+    </div>
   ) : (
     <TransactionNotificationWrapper
       requestState={requestState}
