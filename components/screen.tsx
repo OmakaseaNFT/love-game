@@ -1,13 +1,11 @@
-import Etherscan from "../assets/etherscan.png";
-import Uniswap from "../assets/uniswap.png";
-import Farm from "../assets/tree.png";
-import Paper from "../assets/book.png";
-import Claim from "../assets/claim.png";
+import EtherscanIcon from "../assets/etherscan.png";
+import UniswapIcon from "../assets/uniswap.png";
+import FarmIcon from "../assets/tree.png";
+import PaperIcon from "../assets/book.png";
+import ClaimIcon from "../assets/claim.png";
 import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
 import { Connect } from "./connect";
-import { useAccount } from "wagmi";
-import LoveAlerts from "./randomdialog";
 import {
   ETHERSCAN_CLAIM_LINK,
   TELEGRAM_LINK,
@@ -27,17 +25,15 @@ const Screen = ({
   wallpaper,
   onTrigger,
 }: ScreenProps) => {
-  const { address, connector, isConnected } = useAccount();
-  const [hide, setHide] = useState<boolean>(true);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const iconsLeft = [
     {
       onClick: () => window.open(ETHERSCAN_CLAIM_LINK, "_blank"),
-      icon: Etherscan,
+      icon: EtherscanIcon,
     },
     {
       onClick: () => window.open(UNISWAP_LINK, "_blank"),
-      icon: Uniswap,
+      icon: UniswapIcon,
       label: "Uniswap",
       logoHeight: 60,
     },
@@ -58,17 +54,17 @@ const Screen = ({
   const iconsRight = [
     {
       onClick: () => setSelected("farm"),
-      icon: Farm,
+      icon: FarmIcon,
       label: "Farm",
     },
     {
       onClick: () => setSelected("paper"),
-      icon: Paper,
+      icon: PaperIcon,
       label: "Paper",
     },
     {
       onClick: () => onTrigger(),
-      icon: Claim,
+      icon: ClaimIcon,
       label: "Claim $WAR"
     }
   ];
@@ -84,60 +80,57 @@ const Screen = ({
         backgroundImage: `url(${wallpaper ?? ""})`,
       }}
     >
-      {/* <LoveAlerts hide={hide} setHide={setHide} setFinish={onTrigger} /> */}
-      {hide ? (
-        <div className="w-full h-full flex">
-          {children}
-          <div className="flex flex-row justify-between w-full p-8 sm:p-0">
-            <div className="w-[110px] sm:w-[200px]">
-              {iconsLeft.map((item, index) => {
+      <div className="w-full h-full flex">
+        {children}
+        <div className="flex flex-row justify-between w-full p-8 sm:p-0">
+          <div className="w-[110px] sm:w-[200px]">
+            {iconsLeft.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  className="h-36  flex-col flex justify-center flex items-center cursor-pointer"
+                  onClick={item.onClick}
+                >
+                  <Image
+                    src={item.icon}
+                    alt="icon"
+                    height={item.logoHeight ?? 80}
+                    width={item.logoHeight ?? 80}
+                  />
+                  {item.label && (
+                    <div className="text-[rgba(255,255,255,.80)] text-lg mt-2">
+                      {item.label}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          <div className="w-[110px] sm:w-[200px] pt-[2px]">
+            <div className="h-36 flex-row justify-center flex items-center">
+              {" "}
+              <Connect />
+            </div>
+            {showMenu &&
+              iconsRight.map((item, index) => {
                 return (
                   <div
                     key={index}
-                    className="h-36  flex-col flex justify-center flex items-center cursor-pointer"
+                    className="h-36 flex-col flex justify-center flex items-center cursor-pointer"
                     onClick={item.onClick}
                   >
-                    <Image
-                      src={item.icon}
-                      alt="icon"
-                      height={item.logoHeight ?? 80}
-                      width={item.logoHeight ?? 80}
-                    />
+                    <Image src={item.icon} alt="icon" height={55} />
                     {item.label && (
-                      <div className="text-[rgba(255,255,255,.80)] text-lg mt-2">
+                      <div className="text-[rgba(255,255,255,.7)] text-lg mt-[2px]">
                         {item.label}
                       </div>
                     )}
                   </div>
                 );
               })}
-            </div>
-            <div className="w-[110px] sm:w-[200px] pt-[2px]">
-              <div className="h-36 flex-row justify-center flex items-center">
-                {" "}
-                <Connect />
-              </div>
-              {showMenu &&
-                iconsRight.map((item, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="h-36 flex-col flex justify-center flex items-center cursor-pointer"
-                      onClick={item.onClick}
-                    >
-                      <Image src={item.icon} alt="icon" height={55} />
-                      {item.label && (
-                        <div className="text-[rgba(255,255,255,.7)] text-lg mt-[2px]">
-                          {item.label}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-            </div>
           </div>
         </div>
-      ) : null}
+      </div>
     </div>
   );
 };

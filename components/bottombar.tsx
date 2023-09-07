@@ -1,11 +1,9 @@
 import Image from "next/image";
-import Computer from "../assets/computer.png";
-import Tree from "../assets/three.png";
-import Paper from "../assets/book.png";
-import Setting from "../assets/settings.png";
-import Shutdown from "../assets/shutdown.png";
+import TreeIcon from "../assets/three.png";
+import PaperIcon from "../assets/book.png";
+import SettingsIcon from "../assets/settings.png";
+import ShutdownIcon from "../assets/shutdown.png";
 import { useState } from "react";
-import { MdArrowRight } from "react-icons/md";
 import { StartMenuListItem } from "./startMenuListItem";
 import { useCopyText } from "../system/hooks/useCopyText";
 import { truncateEthAddress } from "../system/appUtils";
@@ -21,12 +19,12 @@ const BottomBar = (props: Props) => {
   const list = [
     {
       menu: "farm",
-      icon: Tree,
+      icon: TreeIcon,
       name: "<u>F</u>arm",
     },
     {
       menu: "paper",
-      icon: Paper,
+      icon: PaperIcon,
       name: "<u>P</u>aper",
     },
     {
@@ -36,13 +34,13 @@ const BottomBar = (props: Props) => {
     },
     {
       menu: "cp",
-      icon: Setting,
+      icon: SettingsIcon,
       name: "<u>S</u>ettings",
       haveSub: true,
     },
     {
       menu: "shutdown",
-      icon: Shutdown,
+      icon: ShutdownIcon,
       name: "Sh<u>u</u>t Down",
     },
   ];
@@ -97,7 +95,7 @@ const BottomBar = (props: Props) => {
           >
             <div className="flex flex-row w-full items-center">
               <div className="w-1/3 flex flex-row justify-center ">
-                <Image src={Setting} width={29} height={29} alt="icon" />
+                <Image src={SettingsIcon} width={29} height={29} alt="icon" />
               </div>
               <div className="text-[22px]">
                 <span>
