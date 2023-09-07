@@ -1,11 +1,13 @@
 import Image from "next/image";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ContractTransaction, providers } from "ethers";
-import { useSignMessage } from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 
-import { AppContracts } from "../system/AppContracts";
 import ClaimIcon from "../assets/claim.png";
+import { AppContracts } from "../system/AppContracts";
+import { useWrongNetwork } from "../system/hooks/useWrongNetwork";
+import { WalletConnectButton } from "./ui/WallectConnectButton";
 
 import {
   requestErrorState,
@@ -24,6 +26,18 @@ const rickRoll = () =>
 
 
 const ClaimWarTokens = () => {
+  const { address } = useAccount({
+    onDisconnect() {
+      window.location.reload();
+    },
+  });
+  const { isWrongNetwork } = useWrongNetwork();
+  const [, setPrevWrongNetwork] = useState<boolean>(false);
+
+  useEffect(() => {
+    setPrevWrongNetwork(isWrongNetwork);
+  }, [isWrongNetwork]);
+
   const provider = new providers.Web3Provider((window as any).ethereum);
   const signer = provider.getSigner();
   const { warClaimContract } = new AppContracts(signer);
@@ -83,7 +97,21 @@ const ClaimWarTokens = () => {
     }
   };
 
-  return (
+  return (isWrongNetwork || !address) ? (
+    <WalletConnectButton
+      connectWalletElement={
+        <p className="cursor-pointer hover:opacity-70">
+          Connect Wallet
+        </p>
+      }
+      walletConnectedElement={<></>}
+      wrongNetworkElement={
+        <p className="cursor-pointer hover:opacity-70">
+          Switch Network
+        </p>
+      }
+    />
+  ) : (
     <TransactionNotificationWrapper
       requestState={requestState}
       setRequestState={setRequestState}
