@@ -17,7 +17,7 @@ import { TransactionNotificationWrapper } from "./ui/TransactionNotificationWrap
 
 const rickRoll = () =>
   window.open(
-    "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "https://shattereddisk.github.io/rickroll/rickroll.mp4",
     '_blank',
     'noopener,noreferrer'
     );
