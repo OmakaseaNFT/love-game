@@ -1,8 +1,8 @@
 import EtherscanIcon from "../assets/etherscan.png";
+import LoveIcon from "../assets/love-icon.png";
 import UniswapIcon from "../assets/uniswap.png";
-import FarmIcon from "../assets/tree.png";
 import PaperIcon from "../assets/book.png";
-import ClaimIcon from "../assets/claim.png";
+import WarIcon from "../assets/war-icon.png";
 import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
 import { Connect } from "./connect";
@@ -54,12 +54,12 @@ const Screen = ({
   const iconsRight = [
     {
       onClick: () => setSelected("farm"),
-      icon: FarmIcon,
+      icon: LoveIcon,
       label: "Farm $LOVE",
     },
     {
       onClick: () => onTrigger(),
-      icon: ClaimIcon,
+      icon: WarIcon,
       label: "Claim $WAR"
     },
     {
