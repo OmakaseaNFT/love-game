@@ -130,10 +130,10 @@ const Screen = ({
                   >
                     <Image src={item.icon} alt="icon" height={55} />
                     {item.label && (
-                      <div className="text-[rgba(255,255,255,.7)] text-lg mt-[2px]">
-                        {item.label}
-                      </div>
-                    )}
+                    <div className="text-[rgba(255,255,255,.80)] text-lg mt-2">
+                      {item.label}
+                    </div>
+                  )}
                   </div>
                 );
               })}

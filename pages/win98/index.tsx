@@ -8,10 +8,11 @@ import ControlPanel from "../../components/controlPanel";
 import ClaimWarTokens from "../../components/claimWarTokens";
 import Paper from "../../components/paper";
 import Farm from "../../components/farm";
-import Computer from "../../assets/computer.png";
-import Settings from "../../assets/settings.png";
+import ComputerIcon from "../../assets/computer.png";
+import SettingsIcon from "../../assets/settings.png";
 import PaperIcon from "../../assets/book.png";
-import FarmIcon from "../../assets/tree.png";
+import LoveIcon from "../../assets/love-icon.png";
+import WarIcon from "../../assets/war-icon.png";
 import { ethers } from "ethers";
 import {
   USDCAddress,
@@ -44,7 +45,7 @@ const Win98 = (props: Props) => {
   const [price, setPrice] = useState<number>(0);
   const [usdPrice, setUSDPrice] = useState<number>(0);
   const [wallpaper, setWallpaper] = useState<string>(
-    "/assets/lovegame_background.png"
+    "/assets/blank_background.png"
   );
 
   const useIsomorphicLayoutEffect =
@@ -133,7 +134,7 @@ const Win98 = (props: Props) => {
       ),
       width: "400px",
       height: "400px",
-      icon: Settings,
+      icon: SettingsIcon,
     },
     {
       menu: "farm",
@@ -141,7 +142,7 @@ const Win98 = (props: Props) => {
       component: <Farm />,
       width: "720px",
       height: "300px",
-      icon: FarmIcon,
+      icon: LoveIcon,
     },
     {
       menu: "paper",
@@ -166,7 +167,7 @@ const Win98 = (props: Props) => {
       component: <div className="text-center w-full">ADDRESS NOT FOUND !</div>,
       width: "200px",
       height: "80px",
-      icon: Settings,
+      icon: SettingsIcon,
     },
     {
       menu: "claim",
@@ -174,7 +175,7 @@ const Win98 = (props: Props) => {
       component: <ClaimWarTokens />,
       width: "180px",
       height: "180px",
-      icon: Computer
+      icon: WarIcon
     },
   ];
 
@@ -238,7 +239,7 @@ const Win98 = (props: Props) => {
         )}
       </Screen>
 
-      <div className="flex flex-row justify-between bg-gray-400 py-[1px] h-[42px] border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-gray-600 border-[1.6px] z-10 absolute bottom-0 right-0 left-0">
+      <div className="flex flex-row justify-between bg-gray-400 py-[1px] h-[42px] border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-gray-600 border-[1.6px] z-50 absolute bottom-0 right-0 left-0">
         <div className="flex flex-row">
           <button
             onClick={() => setShowBar(!showBar)}
@@ -255,7 +256,7 @@ const Win98 = (props: Props) => {
           </button>
           {selectedContent?.title && (
             <ActiveButton
-              icon={selectedContent?.icon ?? Computer}
+              icon={selectedContent?.icon ?? ComputerIcon}
               text={selectedContent?.title ?? ""}
               isSmall
             />
