@@ -16,11 +16,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     token: KV_REST_API_TOKEN
   });
 
-  const owner = utils.getAddress(
+  const ownerNoChecksum = utils.getAddress(
     recoverPersonalSignature({ data: message, signature})
-  );
+  ).toLowerCase();
 
-  const sigObj = await kvClient.get(owner)
+  const sigObj = await kvClient.get(ownerNoChecksum)
     .catch(() => null);
 
   return res.json(sigObj);
