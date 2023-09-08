@@ -50,44 +50,34 @@ const ClaimWarTokens = () => {
     handleTransactionError(error);
   }
 
-  const claim = async () => {
-    const provider = new providers.Web3Provider((window as any).ethereum);
+  const handleClaim = async () => {
+    const message = `ALL IS FAIR IN $LOVE AND $WAR`;
+    const provider = new providers.Web3Provider(
+      (window as any).ethereum
+    );
     const signer = provider.getSigner();
     const { warClaimContract } = new AppContracts(signer);
-  
     setRequestState(requestPendingState);
-    const message = `ALL IS FAIR IN $LOVE AND $WAR`;
-    
-    let sig = "";
-
     try {
-      sig = await signMessageAsync({message});
+      const sig = await signMessageAsync({message});
+      const result = await axios.post(`/api/claimTokens`, {
+        signature: sig,
+        message
+      });
+      if (!result.data) return rickRollError({ reason: `Address is not eligible for claim!` });
+      const owner = await signer.getAddress();
+      const hasClaimed = owner ? await warClaimContract.hasClaimed(owner) : false;
+      if (hasClaimed) return rickRollError({ reason: `Address has already claimed!` });
+      try {
+        const { messageHash, signature } = result.data;
+        const tx: ContractTransaction = await warClaimContract.claim(messageHash, signature);
+        await tx.wait(2)
+        return handleTransactionSuccess();
+      } catch (error: any) {
+        return rickRollError(error);
+      }
     } catch (error: any) {
       return handleTransactionError({ reason: `Failed to create signature with wallet!`});
-    }
-  
-    const result = await axios.post(`/api/claimTokens`, {
-      signature: sig,
-      message
-    });
-    
-    const owner = await signer.getAddress();
-    const hasClaimed = await warClaimContract.hasClaimed(owner);
-    
-    if (!result.data) {
-      return rickRollError({ reason: `Address is not eligible for claim!` });
-    } else if (hasClaimed) {
-      return rickRollError({ reason: `Address has already claimed!` })
-    }
-    
-    const { messageHash, signature } = result.data;
-
-    try {
-      const tx = await warClaimContract.claim(messageHash, signature) as ContractTransaction;
-      await tx.wait(2)
-      handleTransactionSuccess();
-    } catch (error: any) {
-      rickRollError(error);
     }
   };
 
@@ -98,21 +88,21 @@ const ClaimWarTokens = () => {
       </p>
     </div>
   ) : (
-    <TransactionNotificationWrapper
-      requestState={requestState}
-      setRequestState={setRequestState}
-      errorMessage={errorMessage}
-    >
-      <div className="flex flex-col gap-1 justify-center items-center mt-4 mx-auto">
+    <div className="flex flex-col gap-1 justify-center items-center mt-4 mx-auto">
+      <TransactionNotificationWrapper
+        requestState={requestState}
+        setRequestState={setRequestState}
+        errorMessage={errorMessage}
+      >
         <Image src={FireIcon} alt="" width={72} height={72} />
         <button
-          onClick={async () => await claim()}
+          onClick={async () => await handleClaim()}
           className="btn w-auto h-[35px] m-auto my-2"
         >
           PARA BELLUM
         </button>      
-      </div>
-    </TransactionNotificationWrapper>
+      </TransactionNotificationWrapper>
+    </div>
   );
 };
 
