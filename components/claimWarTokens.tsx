@@ -110,7 +110,7 @@ const ClaimWarTokens = () => {
           onClick={async () => await claim()}
           className="btn w-auto h-[35px] m-auto my-2"
         >
-          Claim $WAR!
+          PARA BELLUM
         </button>      
       </div>
     </TransactionNotificationWrapper>

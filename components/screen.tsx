@@ -61,7 +61,7 @@ const Screen = ({
     {
       onClick: () => onTrigger(),
       icon: WarIcon,
-      label: "Claim $WAR"
+      label: "Claim $WAR3"
     },
     {
       onClick: () => setSelected("paper"),
