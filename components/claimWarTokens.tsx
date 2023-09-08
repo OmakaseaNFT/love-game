@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { ContractTransaction, providers } from "ethers";
 import { useNetwork, useAccount, useSignMessage } from "wagmi";
 
-import WarIcon from "../assets/war-icon.png";
+import FireIcon from "../assets/fire-icon.png";
 import { AppContracts } from "../system/AppContracts";
 
 import {
@@ -104,7 +104,7 @@ const ClaimWarTokens = () => {
       errorMessage={errorMessage}
     >
       <div className="flex flex-col gap-1 justify-center items-center mt-4 mx-auto">
-        <Image src={WarIcon} alt="" width={72} height={72} />
+        <Image src={FireIcon} alt="" width={72} height={72} />
         <button
           onClick={async () => await claim()}
           className="btn w-auto h-[35px] m-auto my-2"

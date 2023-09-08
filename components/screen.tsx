@@ -2,7 +2,7 @@ import EtherscanIcon from "../assets/etherscan.png";
 import LoveIcon from "../assets/love-icon.png";
 import UniswapIcon from "../assets/uniswap.png";
 import PaperIcon from "../assets/book.png";
-import WarIcon from "../assets/war-icon.png";
+import FireIcon from "../assets/fire-icon.png";
 import WarBanner from "../assets/war-banner.gif";
 import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
@@ -60,7 +60,7 @@ const Screen = ({
     },
     {
       onClick: () => onTrigger(),
-      icon: WarIcon,
+      icon: FireIcon,
       label: "Claim $WAR3"
     },
     {
