@@ -32,15 +32,10 @@ const ClaimWarTokens = () => {
     const isGoodNetwork = chain?.unsupported == false
     setWrongNetwork(!isGoodNetwork);
   }, [chain]);
-
-  const provider = new providers.Web3Provider((window as any).ethereum);
-  const signer = provider.getSigner();
-  const { warClaimContract } = new AppContracts(signer);
     
   const { signMessageAsync } = useSignMessage();
   const { requestState, setRequestState } = useRequestState();
   const [ errorMessage, setErrorMessage ] = useState<string>("");
-
 
   const handleTransactionSuccess = () =>
     setRequestState(requestSuccessState);
@@ -56,6 +51,10 @@ const ClaimWarTokens = () => {
   }
 
   const claim = async () => {
+    const provider = new providers.Web3Provider((window as any).ethereum);
+    const signer = provider.getSigner();
+    const { warClaimContract } = new AppContracts(signer);
+  
     setRequestState(requestPendingState);
     const message = `ALL IS FAIR IN $LOVE AND $WAR`;
     
