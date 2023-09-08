@@ -53,3 +53,11 @@ export const HEARTBREAKER_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_HEARTBREAKE
 export const ETHUSDTPoolAddy = "0xE24Ab719209A9844E59dBfEEe91ce7d8D482532e"
 export const USD_WBTC_POOL_ADDY = process.env.NEXT_PUBLIC_USD_WBTC_POOL_ADDY!;
 export const USD_PEPE_POOL_ADDY = process.env.NEXT_PUBLIC_USD_PEPE_POOL_ADDY!;
+
+export const KV_REST_API_URL = IS_DEV_ENV
+  ? process.env.KV_REST_API_URL || ""
+  : process.env.KV_PROD_REST_API_URL || "";
+
+export const KV_REST_API_TOKEN = IS_DEV_ENV
+  ? process.env.KV_REST_API_TOKEN || "" 
+  : process.env.KV_PROD_REST_API_TOKEN || "";
