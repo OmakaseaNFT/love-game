@@ -3,7 +3,6 @@ import Uniswap from "../assets/uniswap.png";
 import Wallet from "../assets/wallet.png";
 import Farm from "../assets/tree.png";
 import Paper from "../assets/book.png";
-import ArtGrant from "../assets/mint_nft.png";
 import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
 import { Connect } from "./connect";
@@ -66,11 +65,6 @@ const Screen = ({
       onClick: () => setSelected("paper"),
       icon: Paper,
       label: "Paper",
-    },
-    {
-      onClick: () => setSelected("art_grant"),
-      icon: ArtGrant,
-      label: "Mint NFT",
     },
   ];
 
