@@ -39,7 +39,7 @@ export const LOVE_POOLS = [
   { name: "LOVE-PEPE", icon: "/assets/love_pepe.svg" },
 ];
 export const BLOCKS_PER_YEAR = 2591500;
-export const IS_DEV_ENV = process.env.NEXT_PUBLIC_NODE_ENV === "dev";
+export const IS_DEV_ENV = process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true";
 export const CHAIN_ID = IS_DEV_ENV ? 11155111 : 1;
 export const USDT_CONTRACT_ADDRESS = IS_DEV_ENV
   ? "0xdAC17F958D2ee523a2206206994597C13D831ec7"
