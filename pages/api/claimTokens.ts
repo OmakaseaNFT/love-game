@@ -18,7 +18,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const ownerNoChecksum = utils.getAddress(
     recoverPersonalSignature({ data: message, signature})
-  ).toLowerCase();
+  );
 
   const sigObj = await kvClient.get(ownerNoChecksum)
     .catch(() => null);
