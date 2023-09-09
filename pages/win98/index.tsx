@@ -2,39 +2,27 @@ import BottomBar from "../../components/bottombar";
 import { useEffect, useState, useLayoutEffect } from "react";
 import moment from "moment";
 import Dialog from "../../components/dialog";
-import Image from "next/image";
 import Screen from "../../components/screen";
 import ActiveButton from "../../components/activeButton";
 import ControlPanel from "../../components/controlPanel";
-import Claim from "../../components/claim";
+import ClaimWarTokens from "../../components/claimWarTokens";
 import Paper from "../../components/paper";
 import Farm from "../../components/farm";
-import Computer from "../../assets/computer.png";
-import Settings from "../../assets/settings.png";
-import MintLove from "../../assets/mint_nft.png";
+import ComputerIcon from "../../assets/computer.png";
+import SettingsIcon from "../../assets/settings.png";
 import PaperIcon from "../../assets/book.png";
-import FarmIcon from "../../assets/tree.png";
-import { useAccount } from "wagmi";
+import LoveIcon from "../../assets/love-icon.png";
+import FireIcon from "../../assets/fire-icon.png";
 import { ethers } from "ethers";
-import LoveFarmABI from "../../utils/lovefarm.json";
-import LoveClaimABI from "../../utils/loveclaim.json";
 import {
-  ETHLOVEPoolAddy,
   USDCAddress,
-  contractAddressLoveClaim,
-  contractAddressLoveFarm,
 } from "../../utils/constant";
-import merkleData from "../../utils/claimdata.json";
-import axios from "axios";
-import PoolABI from "../../utils/poolABI.json";
 import { contractAddressLove } from "../../utils/constant";
-import { truncateEthAddress } from "../../system/appUtils";
 import { PoolAbi } from "../../system/PoolAbi";
 import { AppContracts } from "../../system/AppContracts";
 import { CopyAddressButton } from "../../components/copyAddressButton";
 import { useWrongNetwork } from "../../system/hooks/useWrongNetwork";
 import { HeartBreaker } from "../../components/heartbreaker";
-import ArtGrant from "../../components/ArtGrant";
 
 interface Props {
   lock?: Boolean;
@@ -52,16 +40,12 @@ interface Content {
 
 const Win98 = (props: Props) => {
   const [scale, setScale] = useState<string>();
-  const [start, setStart] = useState<boolean>(false);
   const [showBar, setShowBar] = useState<boolean>(false);
   const [time, setTime] = useState(moment().format("HH:mm"));
-  const { address } = useAccount();
   const [price, setPrice] = useState<number>(0);
   const [usdPrice, setUSDPrice] = useState<number>(0);
-  const [wallpaper, setWallpaper] = useState<string>("/assets/art_bg.jpg");
-  const [claimContract, setClaimContract] = useState<any>(null);
-  const [claimValue, setClaimValue] = useState<any>(
-    (merkleData as any).claims[address as any]
+  const [wallpaper, setWallpaper] = useState<string>(
+    "/assets/blank_background.png"
   );
 
   const useIsomorphicLayoutEffect =
@@ -77,21 +61,6 @@ const Win98 = (props: Props) => {
     };
   }, []);
 
-  const onClaim = async () => {
-    setSelectedContent(contents[1]);
-    try {
-      const response = await axios.post(`/api/markle`, {
-        address: address,
-      });
-
-      if (response) {
-        setSelectedContent(contents[4]);
-      }
-    } catch (error) {
-      console.error("No Address Found!", error);
-      setSelectedContent(contents[6]);
-    }
-  };
   useEffect(() => {
     if ((window as any).ethereum) {
       const provider = new ethers.providers.Web3Provider(
@@ -165,7 +134,7 @@ const Win98 = (props: Props) => {
       ),
       width: "400px",
       height: "400px",
-      icon: Settings,
+      icon: SettingsIcon,
     },
     {
       menu: "farm",
@@ -173,7 +142,7 @@ const Win98 = (props: Props) => {
       component: <Farm />,
       width: "720px",
       height: "300px",
-      icon: FarmIcon,
+      icon: LoveIcon,
     },
     {
       menu: "paper",
@@ -182,14 +151,6 @@ const Win98 = (props: Props) => {
       width: "400px",
       height: "400px",
       icon: PaperIcon,
-    },
-    {
-      menu: "art_grant",
-      title: "Mint NFT",
-      component: <ArtGrant />,
-      width: "720px",
-      height: "300px",
-      icon: MintLove,
     },
     {
       menu: "heartbreak",
@@ -206,7 +167,15 @@ const Win98 = (props: Props) => {
       component: <div className="text-center w-full">ADDRESS NOT FOUND !</div>,
       width: "200px",
       height: "80px",
-      icon: Settings,
+      icon: SettingsIcon,
+    },
+    {
+      menu: "claim",
+      title: "CLAIM",
+      component: <ClaimWarTokens />,
+      width: "180px",
+      height: "180px",
+      icon: FireIcon
     },
   ];
 
@@ -255,7 +224,7 @@ const Win98 = (props: Props) => {
       <Screen
         wallpaper={wallpaper}
         setSelected={setSelected}
-        onTrigger={() => onClaim()}
+        onTrigger={() => setSelectedContent(contents[5])}
       >
         {selectedContent?.title && (
           <Dialog
@@ -270,7 +239,7 @@ const Win98 = (props: Props) => {
         )}
       </Screen>
 
-      <div className="flex flex-row justify-between bg-gray-400 py-[1px] h-[42px] border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-gray-600 border-[1.6px] z-10 absolute bottom-0 right-0 left-0">
+      <div className="flex flex-row justify-between bg-gray-400 py-[1px] h-[42px] border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-gray-600 border-[1.6px] z-50 absolute bottom-0 right-0 left-0">
         <div className="flex flex-row">
           <button
             onClick={() => setShowBar(!showBar)}
@@ -287,7 +256,7 @@ const Win98 = (props: Props) => {
           </button>
           {selectedContent?.title && (
             <ActiveButton
-              icon={selectedContent?.icon ?? Computer}
+              icon={selectedContent?.icon ?? ComputerIcon}
               text={selectedContent?.title ?? ""}
               isSmall
             />

@@ -3,7 +3,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import type { AppProps } from "next/app";
 import { configureChains, createConfig, WagmiConfig, useAccount } from "wagmi";
-import { mainnet, goerli, sepolia } from "wagmi/chains";
+import { mainnet, sepolia } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { Analytics } from "@vercel/analytics/react";
@@ -12,9 +12,7 @@ import { hotjar } from "react-hotjar";
 import {
   HOT_JAR_SITE_ID,
   HOT_JAR_VERSION,
-  IS_DEV_ENV,
 } from "../utils/constant";
-import { useRouter } from "next/router";
 import { TermsAndConditionsWrapper } from "../components/ui/TermsAndConditionsWrapper";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
