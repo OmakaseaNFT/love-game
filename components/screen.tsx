@@ -2,7 +2,7 @@ import EtherscanIcon from "../assets/etherscan.png";
 import LoveIcon from "../assets/love-icon.png";
 import UniswapIcon from "../assets/uniswap.png";
 import PaperIcon from "../assets/book.png";
-// import FireIcon from "../assets/fire-icon.png";
+import FireIcon from "../assets/fire-icon.png";
 // import WarBanner from "../assets/war-banner.gif";
 import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
@@ -12,6 +12,7 @@ import {
   TELEGRAM_LINK,
   TWITTER_LINK,
   UNISWAP_LINK,
+  WAR_SWAP_LINK
 } from "../utils/constant";
 
 interface ScreenProps {
@@ -58,11 +59,11 @@ const Screen = ({
       icon: LoveIcon,
       label: "Farm $LOVE",
     },
-    // {
-    //   onClick: () => onTrigger(),
-    //   icon: FireIcon,
-    //   label: "Claim $WAR3"
-    // },
+    {
+      onClick: () => window.open(WAR_SWAP_LINK, "_blank"),
+      icon: FireIcon,
+      label: "Swap $WAR3"
+    },
     {
       onClick: () => setSelected("paper"),
       icon: PaperIcon,
