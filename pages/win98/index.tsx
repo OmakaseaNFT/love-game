@@ -45,7 +45,7 @@ const Win98 = (props: Props) => {
   const [price, setPrice] = useState<number>(0);
   const [usdPrice, setUSDPrice] = useState<number>(0);
   const [wallpaper, setWallpaper] = useState<string>(
-    "/assets/blank_background.png"
+    "/assets/lovegame_background.png"
   );
 
   const useIsomorphicLayoutEffect =
