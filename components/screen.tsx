@@ -2,7 +2,7 @@ import EtherscanIcon from "../assets/etherscan.png";
 import LoveIcon from "../assets/love-icon.png";
 import UniswapIcon from "../assets/uniswap.png";
 import PaperIcon from "../assets/book.png";
-import FireIcon from "../assets/fire-icon.png";
+// import FireIcon from "../assets/fire-icon.png";
 import WarBanner from "../assets/war-banner.gif";
 import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
@@ -58,11 +58,11 @@ const Screen = ({
       icon: LoveIcon,
       label: "Farm $LOVE",
     },
-    {
-      onClick: () => onTrigger(),
-      icon: FireIcon,
-      label: "Claim $WAR3"
-    },
+    // {
+    //   onClick: () => onTrigger(),
+    //   icon: FireIcon,
+    //   label: "Claim $WAR3"
+    // },
     {
       onClick: () => setSelected("paper"),
       icon: PaperIcon,
