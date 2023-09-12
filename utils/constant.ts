@@ -5,7 +5,7 @@ export const contractAddressLoveClaim: string =
 export const rpc_url: string = process.env.NEXT_PUBLIC_JSON_RPC_URL || "";
 export const contractAddressLove: string =
   process.env.NEXT_PUBLIC_CONTRACT_LOVE || "";
-export const contractAddressWarClaim: string =
+export const contractAddressWar: string =
   process.env.NEXT_PUBLIC_CONTRACT_WAR_CLAIM || "";
 export const USDETHPoolAddy: string =
   process.env.NEXT_PUBLIC_CONTRACT_USDETHPoolAddy || "";

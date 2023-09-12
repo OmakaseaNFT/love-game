@@ -17,7 +17,7 @@ import { ethers } from "ethers";
 import {
   USDCAddress,
 } from "../../utils/constant";
-import { contractAddressLove } from "../../utils/constant";
+import { contractAddressLove, contractAddressWar } from "../../utils/constant";
 import { PoolAbi } from "../../system/PoolAbi";
 import { AppContracts } from "../../system/AppContracts";
 import { CopyAddressButton } from "../../components/copyAddressButton";
@@ -261,7 +261,8 @@ const Win98 = (props: Props) => {
               isSmall
             />
           )}
-          <CopyAddressButton address={contractAddressLove} />
+          <CopyAddressButton address={contractAddressLove} label="LOVE:" />
+          <CopyAddressButton address={contractAddressWar} label="WAR3:" />
         </div>
         <div className="px-1 my-auto border-b-gray-300 items-center border-r-gray-300 border-l-gray-600 text-sm border-t-gray-600 max-w-[160px] w-full h-[30px] border-[3px] text-[18px] rounded-[2px] flex flex-row justify-center items-center mr-2">
           <div>

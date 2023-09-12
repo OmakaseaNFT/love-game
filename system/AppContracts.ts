@@ -6,7 +6,7 @@ import {
   contractAddressFaith,
   contractAddressLove,
   contractAddressLoveFarm,
-  contractAddressWarClaim,
+  contractAddressWar,
 } from "../utils/constant";
 import { LoveTokenAbi } from "./LoveTokenAbi";
 import { PoolAbi } from "./PoolAbi";
@@ -60,7 +60,7 @@ export class AppContracts {
     ) as FaithAbi;
 
     this.warClaimContract = new ethers.Contract(
-      contractAddressWarClaim,
+      contractAddressWar,
       warClaimContractAbi,
       providerOrSigner
     ) as WarClaimAbi;
