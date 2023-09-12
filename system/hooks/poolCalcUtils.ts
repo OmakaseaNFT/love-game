@@ -147,6 +147,7 @@ export const calculateAPR = async (poolIndex: number) => {
       .mul(LOVEReservesBN)
       .div(lpTotalSupply);
     const totalLoveLocked = Number(ethers.utils.formatUnits(totalLoveLockedBN, 18));
+    const totalValueLocked = totalLoveLocked * 2;
 
     const annualRewardInTokenBN = lovePerBlockBN
       .mul(blocksPerYearBN)
@@ -154,7 +155,7 @@ export const calculateAPR = async (poolIndex: number) => {
       .div(totalAllocPointBN);
     const annualRewardInToken = Number(ethers.utils.formatUnits(annualRewardInTokenBN, 18));
 
-    const apr = (annualRewardInToken / totalLoveLocked) * 100;
+    const apr = (annualRewardInToken / totalValueLocked) * 100;
     return Math.trunc(apr);
   } else {
     const WARPriceLove = fetchWarPriceLove(warLovePoolContract);
@@ -173,6 +174,7 @@ export const calculateAPR = async (poolIndex: number) => {
       .mul(WARReservesBN)
       .div(lpTotalSupply);
     const totalWarLocked = Number(ethers.utils.formatUnits(totalWarLockedBN, 18));
+    const totalValueLocked = totalWarLocked * 2
 
     const annualRewardInTokenBN = lovePerBlockBN
       .mul(warPriceInLoveBN)
@@ -181,7 +183,7 @@ export const calculateAPR = async (poolIndex: number) => {
       .div(totalAllocPointBN);
     const annualRewardInToken = Number(ethers.utils.formatUnits(annualRewardInTokenBN, 18));
 
-    const apr = (annualRewardInToken / totalWarLocked) * 100;
+    const apr = (annualRewardInToken / totalValueLocked) * 100;
     return Math.trunc(apr);
   }
 }
