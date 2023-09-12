@@ -26,7 +26,7 @@ import type {
   OnEvent,
 } from "./common";
 
-export interface WarClaimAbiInterface extends utils.Interface {
+export interface WarAbiInterface extends utils.Interface {
   functions: {
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
@@ -257,12 +257,12 @@ export type TransferEvent = TypedEvent<
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
-export interface WarClaimAbi extends BaseContract {
+export interface WarAbi extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: WarClaimAbiInterface;
+  interface: WarAbiInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,

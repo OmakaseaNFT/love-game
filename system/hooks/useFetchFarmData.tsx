@@ -30,16 +30,19 @@ export type GeneralPoolData = {
   stakedLiquidity: number;
   poolName: string;
   poolIcon: string;
+  token: string;
+  baseAsset: string;
 };
 
 export const useFetchFarmData = () => {
   const [farmData, setFarmData] = useState<GeneralPoolData[]>([]);
   const [poolDataLoading, setPoolDataLoading] = useState<boolean>(false);
 
-  const getPoolData = async (usdtLovePoolContract: PoolAbi, farmContract: LoveFarmAbi) => {
+  const getPoolData = async (appContracts: AppContracts) => {
     setPoolDataLoading(true);
     try {
-      const pool = await farmContract.poolLength();
+      const { loveFarmContract } = appContracts;
+      const pool = await loveFarmContract.poolLength();
       let poolInfo;
 
       const poolDataArr = [];
@@ -47,7 +50,7 @@ export const useFetchFarmData = () => {
       if (Number(pool) > 0) {
         for (let index = 0; index < Number(pool); index++) {
           // Get pool info from Farm contract.
-          poolInfo = await farmContract.poolInfo(index);
+          poolInfo = await loveFarmContract.poolInfo(index);
 
           const poolInfoReceipt = poolInfo.depositFeeBP / 10000;
           const lpContractAddress = poolInfo.lpToken;
@@ -66,8 +69,7 @@ export const useFetchFarmData = () => {
 
           const stakedLiquidity = await calculateStakedLiquidity(
             lpContract,
-            farmContract,
-            usdtLovePoolContract
+            appContracts
           )
             .catch((e) => {
               console.log(`error calculating staked liquidity: \n${e}`);
@@ -81,6 +83,8 @@ export const useFetchFarmData = () => {
             stakedLiquidity: stakedLiquidity,
             poolName: LOVE_POOLS[index].name,
             poolIcon: LOVE_POOLS[index].icon,
+            token: LOVE_POOLS[index].token,
+            baseAsset: LOVE_POOLS[index].baseAsset,
           });
         }
 
@@ -100,8 +104,8 @@ export const useFetchFarmData = () => {
     const provider = new ethers.providers.Web3Provider(
       (window as any).ethereum
     );
-    const { loveFarmContract, usdtLovePoolContract } = new AppContracts(provider);
-    await getPoolData(usdtLovePoolContract, loveFarmContract);
+    const appContracts = new AppContracts(provider);
+    await getPoolData(appContracts);
   };
 
   useEffect(() => {

@@ -2,8 +2,8 @@ import { ethers } from "ethers";
 import { useState } from "react";
 import { formatUnits } from "viem";
 import { erc20ABI } from "wagmi";
-import { contractAddressLove } from "../../utils/constant";
-import { fetchLovePriceUSDT } from "./poolCalcUtils";
+import { contractAddressLove, contractAddressWar } from "../../utils/constant";
+import { fetchLovePriceUSDT, fetchWarPriceLove, fetchWarPriceUSDT } from "./poolCalcUtils";
 import { AppContracts } from "../AppContracts";
 import { PoolAbi } from "../PoolAbi";
 import { LoveFarmAbi } from "../LoveFarmAbi";
@@ -44,9 +44,8 @@ export const useFetchUserPoolData = () => {
         provider
       ) as PoolAbi;
 
-      const { loveFarmContract, loveTokenContract, usdtLovePoolContract } = new AppContracts(
-        provider
-      );
+      const CONTRACTS = new AppContracts(provider);
+      const { loveFarmContract, loveTokenContract } = CONTRACTS;
 
       const pendingLoveValue: any = await loveFarmContract.pendingLove(
         poolIndex,
@@ -64,8 +63,7 @@ export const useFetchUserPoolData = () => {
 
       const getLpInformation = await getTokenInformation(
         lpContract,
-        loveFarmContract,
-        usdtLovePoolContract,
+        CONTRACTS,
         address!,
         poolIndex,
         provider
@@ -116,14 +114,13 @@ export const useFetchUserPoolData = () => {
 
   const getTokenInformation = async (
     lpContract: any,
-    farmContract: LoveFarmAbi,
-    usdtLovePoolContract: PoolAbi,
+    appContracts: AppContracts,
     address: string,
     poolIndex: number,
     provider: ethers.providers.Provider
   ) => {
-    const LOVEPriceInUSDT = await fetchLovePriceUSDT(usdtLovePoolContract);
-    const userInfo = await farmContract.userInfo(poolIndex, address);
+    const { loveFarmContract, usdtLovePoolContract, warLovePoolContract } = appContracts;
+    const userInfo = await loveFarmContract.userInfo(poolIndex, address);
     const lpTotalSupply = await lpContract.totalSupply();
     const lpToken0 = await lpContract.token0();
     const lpToken1 = await lpContract.token1();
@@ -131,38 +128,73 @@ export const useFetchUserPoolData = () => {
     const lpBalanceUser = userInfo.amount;
     
     const token0IsLOVE = lpToken0 == contractAddressLove;
+    const token1IsLOVE = lpToken1 == contractAddressLove;
+    const isLovePair = token0IsLOVE || token1IsLOVE;
+    const token0IsWar = lpToken0 == contractAddressWar;
   
-    const LOVEKey = token0IsLOVE ? `_reserve0` : `_reserve1`;
-    const LOVEReservesBN = lpReserves[LOVEKey];
+    if (isLovePair) {
+      const LOVEPriceInUSDT = await fetchLovePriceUSDT(usdtLovePoolContract);
 
-    const tokenKey = token0IsLOVE ? `_reserve0` : `_reserve1`;
-    const tokenReservesBN = lpReserves[tokenKey];
-    const tokenAddress = token0IsLOVE ? lpToken1 : lpToken0;
-    const tokenContract = new ethers.Contract(
-      tokenAddress,
-      erc20ABI,
-      provider
-    );
-    const tokenDecimals = await tokenContract.decimals();
+      const LOVEKey = token0IsLOVE ? `_reserve0` : `_reserve1`;
+      const LOVEReservesBN = lpReserves[LOVEKey];
 
-    const tokensPerUserBN = tokenReservesBN
-      .mul(lpBalanceUser)
-      .div(lpTotalSupply);
-    const tokensPerUser = Number(ethers.utils.formatUnits(tokensPerUserBN, tokenDecimals));
-    
-    const LOVEPerUserBN = LOVEReservesBN
-      .mul(lpBalanceUser)
-      .div(lpTotalSupply);
-    const LOVEPerUser = Number(ethers.utils.formatUnits(LOVEPerUserBN, 18));
-    const LOVEInFarmValueUSDT = LOVEPerUser * LOVEPriceInUSDT;
-    const totalValue = LOVEInFarmValueUSDT * 2;
+      const tokenKey = token0IsLOVE ? `_reserve0` : `_reserve1`;
+      const tokenReservesBN = lpReserves[tokenKey];
+      const tokenAddress = token0IsLOVE ? lpToken1 : lpToken0;
+      const tokenContract = new ethers.Contract(
+        tokenAddress,
+        erc20ABI,
+        provider
+      );
+      const tokenDecimals = await tokenContract.decimals();
 
-    return {
-      lpBalance: lpBalanceUser.toString(),
-      EthPerUser: tokensPerUser,
-      lovePerUser: LOVEPerUser,
-      unstakedLiquidity: totalValue,
-    };
+      const tokensPerUserBN = tokenReservesBN
+        .mul(lpBalanceUser)
+        .div(lpTotalSupply);
+      const tokensPerUser = Number(ethers.utils.formatUnits(tokensPerUserBN, tokenDecimals));
+      
+      const LOVEPerUserBN = LOVEReservesBN
+        .mul(lpBalanceUser)
+        .div(lpTotalSupply);
+      const LOVEPerUser = Number(ethers.utils.formatUnits(LOVEPerUserBN, 18));
+      const LOVEInFarmValueUSDT = LOVEPerUser * LOVEPriceInUSDT;
+      const totalValue = LOVEInFarmValueUSDT * 2;
+
+      return {
+        lpBalance: lpBalanceUser.toString(),
+        EthPerUser: tokensPerUser,
+        lovePerUser: LOVEPerUser,
+        unstakedLiquidity: totalValue,
+      };
+    } else {
+      // the only pair that will hit this branch so far is WAR3-ETH
+      const warPriceInUSDT = await fetchWarPriceUSDT(warLovePoolContract, usdtLovePoolContract);
+
+      const warKey = token0IsWar ? `_reserve0` : `_reserve1`;
+      const warReservesBN = lpReserves[warKey];
+
+      const ethKey = token0IsWar ? `_reserve0` : `_reserve1`;
+      const ethReservesBN = lpReserves[ethKey];
+
+      const ethPerUserBN = ethReservesBN
+        .mul(lpBalanceUser)
+        .div(lpTotalSupply);
+      const ethPerUser = Number(ethers.utils.formatUnits(ethPerUserBN, 18));
+      
+      const warPerUserBN = warReservesBN
+        .mul(lpBalanceUser)
+        .div(lpTotalSupply);
+      const warPerUser = Number(ethers.utils.formatUnits(warPerUserBN, 18));
+      const warInFarmValueUSDT = warPerUser * warPriceInUSDT;
+      const totalValue = warInFarmValueUSDT * 2;
+
+      return {
+        lpBalance: lpBalanceUser.toString(),
+        EthPerUser: ethPerUser,
+        lovePerUser: warPerUser,
+        unstakedLiquidity: totalValue,
+      };
+    }
   };
 
   return {

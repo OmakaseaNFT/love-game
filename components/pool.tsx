@@ -9,9 +9,15 @@ import { StakedLiquidityDataDisplay } from "./ui/StakedLiquidityDataDisplay";
 import { ExpandPoolUtilsButton } from "./ui/ExpandPoolUtilsButton";
 import { FarmStakeUnstakeUtils } from "./ui/FarmStakeUnstakeUtils";
 import {
-  USDT_CONTRACT_ADDRESS,
+  contractAddressBobo,
   contractAddressLove,
   contractAddressLoveFarm,
+  contractAddressMog,
+  contractAddressNina,
+  contractAddressPepe,
+  contractAddressUsdt,
+  contractAddressWar,
+  contractAddressWbtc
 } from "../utils/constant";
 import { ethers } from "ethers";
 import { AppContracts } from "../system/AppContracts";
@@ -165,20 +171,6 @@ export const Pool = ({
   };
 
   const dataIsUpdating = requestPendingState || userDataPending;
-  const poolContractAddy = (poolIndex: number) => {
-    switch (poolIndex) {
-      case 0:
-        return "ETH";
-      case 1:
-        return USDT_CONTRACT_ADDRESS;
-      case 2:
-        return process.env.NEXT_PUBLIC_CONTRACT_WBTC;
-      case 3:
-        return process.env.NEXT_PUBLIC_CONTRACT_PEPE;
-      default:
-        return "ETH";
-    }
-  };
   return (
     <TransactionNotificationWrapper
       requestState={requestState}
@@ -283,7 +275,7 @@ export const Pool = ({
                     <div
                       onClick={() => {
                         window.open(
-                          `https://app.uniswap.org/#/add/v2/${poolContractAddy(poolIndex)}/${contractAddressLove}`,
+                          `https://app.uniswap.org/#/add/v2/${pool.token}/${pool.baseAsset}`,
                           "_blank"
                         );
                       }}
@@ -402,9 +394,7 @@ export const Pool = ({
               </div>
               <button
                 onClick={() => {
-                  const url = `https://app.uniswap.org/#/add/v2/${contractAddressLove}/${
-                   poolContractAddy(poolIndex)
-                  }`;
+                  const url = `https://app.uniswap.org/#/add/v2/${pool.token}/${pool.baseAsset}`;
                   window.open(url, "_blank");
                 }}
                 className="m-auto mb-[6px] btn h-8 w-[90%] sm:w-[290px] text-center"
