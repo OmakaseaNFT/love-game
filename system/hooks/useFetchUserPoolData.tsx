@@ -1,16 +1,12 @@
 import { ethers } from "ethers";
 import { useState } from "react";
 import { formatUnits } from "viem";
-import {
-  contractAddressLove,
-  USD_PEPE_POOL_ADDY,
-  USD_WBTC_POOL_ADDY,
-  USDCAddress,
-} from "../../utils/constant";
+import { erc20ABI } from "wagmi";
+import { contractAddressLove } from "../../utils/constant";
+import { fetchLovePriceUSDT } from "./poolCalcUtils";
 import { AppContracts } from "../AppContracts";
 import { PoolAbi } from "../PoolAbi";
 import { LoveFarmAbi } from "../LoveFarmAbi";
-import axios from "axios";
 
 const lpContractAbi = require("../../utils/poolABI.json");
 
@@ -48,7 +44,7 @@ export const useFetchUserPoolData = () => {
         provider
       ) as PoolAbi;
 
-      const { loveFarmContract, loveTokenContract } = new AppContracts(
+      const { loveFarmContract, loveTokenContract, usdtLovePoolContract } = new AppContracts(
         provider
       );
 
@@ -66,38 +62,14 @@ export const useFetchUserPoolData = () => {
       const userValueStaked = userInfo.amount;
       const loveEthLpTokenBalance = await lpContract.balanceOf(address!);
 
-      let getLpInformation: any;
-      if (poolIndex === 0) {
-        getLpInformation = await getTokenInformation(
-          lpContract,
-          loveFarmContract,
-          address!,
-          poolIndex
-        );
-      } else if (poolIndex === 1) {
-        getLpInformation = await getTokenInformationUsdt(
-          lpContract,
-          loveFarmContract,
-          address!,
-          poolIndex
-        );
-      } else if (poolIndex === 2) {
-        getLpInformation = await getTokenInformationWbtc(
-          lpContract,
-          loveFarmContract,
-          address!,
-          poolIndex
-        );
-      } else if (poolIndex === 3) {
-        getLpInformation = await getTokenInformationPepe(
-          lpContract,
-          loveFarmContract,
-          address!,
-          poolIndex
-        );
-      } else {
-        getLpInformation = {};
-      }
+      const getLpInformation = await getTokenInformation(
+        lpContract,
+        loveFarmContract,
+        usdtLovePoolContract,
+        address!,
+        poolIndex,
+        provider
+      );
 
       const data = {
         pendingLove: Number(formatUnits(pendingLoveValue, 18)).toFixed(2),
@@ -145,197 +117,49 @@ export const useFetchUserPoolData = () => {
   const getTokenInformation = async (
     lpContract: any,
     farmContract: LoveFarmAbi,
+    usdtLovePoolContract: PoolAbi,
     address: string,
-    poolIndex: number
+    poolIndex: number,
+    provider: ethers.providers.Provider
   ) => {
+    const LOVEPriceInUSDT = await fetchLovePriceUSDT(usdtLovePoolContract);
     const userInfo = await farmContract.userInfo(poolIndex, address);
-    const lpBalanceUser = userInfo.amount;
     const lpTotalSupply = await lpContract.totalSupply();
-    const ETHLOVEToken0 = await lpContract.token0();
-    const ETHLOVEReserves = await lpContract.getReserves();
-
-    let ETHReserves: any;
-    let LOVEReserves: any;
-    if (ETHLOVEToken0 == contractAddressLove) {
-      LOVEReserves = ethers.utils.formatUnits(ETHLOVEReserves._reserve0, 18);
-      ETHReserves = ethers.utils.formatUnits(ETHLOVEReserves._reserve1, 18);
-    } else {
-      LOVEReserves = ethers.utils.formatUnits(ETHLOVEReserves._reserve1, 18);
-      ETHReserves = ethers.utils.formatUnits(ETHLOVEReserves._reserve0, 18);
-    }
-
-    const ETHPerUser =
-      (ETHReserves * Number(lpBalanceUser.toString())) /
-      Number(lpTotalSupply.toString());
-    const LOVEPerUser =
-      (LOVEReserves * Number(lpBalanceUser.toString())) /
-      Number(lpTotalSupply.toString());
-
-    const ETHUSDToken0 = await lpContract.token0();
-    const ETHUSDReserves = await lpContract.getReserves();
-
-    let USDAmount;
-    let ETHAmount;
-    if (ETHUSDToken0 == USDCAddress) {
-      USDAmount = Number(formatUnits(ETHUSDReserves._reserve0, 6));
-      ETHAmount = Number(formatUnits(ETHUSDReserves._reserve1, 18));
-    } else {
-      USDAmount = Number(formatUnits(ETHUSDReserves._reserve1, 6));
-      ETHAmount = Number(formatUnits(ETHUSDReserves._reserve0, 18));
-    }
-    const ETHPriceUSD = USDAmount / ETHAmount;
-    const ETHValueUserUSD = ETHPerUser * ETHPriceUSD;
-
-    const totalValue = ETHValueUserUSD * 2;
-    return {
-      lpBalance: lpBalanceUser.toString(),
-      EthPerUser: ETHPerUser,
-      lovePerUser: LOVEPerUser,
-      unstakedLiquidity: totalValue,
-    };
-  };
-
-  const getTokenInformationUsdt = async (
-    lpContract: any,
-    farmContract: any,
-    address: string,
-    poolIndex: number
-  ) => {
-    const userInfo = await farmContract.userInfo(poolIndex, address);
+    const lpToken0 = await lpContract.token0();
+    const lpToken1 = await lpContract.token1();
+    const lpReserves = await lpContract.getReserves();
     const lpBalanceUser = userInfo.amount;
-    const lpTotalSupply = await lpContract.totalSupply();
-    const ETHLOVEToken0 = await lpContract.token0();
-    const ETHLOVEReserves = await lpContract.getReserves();
+    
+    const token0IsLOVE = lpToken0 == contractAddressLove;
+  
+    const LOVEKey = token0IsLOVE ? `_reserve0` : `_reserve1`;
+    const LOVEReservesBN = lpReserves[LOVEKey];
 
-    let USDTReserves: any;
-    let LOVEReserves: any;
-    if (ETHLOVEToken0 == contractAddressLove) {
-      LOVEReserves = ethers.utils.formatUnits(ETHLOVEReserves._reserve0, 18);
-      USDTReserves = ethers.utils.formatUnits(ETHLOVEReserves._reserve1, 6);
-    } else {
-      LOVEReserves = ethers.utils.formatUnits(ETHLOVEReserves._reserve1, 18);
-      USDTReserves = ethers.utils.formatUnits(ETHLOVEReserves._reserve0, 6);
-    }
-
-    const USDTPerUser =
-      (USDTReserves * Number(lpBalanceUser.toString())) /
-      Number(lpTotalSupply.toString());
-    const LOVEPerUser =
-      (LOVEReserves * Number(lpBalanceUser.toString())) /
-      Number(lpTotalSupply.toString());
-
-    const ETHValueUserUSD = USDTPerUser;
-
-    const totalValue = ETHValueUserUSD * 2;
-    return {
-      lpBalance: lpBalanceUser.toString(),
-      EthPerUser: USDTPerUser,
-      lovePerUser: LOVEPerUser,
-      unstakedLiquidity: totalValue,
-    };
-  };
-
-  const getTokenInformationWbtc = async (
-    lpContract: any,
-    farmContract: LoveFarmAbi,
-    address: string,
-    poolIndex: number
-  ) => {
-    const provider = new ethers.providers.Web3Provider(
-      (window as any).ethereum
-    );
-
-    const usdBtcPoolContract = new ethers.Contract(
-      USD_WBTC_POOL_ADDY,
-      lpContractAbi,
+    const tokenKey = token0IsLOVE ? `_reserve0` : `_reserve1`;
+    const tokenReservesBN = lpReserves[tokenKey];
+    const tokenAddress = token0IsLOVE ? lpToken1 : lpToken0;
+    const tokenContract = new ethers.Contract(
+      tokenAddress,
+      erc20ABI,
       provider
-    ) as PoolAbi;
+    );
+    const tokenDecimals = await tokenContract.decimals();
 
-    const userInfo = await farmContract.userInfo(poolIndex, address);
-    const lpBalanceUser = userInfo.amount;
-    const lpTotalSupply = await lpContract.totalSupply();
-    const WBTC_LOVEToken0 = await lpContract.token0();
-    const WBTC_LOVEReserves = await lpContract.getReserves();
+    const tokensPerUserBN = tokenReservesBN
+      .mul(lpBalanceUser)
+      .div(lpTotalSupply);
+    const tokensPerUser = Number(ethers.utils.formatUnits(tokensPerUserBN, tokenDecimals));
+    
+    const LOVEPerUserBN = LOVEReservesBN
+      .mul(lpBalanceUser)
+      .div(lpTotalSupply);
+    const LOVEPerUser = Number(ethers.utils.formatUnits(LOVEPerUserBN, 18));
+    const LOVEInFarmValueUSDT = LOVEPerUser * LOVEPriceInUSDT;
+    const totalValue = LOVEInFarmValueUSDT * 2;
 
-    let WBTC_Reserves: any;
-    let LOVEReserves: any;
-    if (WBTC_LOVEToken0 == contractAddressLove) {
-      LOVEReserves = ethers.utils.formatUnits(WBTC_LOVEReserves._reserve0, 18);
-      WBTC_Reserves = ethers.utils.formatUnits(WBTC_LOVEReserves._reserve1, 8);
-    } else {
-      LOVEReserves = ethers.utils.formatUnits(WBTC_LOVEReserves._reserve1, 18);
-      WBTC_Reserves = ethers.utils.formatUnits(WBTC_LOVEReserves._reserve0, 8);
-    }
-
-    const WBTCPerUser =
-      (WBTC_Reserves * Number(lpBalanceUser.toString())) /
-      Number(lpTotalSupply.toString());
-    const LOVEPerUser =
-      (LOVEReserves * Number(lpBalanceUser.toString())) /
-      Number(lpTotalSupply.toString());
-
-    const WBTC_USDToken0 = await usdBtcPoolContract.token0();
-    const WBTC_USDReserves = await usdBtcPoolContract.getReserves();
-
-    let USDAmount: any;
-    let WBTCAmount: any;
-    if (WBTC_USDToken0 == USDCAddress) {
-      USDAmount = ethers.utils.formatUnits(WBTC_USDReserves._reserve0, 6);
-      WBTCAmount = ethers.utils.formatUnits(WBTC_USDReserves._reserve1, 8);
-    } else {
-      USDAmount = ethers.utils.formatUnits(WBTC_USDReserves._reserve1, 6);
-      WBTCAmount = ethers.utils.formatUnits(WBTC_USDReserves._reserve0, 8);
-    }
-
-    const BTCPriceUSD = USDAmount / WBTCAmount;
-    const WBTCValueUserUSD = WBTCPerUser * BTCPriceUSD;
-
-    const totalValue = WBTCValueUserUSD * 2;
     return {
       lpBalance: lpBalanceUser.toString(),
-      EthPerUser: WBTCPerUser,
-      lovePerUser: LOVEPerUser,
-      unstakedLiquidity: totalValue,
-    };
-  };
-
-  const getTokenInformationPepe = async (
-    lpContract: any,
-    farmContract: LoveFarmAbi,
-    address: string,
-    poolIndex: number
-  ) => {
-    const userInfo = await farmContract.userInfo(poolIndex, address);
-    const lpBalanceUser = userInfo.amount;
-    const lpTotalSupply = await lpContract.totalSupply();
-    const PEPE_LOVEToken0 = await lpContract.token0();
-    const PEPE_LOVEReserves = await lpContract.getReserves();
-
-    let PEPE_Reserves: any;
-    let LOVEReserves: any;
-    if (PEPE_LOVEToken0 == contractAddressLove) {
-      LOVEReserves = ethers.utils.formatUnits(PEPE_LOVEReserves._reserve0, 18);
-      PEPE_Reserves = ethers.utils.formatUnits(PEPE_LOVEReserves._reserve1, 8);
-    } else {
-      LOVEReserves = ethers.utils.formatUnits(PEPE_LOVEReserves._reserve1, 18);
-      PEPE_Reserves = ethers.utils.formatUnits(PEPE_LOVEReserves._reserve0, 8);
-    }
-
-    const PEPEPerUser =
-      (PEPE_Reserves * Number(lpBalanceUser.toString())) /
-      Number(lpTotalSupply.toString());
-    const LOVEPerUser =
-      (LOVEReserves * Number(lpBalanceUser.toString())) /
-      Number(lpTotalSupply.toString());
-
-    const response = await axios.get("/api/prices?token=PEPE");
-    const PEPEPriceUSD = response.data.price;
-    const PEPEValueUserUSD = PEPEPerUser * PEPEPriceUSD;
-
-    const totalValue = PEPEValueUserUSD * 2;
-    return {
-      lpBalance: lpBalanceUser.toString(),
-      EthPerUser: PEPEPerUser,
+      EthPerUser: tokensPerUser,
       lovePerUser: LOVEPerUser,
       unstakedLiquidity: totalValue,
     };

@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import { LoveFarmAbi } from "./LoveFarmAbi";
 import {
   ETHLOVEPoolAddy,
-  USDETHPoolAddy,
+  USDTLOVEPoolAddy,
   contractAddressFaith,
   contractAddressLove,
   contractAddressLoveFarm,
@@ -16,16 +16,16 @@ import { WarClaimAbi } from "./WarClaimAbi";
 export class AppContracts {
   loveFarmContract: LoveFarmAbi;
   loveTokenContract: LoveTokenAbi;
-  usdEthPoolContract: PoolAbi;
   ethLovePoolContract: PoolAbi;
+  usdtLovePoolContract: PoolAbi;
   faithContract: FaithAbi;
   warClaimContract: WarClaimAbi;
 
   constructor(providerOrSigner: ethers.Signer | ethers.providers.Provider) {
     const loveFarmContractAbi = require("../utils/lovefarm.json");
     const loveTokenContractAbi = require("../utils/erc20abi.json");
-    const usdEthPoolContractAbi = require("../utils/poolABI.json");
     const ethLovePoolContractAbi = require("../utils/poolABI.json");
+    const usdtLovePoolContractAbi = require("../utils/poolABI.json");
     const faithContractAbi = require("../utils/Faith.abi.json");
     const warClaimContractAbi = require("../utils/warClaim.abi.json");
 
@@ -41,15 +41,15 @@ export class AppContracts {
       providerOrSigner
     ) as LoveTokenAbi;
 
-    this.usdEthPoolContract = new ethers.Contract(
-      USDETHPoolAddy,
-      usdEthPoolContractAbi,
-      providerOrSigner
-    ) as PoolAbi;
-
     this.ethLovePoolContract = new ethers.Contract(
       ETHLOVEPoolAddy,
       ethLovePoolContractAbi,
+      providerOrSigner
+    ) as PoolAbi;
+
+    this.usdtLovePoolContract = new ethers.Contract(
+      USDTLOVEPoolAddy,
+      usdtLovePoolContractAbi,
       providerOrSigner
     ) as PoolAbi;
 

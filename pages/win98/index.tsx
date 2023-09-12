@@ -14,15 +14,12 @@ import PaperIcon from "../../assets/book.png";
 import LoveIcon from "../../assets/love-icon.png";
 // import FireIcon from "../../assets/fire-icon.png";
 import { ethers } from "ethers";
-import {
-  USDCAddress,
-} from "../../utils/constant";
 import { contractAddressLove, contractAddressWar } from "../../utils/constant";
 import { PoolAbi } from "../../system/PoolAbi";
 import { AppContracts } from "../../system/AppContracts";
 import { CopyAddressButton } from "../../components/copyAddressButton";
-import { useWrongNetwork } from "../../system/hooks/useWrongNetwork";
 import { HeartBreaker } from "../../components/heartbreaker";
+import { fetchLovePriceUSDT, fetchLovePriceETH } from "../../system/hooks/poolCalcUtils";
 
 interface Props {
   lock?: Boolean;
@@ -66,10 +63,10 @@ const Win98 = (props: Props) => {
       const provider = new ethers.providers.Web3Provider(
         (window as any).ethereum
       );
-      const { ethLovePoolContract, usdEthPoolContract } = new AppContracts(
+      const { ethLovePoolContract, usdtLovePoolContract } = new AppContracts(
         provider
       );
-      getPriceOfLove(ethLovePoolContract, usdEthPoolContract);
+      getPriceOfLove(ethLovePoolContract, usdtLovePoolContract);
     }
   }, []);
 
@@ -79,43 +76,21 @@ const Win98 = (props: Props) => {
     setSelectedContent(contents.find((i) => i.menu === selected));
   };
 
-  const getPriceOfLove = async (ETHLOVEPool: any, USDETHPool: PoolAbi) => {
+  const getPriceOfLove = async (
+    ethLovePoolContract: PoolAbi,
+    usdtLovePoolContract: PoolAbi
+  ) => {
     try {
-      const ETHLOVEToken0 = await ETHLOVEPool.token0();
-      const ETHLOVEReserves = await ETHLOVEPool.getReserves();
+      const lovePriceInUSDT = await fetchLovePriceUSDT(usdtLovePoolContract);
+      const lovePriceInETHFull = await fetchLovePriceETH(ethLovePoolContract);
+      const lovePriceInETH = Number(lovePriceInETHFull.toFixed(8))
 
-      let ETHReserves: any;
-      let LOVEReserves: any;
-      if (ETHLOVEToken0 === contractAddressLove) {
-        LOVEReserves = ethers.utils.formatUnits(ETHLOVEReserves._reserve0, 18);
-        ETHReserves = ethers.utils.formatUnits(ETHLOVEReserves._reserve1, 18);
-      } else {
-        LOVEReserves = ethers.utils.formatUnits(ETHLOVEReserves._reserve1, 18);
-        ETHReserves = ethers.utils.formatUnits(ETHLOVEReserves._reserve0, 18);
-      }
-
-      const ETHUSDToken0 = await USDETHPool.token0();
-      const ETHUSDToken1 = await USDETHPool.token1();
-      const ETHUSDReserves = await USDETHPool.getReserves();
-
-      let USDAmount: any;
-      let ETHAmount: any;
-      if (ETHUSDToken0 == USDCAddress) {
-        USDAmount = ethers.utils.formatUnits(ETHUSDReserves._reserve0, 6);
-        ETHAmount = ethers.utils.formatUnits(ETHUSDReserves._reserve1, 18);
-      } else {
-        USDAmount = ethers.utils.formatUnits(ETHUSDReserves._reserve1, 6);
-        ETHAmount = ethers.utils.formatUnits(ETHUSDReserves._reserve0, 18);
-      }
-      const ETHPriceUSD = ETHAmount / USDAmount;
-      const priceLOVEinETH = ETHReserves / LOVEReserves;
-
-      setPrice(parseFloat(priceLOVEinETH.toFixed(8)));
-      setUSDPrice(parseFloat((priceLOVEinETH / ETHPriceUSD).toFixed(8)));
+      setPrice(lovePriceInETH);
+      setUSDPrice(lovePriceInUSDT);
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
   const closeContent = () => {
     setSelectedContent(undefined);

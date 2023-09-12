@@ -7,12 +7,10 @@ export const contractAddressLove: string =
   process.env.NEXT_PUBLIC_CONTRACT_LOVE || "";
 export const contractAddressWar: string =
   process.env.NEXT_PUBLIC_CONTRACT_WAR_CLAIM || "";
-export const USDETHPoolAddy: string =
-  process.env.NEXT_PUBLIC_CONTRACT_USDETHPoolAddy || "";
 export const ETHLOVEPoolAddy: string =
   process.env.NEXT_PUBLIC_CONTRACT_ETHLOVEPoolAddy || "";
-export const USDCAddress: string =
-  process.env.NEXT_PUBLIC_CONTRACT_USDCAddress || "";
+export const USDTLOVEPoolAddy: string =
+  process.env.NEXT_PUBLIC_CONTRACT_USDTLOVEPoolAddy || "";
 export const ETHLPAddy: string =
   process.env.NEXT_PUBLIC_CONTRACT_LOVE_ETH_LP || "";
 export const BE_URL: string = process.env.NEXT_PUBLIC_API || "";

@@ -1,19 +1,13 @@
 import { ethers } from "ethers";
 import { useState, useEffect } from "react";
-import {
-  BLOCKS_PER_YEAR,
-  contractAddressFaith,
-  contractAddressLove,
-  LOVE_POOLS,
-  USDCAddress,
-} from "../../utils/constant";
+import { useAccount } from "wagmi";
+
+import { contractAddressFaith } from "../../utils/constant";
 import { AppContracts } from "../AppContracts";
 import { LoveTokenAbi } from "../LoveTokenAbi";
 import { FaithAbi } from "../FaithAbi";
-import { useAccount } from "wagmi";
-import { get } from "http";
+import { fetchLovePriceUSDT } from "./poolCalcUtils";
 
-const lpContractAbi = require("../../utils/poolABI.json");
 type PoolData = {
   availableValue: any;
   stakedValue: any;
@@ -26,6 +20,7 @@ type PoolData = {
   fee: any;
   lovePerUser: any;
 };
+
 export type GeneralPoolData = {
   poolInfo: [
     string,
@@ -45,6 +40,27 @@ export type GeneralPoolData = {
   stakedLiquidity: number;
   poolName: string;
 };
+
+export async function totalFaithUSD() {
+  const provider = new ethers.providers.Web3Provider(
+    (window as any).ethereum
+  );
+  const signer = provider.getSigner();
+  const {
+    loveTokenContract,
+    usdtLovePoolContract,
+  } = new AppContracts(signer);
+
+  const loveBalanceInFaithContract = await loveTokenContract.balanceOf(
+    contractAddressFaith
+  );
+
+  const lovePriceUSDT = await fetchLovePriceUSDT(usdtLovePoolContract);
+
+  const totalFaithUSD = Number(ethers.utils.formatUnits(loveBalanceInFaithContract, 18)) * lovePriceUSDT;
+
+  return totalFaithUSD;
+}
 
 export const useFetchSingleStakingData = () => {
   const { address } = useAccount();
@@ -97,61 +113,6 @@ export const useFetchSingleStakingData = () => {
       setDataLoading(false);
     }
   };
-
-  async function totalFaithUSD() {
-    const provider = new ethers.providers.Web3Provider(
-      (window as any).ethereum
-    );
-    const signer = provider.getSigner();
-    const {
-      faithContract,
-      loveTokenContract,
-      usdEthPoolContract,
-      ethLovePoolContract,
-    } = new AppContracts(signer);
-
-    const loveBalanceInFaithContract = await loveTokenContract.balanceOf(
-      contractAddressFaith
-    );
-
-    const ETHUSDToken0 = await usdEthPoolContract.token0();
-    const ETHUSDToken1 = await usdEthPoolContract.token1();
-    const ETHUSDReserves = await usdEthPoolContract.getReserves();
-
-    let USDAmount;
-    let ETHAmount;
-    if (ETHUSDToken0 == USDCAddress) {
-      USDAmount = ethers.utils.formatUnits(ETHUSDReserves._reserve0, 6);
-      ETHAmount = ethers.utils.formatUnits(ETHUSDReserves._reserve1, 18);
-    } else {
-      USDAmount = ethers.utils.formatUnits(ETHUSDReserves._reserve1, 6);
-      ETHAmount = ethers.utils.formatUnits(ETHUSDReserves._reserve0, 18);
-    }
-
-    const ETHPriceUSD = Number(USDAmount) / Number(ETHAmount);
-
-    const ETHLOVEToken0 = await ethLovePoolContract.token0();
-    const ETHLOVEReserves = await ethLovePoolContract.getReserves();
-
-    let loveReservesBN;
-    let ETHReservesBN;
-    if (ETHLOVEToken0 == contractAddressLove) {
-      loveReservesBN = ETHLOVEReserves._reserve0;
-      ETHReservesBN = ETHLOVEReserves._reserve1;
-    } else {
-      loveReservesBN = ETHLOVEReserves._reserve1;
-      ETHReservesBN = ETHLOVEReserves._reserve0;
-    }
-
-    const loveETHRatio = ETHReservesBN.mul(
-      ethers.BigNumber.from(10000000000)
-    ).div(loveReservesBN);
-    const LOVEPriceETH = loveETHRatio.toNumber() / 10000000000;
-
-    const LOVEValueETH = LOVEPriceETH * Number(loveBalanceInFaithContract);
-    const loveValueUSD = (LOVEValueETH * ETHPriceUSD) / 1e18;
-    return loveValueUSD;
-  }
 
   const calculateRatioAPR = async (
     faithContract: FaithAbi,
