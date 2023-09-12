@@ -82,8 +82,7 @@ const Win98 = (props: Props) => {
   ) => {
     try {
       const lovePriceInUSDT = await fetchLovePriceUSDT(usdtLovePoolContract);
-      const lovePriceInETHFull = await fetchLovePriceETH(ethLovePoolContract);
-      const lovePriceInETH = Number(lovePriceInETHFull.toFixed(8))
+      const lovePriceInETH = await fetchLovePriceETH(ethLovePoolContract);
 
       setPrice(lovePriceInETH);
       setUSDPrice(lovePriceInUSDT);
@@ -249,7 +248,7 @@ const Win98 = (props: Props) => {
             />
           </div>
           <div className="text-[11px] truncate mb-0">
-            = {price} ETH/${usdPrice.toFixed(4)}
+            = {price.toFixed(8)} ETH/${usdPrice.toFixed(4)}
           </div>
         </div>
       </div>
