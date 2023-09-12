@@ -8,7 +8,7 @@ import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
 import { Connect } from "./connect";
 import {
-  ETHERSCAN_CLAIM_LINK,
+  ETHERSCAN_LOVE_LINK,
   TELEGRAM_LINK,
   TWITTER_LINK,
   UNISWAP_LINK,
@@ -30,7 +30,7 @@ const Screen = ({
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const iconsLeft = [
     {
-      onClick: () => window.open(ETHERSCAN_CLAIM_LINK, "_blank"),
+      onClick: () => window.open(ETHERSCAN_LOVE_LINK, "_blank"),
       icon: EtherscanIcon,
     },
     {
