@@ -177,7 +177,7 @@ export const calculateAPR = async (poolIndex: number) => {
     const totalValueLocked = totalWarLocked * 2
 
     const annualRewardInTokenBN = lovePerBlockBN
-      .mul(warPriceInLoveBN)
+      .div(warPriceInLoveBN)
       .mul(blocksPerYearBN)
       .mul(allocPointBN)
       .div(totalAllocPointBN);
