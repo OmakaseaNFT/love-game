@@ -34,7 +34,6 @@ export const getTermsAgreement = (
     address: string
 ) => {
     const objectsString = localStorage.getItem(`${address}-terms-agreement`);
-    console.log("objectsString", objectsString);
     if (objectsString) {
         return JSON.parse(objectsString);
     }

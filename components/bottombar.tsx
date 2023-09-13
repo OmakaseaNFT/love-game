@@ -1,11 +1,9 @@
 import Image from "next/image";
-import Computer from "../assets/computer.png";
 import { useContext, useState } from "react";
-import { MdArrowRight } from "react-icons/md";
 import { StartMenuListItem } from "./startMenuListItem";
 import { useCopyText } from "../system/hooks/useCopyText";
 import { truncateEthAddress } from "../system/appUtils";
-import { contractAddressLove } from "../utils/constant";
+import { contractAddressLove, contractAddressWar } from "../utils/constant";
 import { FileThemeContext } from "../system/context/FileThemeContext";
 
 interface Props {
@@ -14,17 +12,17 @@ interface Props {
 
 const BottomBar = (props: Props) => {
   const [showSide, setShowSide] = useState<boolean>(false);
-  const { files: { Farm, Paper, startIcon, heartbreakIcon, Settings, Shutdown }} = useContext(FileThemeContext);
+  const { files: { FarmIcon, PaperIcon, startIcon, heartbreakIcon, SettingsIcon, ShutdownIcon }} = useContext(FileThemeContext);
   const { onCopyText, copied } = useCopyText();
   const list = [
     {
       menu: "farm",
-      icon: Farm,
+      icon: FarmIcon,
       name: "<u>F</u>arm",
     },
     {
       menu: "paper",
-      icon: Paper,
+      icon: PaperIcon,
       name: "<u>P</u>aper",
     },
     {
@@ -34,33 +32,33 @@ const BottomBar = (props: Props) => {
     },
     {
       menu: "cp",
-      icon: Settings,
+      icon: SettingsIcon,
       name: "<u>S</u>ettings",
       haveSub: true,
     },
     {
       menu: "shutdown",
-      icon: Shutdown,
+      icon: ShutdownIcon,
       name: "Sh<u>u</u>t Down",
     },
   ];
 
-  const renderCopyAddress = () => {
+  const renderCopyAddress = (ca: string, label = "CA:") => {
     return (
       <div
         className={`flex flex-row justify-between font-windows hover:text-button-hover-text hover:bg-button-hover-bg cursor-pointer sm:hidden`}
       >
         <div className="flex flex-row items-center w-full">
           <div className="py-1 justify-center items-center w-[68px] flex">
-            CA:
+            {label}
           </div>
           <div
             className="text-[22px] truncate"
-            onClick={() => onCopyText(contractAddressLove)}
+            onClick={() => onCopyText(ca)}
           >
             {copied
               ? "Copied.........."
-              : `${truncateEthAddress(contractAddressLove)}`}
+              : `${truncateEthAddress(ca)}`}
           </div>
         </div>
       </div>
@@ -70,7 +68,8 @@ const BottomBar = (props: Props) => {
   return (
     <div className="flex flex-row relative w-[372px] sm:w-[427px]">
       <div className="bg-[#C1C1C1] w-[185px] sm:w-[240px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white">
-        {renderCopyAddress()}
+        {renderCopyAddress(contractAddressLove, "LOVE:")}
+        {renderCopyAddress(contractAddressWar, "WAR3:")}
         {list.map((item, index) => (
           <StartMenuListItem
             key={`start-menu-list-item-${index}`}
@@ -95,7 +94,7 @@ const BottomBar = (props: Props) => {
           >
             <div className="flex flex-row w-full items-center">
               <div className="w-1/3 flex flex-row justify-center ">
-                <Image src={Settings} width={29} height={29} alt="icon" />
+                <Image src={SettingsIcon} width={29} height={29} alt="icon" />
               </div>
               <div className="text-[22px] whitespace-nowrap">
                 <span>

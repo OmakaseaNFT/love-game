@@ -9,13 +9,15 @@ export type FileTheme = "love" | "vaporwave-arcade";
 
 export interface FileThemeCustomOptions {
   name: string;
-  Etherscan: StaticImageData;
-  Farm: StaticImageData;
-  Paper: StaticImageData;
-  Uniswap: StaticImageData;
-  Wallet: StaticImageData;
-  Settings: StaticImageData;
-  Shutdown: StaticImageData;
+  EtherscanIcon: StaticImageData;
+  LoveIcon: StaticImageData;
+  FireIcon: StaticImageData;
+  FarmIcon: StaticImageData;
+  PaperIcon: StaticImageData;
+  UniswapIcon: StaticImageData;
+  WalletIcon: StaticImageData;
+  SettingsIcon: StaticImageData;
+  ShutdownIcon: StaticImageData;
   startLoveIcon: string;
   startIcon: string;
   closeIcon: string;

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { FileThemeContext } from "../system/context/FileThemeContext";
 import { useContext } from "react";
 export const Connect = () => {
-  const { files: { Wallet } } = useContext(FileThemeContext)
+  const { files: { WalletIcon } } = useContext(FileThemeContext)
   return (
     <ConnectButton.Custom>
       {({
@@ -41,7 +41,7 @@ export const Connect = () => {
                     onClick={openConnectModal}
                     className="flex flex-col items-center"
                   >
-                    <Image width={60} src={Wallet} alt="wallet" height={60} />
+                    <Image width={60} src={WalletIcon} alt="wallet" height={60} />
                     <div className="text-base text-white/80 text-center mt-2">
                       Connect Wallet
                     </div>
@@ -51,7 +51,7 @@ export const Connect = () => {
               if (chain.unsupported) {
                 return (
                   <button onClick={openChainModal} type="button" className="flex flex-col items-center">
-                    <Image width={60} src={Wallet} alt="wallet" height={60} />
+                    <Image width={60} src={WalletIcon} alt="wallet" height={60} />
                     <div className="text-base text-white/80 text-center mt-2">
                       Wrong network
                     </div>
@@ -65,7 +65,7 @@ export const Connect = () => {
                     type="button"
                     className="flex flex-col items-center"
                   >
-                    <Image width={60} src={Wallet} alt="wallet" height={60} />
+                    <Image width={60} src={WalletIcon} alt="wallet" height={60} />
                     <div className="text-sm text-white/80 text-center mt-2">
                       Wallet Connected
                     </div>

@@ -13,9 +13,6 @@ const Farm = () => {
     onDisconnect() {
       window.location.reload();
     },
-    onConnect() {
-      onGetFarmData();
-    },
   });
   const { farmData, onGetFarmData, poolDataLoading } = useFetchFarmData();
   const { isWrongNetwork } = useWrongNetwork();
@@ -24,12 +21,6 @@ const Farm = () => {
   useEffect(() => {
     setPrevWrongNetwork(isWrongNetwork);
   }, [isWrongNetwork]);
-
-  useEffect(() => {
-    if (prevWrongNetwork && !isWrongNetwork) {
-      onGetFarmData();
-    }
-  }, [isWrongNetwork, prevWrongNetwork, poolDataLoading]);
 
   return (
     <div className="w-full">

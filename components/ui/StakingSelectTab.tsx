@@ -1,6 +1,3 @@
-import { useContext } from "react";
-import { FileThemeContext } from "../../system/context/FileThemeContext";
-
 interface IStakingSelectTabProps {
   onClick: () => void;
   isSelected: boolean;
@@ -12,7 +9,6 @@ export const StakingSelectTab = ({
   isSelected,
   title,
 }: IStakingSelectTabProps) => {
-  const { fileTheme } = useContext(FileThemeContext);
   return (
     <div
       onClick={onClick}
