@@ -12,7 +12,7 @@ import ComputerIcon from "../../assets/computer.png";
 import SettingsIcon from "../../assets/settings.png";
 import PaperIcon from "../../assets/book.png";
 import LoveIcon from "../../assets/love-icon.png";
-import FireIcon from "../../assets/fire-icon.png";
+// import FireIcon from "../../assets/fire-icon.png";
 import { ethers } from "ethers";
 import {
   USDCAddress,
@@ -45,7 +45,7 @@ const Win98 = (props: Props) => {
   const [price, setPrice] = useState<number>(0);
   const [usdPrice, setUSDPrice] = useState<number>(0);
   const [wallpaper, setWallpaper] = useState<string>(
-    "/assets/blank_background.png"
+    "/assets/lovegame_background.png"
   );
 
   const useIsomorphicLayoutEffect =
@@ -169,14 +169,14 @@ const Win98 = (props: Props) => {
       height: "80px",
       icon: SettingsIcon,
     },
-    {
-      menu: "claim",
-      title: "CLAIM",
-      component: <ClaimWarTokens />,
-      width: "180px",
-      height: "180px",
-      icon: FireIcon
-    },
+    // {
+    //   menu: "claim",
+    //   title: "CLAIM",
+    //   component: <ClaimWarTokens />,
+    //   width: "180px",
+    //   height: "180px",
+    //   icon: FireIcon
+    // },
   ];
 
   useIsomorphicLayoutEffect(() => {

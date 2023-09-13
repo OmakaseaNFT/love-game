@@ -3,7 +3,7 @@ import LoveIcon from "../assets/love-icon.png";
 import UniswapIcon from "../assets/uniswap.png";
 import PaperIcon from "../assets/book.png";
 import FireIcon from "../assets/fire-icon.png";
-import WarBanner from "../assets/war-banner.gif";
+// import WarBanner from "../assets/war-banner.gif";
 import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
 import { Connect } from "./connect";
@@ -12,6 +12,7 @@ import {
   TELEGRAM_LINK,
   TWITTER_LINK,
   UNISWAP_LINK,
+  WAR_SWAP_LINK
 } from "../utils/constant";
 
 interface ScreenProps {
@@ -59,9 +60,9 @@ const Screen = ({
       label: "Farm $LOVE",
     },
     {
-      onClick: () => onTrigger(),
+      onClick: () => window.open(WAR_SWAP_LINK, "_blank"),
       icon: FireIcon,
-      label: "Claim $WAR3"
+      label: "Swap $WAR3"
     },
     {
       onClick: () => setSelected("paper"),
@@ -81,15 +82,7 @@ const Screen = ({
         backgroundImage: `url(${wallpaper ?? ""})`,
       }}
     >
-      <div className="absolute inset-0 flex items-center justify-center z-0">
-        <Image
-          src={WarBanner}
-          alt="scrolling war banner gif"
-          height={240}
-          width={360}
-        />
-      </div>
-      <div className="w-full h-full flex z-10">
+      <div className="w-full h-full flex">
         {children}
         <div className="flex flex-row justify-between w-full p-8 sm:p-0">
           <div className="w-[110px] sm:w-[200px]">
