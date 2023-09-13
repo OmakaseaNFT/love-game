@@ -62,7 +62,7 @@ export const fetchWarPriceLove = async (warLovePoolContract: PoolAbi) => {
 export const fetchWarPriceUSDT = async (warLovePoolContract: PoolAbi, usdtLovePoolContract: PoolAbi) => {
   const LOVEPriceInUSDT = await fetchLovePriceUSDT(usdtLovePoolContract);
   const WARPriceInLove = await fetchWarPriceLove(warLovePoolContract);
-  const WARPriceInUSDT = WARPriceInLove * LOVEPriceInUSDT;
+  const WARPriceInUSDT = LOVEPriceInUSDT / WARPriceInLove;
   return WARPriceInUSDT;
 }
 
@@ -93,7 +93,7 @@ export const calculateStakedLiquidity = async (
     const totalValue = LOVEInFarmValueUSDT * 2;
     return totalValue;
   } else {
-    const WARPriceInUSDT = await fetchWarPriceUSDT(usdtLovePoolContract, warLovePoolContract);
+    const WARPriceInUSDT = await fetchWarPriceUSDT(warLovePoolContract, usdtLovePoolContract);
 
     const token0IsWar = lpToken0 == contractAddressWar;
     const WARKey = token0IsWar ? `_reserve0` : `_reserve1`;
@@ -158,30 +158,29 @@ export const calculateAPR = async (poolIndex: number) => {
     const apr = (annualRewardInToken / totalValueLocked) * 100;
     return Math.trunc(apr);
   } else {
-    const WARPriceLove = fetchWarPriceLove(warLovePoolContract);
+    const WARPriceLove = await fetchWarPriceLove(warLovePoolContract);
+    const WARPerBlock = Math.round(Number(ethers.utils.formatUnits(lovePerBlock, 18)) * WARPriceLove);
 
-    const token0IsWAR = lpToken0 == contractAddressLove;
+    const token0IsWAR = lpToken0 == contractAddressWar;
     const WARKey = token0IsWAR ? `_reserve0` : `_reserve1`;
     const WARReservesBN = lpReserves[WARKey];
 
-    const warPriceInLoveBN = ethers.BigNumber.from(WARPriceLove);
-    const lovePerBlockBN = ethers.BigNumber.from(lovePerBlock);
+    const WARPerBlockBN = ethers.BigNumber.from(WARPerBlock);
     const allocPointBN = ethers.BigNumber.from(poolInfo.allocPoint);
     const totalAllocPointBN = ethers.BigNumber.from(totalAllocPoint);
     const blocksPerYearBN = ethers.BigNumber.from(BLOCKS_PER_YEAR);
 
-    const totalWarLockedBN = totalLiquidityLocked
-      .mul(WARReservesBN)
+    const totalWarLockedBN = WARReservesBN
+      .mul(totalLiquidityLocked)
       .div(lpTotalSupply);
     const totalWarLocked = Number(ethers.utils.formatUnits(totalWarLockedBN, 18));
     const totalValueLocked = totalWarLocked * 2
 
-    const annualRewardInTokenBN = lovePerBlockBN
-      .div(warPriceInLoveBN)
+    const annualRewardInTokenBN = WARPerBlockBN
       .mul(blocksPerYearBN)
       .mul(allocPointBN)
       .div(totalAllocPointBN);
-    const annualRewardInToken = Number(ethers.utils.formatUnits(annualRewardInTokenBN, 18));
+    const annualRewardInToken = Number(annualRewardInTokenBN);
 
     const apr = (annualRewardInToken / totalValueLocked) * 100;
     return Math.trunc(apr);

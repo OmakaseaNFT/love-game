@@ -70,7 +70,7 @@ export class AppContracts {
 
     this.warLovePoolContract = new ethers.Contract(
       WARLOVEPoolAddy,
-      warContractAbi,
+      warLovePoolContractAbi,
       providerOrSigner
     ) as PoolAbi;
   }
