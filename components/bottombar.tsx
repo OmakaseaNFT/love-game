@@ -7,7 +7,7 @@ import { useState } from "react";
 import { StartMenuListItem } from "./startMenuListItem";
 import { useCopyText } from "../system/hooks/useCopyText";
 import { truncateEthAddress } from "../system/appUtils";
-import { contractAddressLove } from "../utils/constant";
+import { contractAddressLove, contractAddressWar } from "../utils/constant";
 
 interface Props {
   setSelected: (selected: string) => void;
@@ -45,22 +45,22 @@ const BottomBar = (props: Props) => {
     },
   ];
 
-  const renderCopyAddress = () => {
+  const renderCopyAddress = (ca: string, label = "CA:") => {
     return (
       <div
         className={`flex flex-row justify-between font-windows hover:text-white hover:bg-[#0A0080] cursor-pointer sm:hidden`}
       >
         <div className="flex flex-row items-center w-full">
           <div className="py-1 justify-center items-center w-[68px] flex">
-            CA:
+            {label}
           </div>
           <div
             className="text-[22px] truncate"
-            onClick={() => onCopyText(contractAddressLove)}
+            onClick={() => onCopyText(ca)}
           >
             {copied
               ? "Copied.........."
-              : `${truncateEthAddress(contractAddressLove)}`}
+              : `${truncateEthAddress(ca)}`}
           </div>
         </div>
       </div>
@@ -70,7 +70,8 @@ const BottomBar = (props: Props) => {
   return (
     <div className="flex flex-row relative w-[372px] sm:w-[427px]">
       <div className="bg-[#C1C1C1] w-[185px] sm:w-[240px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white">
-        {renderCopyAddress()}
+        {renderCopyAddress(contractAddressLove, "LOVE:")}
+        {renderCopyAddress(contractAddressWar, "WAR3:")}
         {list.map((item, index) => (
           <StartMenuListItem
             key={`start-menu-list-item-${index}`}
