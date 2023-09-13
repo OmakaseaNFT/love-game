@@ -27,7 +27,7 @@ export const BIT_QUERY_LINK =
 export const DEXSCREENER_LINK =
   "https://dexscreener.com/ethereum/0xDD97FCe8441dABf221B330269750B18bA82b0CD6";
 export const LOVE_ETH_LP_LINK = `https://app.uniswap.org/#/add/v2/ETH/${contractAddressLove}`;
-export const WAR_SWAP_LINK = `https://app.uniswap.org/#/swap?theme=dark&inputCurrency=${contractAddressLove}&outputCurrency=${contractAddressWarClaim}`;
+export const WAR_SWAP_LINK = `https://app.uniswap.org/#/swap?theme=dark&inputCurrency=${contractAddressLove}&outputCurrency=${contractAddressWar}`;
 
 export const contractAddressFaith =
   process.env.NEXT_PUBLIC_CONTRACT_FAITH || "";
