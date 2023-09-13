@@ -79,6 +79,12 @@ export const LOVE_POOLS = [
     baseAsset: contractAddressLove,
   },
   {
+    name: "WAR3-ETH",
+    icon: "/assets/war_eth.svg",
+    token: "ETH",
+    baseAsset: contractAddressWar,
+  },
+  {
     name: "LOVE-BOBO",
     icon: "/assets/love_bobo.svg",
     token: contractAddressBobo,
@@ -94,18 +100,6 @@ export const LOVE_POOLS = [
     name: "LOVE-NINA",
     icon: "/assets/love_nina.svg",
     token: contractAddressNina,
-    baseAsset: contractAddressLove,
-  },
-  {
-    name: "WAR3-ETH",
-    icon: "/assets/war_eth.svg",
-    token: "ETH",
-    baseAsset: contractAddressWar,
-  },
-  {
-    name: "LOVE-WAR3",
-    icon: "/assets/love_war.svg",
-    token: contractAddressWar,
     baseAsset: contractAddressLove,
   },
 ];
