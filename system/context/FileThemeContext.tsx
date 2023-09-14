@@ -38,7 +38,7 @@ export interface IFileTheme {
   setWallpaper: (wallpaper: string) => void;
 }
 
-const defaultTheme: FileTheme = "vaporwave-arcade";
+const defaultTheme: FileTheme = "love";
 
 export const themeMap: { [key in FileTheme]: Partial<FileThemeCustomOptions> } =
   {
