@@ -99,13 +99,13 @@ const LinksDirectory: FC<LinksDirectoryProps> = ({ name }) => {
           <u>F</u>ile
         </div>
         <div className="p-2 border-r border-black border-1">
-          <u>E</u>Edit
+          <u>E</u>dit
         </div>
         <div className="p-2 border-r border-black border-1">
-          <u>V</u>View
+          <u>V</u>iew
         </div>
         <div className="p-2">
-          <u>H</u>Help
+          <u>H</u>elp
         </div>
       </div>
       <div className="px-2 h-[100%] w-[100%] flex flex-wrap bg-white">

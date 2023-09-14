@@ -1,6 +1,7 @@
 import Image from "next/image";
 import TreeIcon from "../assets/three.png";
 import PaperIcon from "../assets/book.png";
+import HeartBreakIcon from "../assets/half-heart-break.svg";
 import SettingsIcon from "../assets/settings.png";
 import ShutdownIcon from "../assets/shutdown.png";
 import { useState } from "react";
@@ -29,8 +30,8 @@ const BottomBar = (props: Props) => {
     },
     {
       menu: "heartbreak",
-      icon: "/assets/start-icon.png",
-      name: "<u>H</u>EARTBREAK",
+      icon: HeartBreakIcon,
+      name: "<u>H</u>eartBreak",
     },
     {
       menu: "cp",
@@ -54,13 +55,8 @@ const BottomBar = (props: Props) => {
           <div className="py-1 justify-center items-center w-[68px] flex">
             {label}
           </div>
-          <div
-            className="text-[22px] truncate"
-            onClick={() => onCopyText(ca)}
-          >
-            {copied
-              ? "Copied.........."
-              : `${truncateEthAddress(ca)}`}
+          <div className="text-[22px] truncate" onClick={() => onCopyText(ca)}>
+            {copied ? "Copied.........." : `${truncateEthAddress(ca)}`}
           </div>
         </div>
       </div>

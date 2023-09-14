@@ -1,6 +1,5 @@
 import BottomBar from "../../components/bottombar";
 import { useEffect, useState, useLayoutEffect } from "react";
-import moment from "moment";
 import Dialog from "../../components/dialog";
 import Screen from "../../components/screen";
 import ActiveButton from "../../components/activeButton";
