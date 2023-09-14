@@ -18,6 +18,7 @@ import {
   useRequestState,
 } from "../../system/hooks/useRequestState";
 import { AuthContext } from "../../system/context/AuthContext";
+import { GameHistory, GameResult, LeaderBoard } from "../../system/types";
 
 export const useHeartbreakerGameEngine = () => {
   const [balance, setBalance] = useState<number>(0);
@@ -27,15 +28,17 @@ export const useHeartbreakerGameEngine = () => {
     string | undefined
   >("0");
   const [gameIsLive, setGameIsLive] = useState<boolean>(false);
-  const [gameResults, setGameResults] = useState<any>([]);
+  const [gameResults, setGameResults] = useState<GameResult[]>([]);
   const [amountToPlay, setAmountToPlay] = useState(0);
-  const [gameHistory, setGameHistory] = useState<any>([]);
-  const [leaderboard, setLeaderboard] = useState<any>([]);
-  const [gameTimer, setGameTimer] = useState<any>(0);
+  const [gameHistory, setGameHistory] = useState<GameHistory[]>([]);
+  const [leaderBoard, setLeaderBoard] = useState<LeaderBoard[]>([]);
+  const [gameTimer, setGameTimer] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [startAnimation, setStartAnimation] = useState<boolean>(false);
   const [userExited, setUserExited] = useState<boolean>(false);
   const [lockTime, setLockTime] = useState<number>(0);
+  const [maxProfit, setMaxProfit] = useState<number>(0);
+  const [showMaxProfit, setShowMaxProfit] = useState<boolean>(false);
 
   const { requestState, setRequestState } = useRequestState();
   const { address } = useAccount();
@@ -47,7 +50,6 @@ export const useHeartbreakerGameEngine = () => {
       .then((res) => {
         setLockTime(res.data.bettingLockTime);
         setBalance(parseFloat(res.data.balance));
-        setAmountToPlay(0);
       });
   };
 
@@ -80,6 +82,7 @@ export const useHeartbreakerGameEngine = () => {
       handleGetGameHistory();
       handleGetGameLeaders();
       setUserExited(false);
+      setAmountToPlay(0);
     });
 
     socket.on("balanceUpdate", (data) => {
@@ -89,6 +92,10 @@ export const useHeartbreakerGameEngine = () => {
 
     socket.on("gameResults", (data) => {
       setGameResults(JSON.parse(data));
+    });
+    
+    socket.on("maxProfit", (data) => {
+      setMaxProfit(data.maxProfit);
     });
   };
 
@@ -114,7 +121,7 @@ export const useHeartbreakerGameEngine = () => {
     }
 
     setAmountToPlay(amount);
-    
+
     socket.emit("bet", {
       address,
       multiplierToStopAt,
@@ -169,10 +176,10 @@ export const useHeartbreakerGameEngine = () => {
     await axios
       .get(`${BE_URL}/heartbreakLeaders`)
       .then((res) => {
-        setLeaderboard(res.data);
+        setLeaderBoard(res.data);
       })
       .catch(() => {
-        setLeaderboard([]);
+        setLeaderBoard([]);
       });
   };
 
@@ -286,8 +293,20 @@ export const useHeartbreakerGameEngine = () => {
   }, [socket]);
 
   useEffect(() => {
-    if (address) handleGetBalance(address);
+    if (address) {
+      handleGetBalance(address);
+      handleGetGameLeaders();
+    }
   }, [address]);
+
+  useEffect(() => {
+    if (gameTimer === 500) {
+      setShowMaxProfit(true);
+    }
+    if (!gameIsLive && gameTimer === 0) {
+      setShowMaxProfit(false);
+    }
+  }, [gameTimer, gameIsLive]);
 
   return {
     onBet: handleBet,
@@ -309,10 +328,12 @@ export const useHeartbreakerGameEngine = () => {
     gameResults,
     amountToPlay,
     gameHistory,
-    leaderboard,
+    leaderboard: leaderBoard,
     gameTimer,
     requestState,
     errorMessage,
     lockTime,
+    maxProfit,
+    showMaxProfit
   };
 };

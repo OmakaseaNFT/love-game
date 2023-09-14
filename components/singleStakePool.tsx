@@ -319,7 +319,7 @@ export const SingleStakePool = ({
                                   ? formatEther(loveBalance)
                                   : formatEther(faithBalance)}
                               </div>
-                              <div className="flex flex-row gap-1">
+                              <div className="flex flex-row justify-between w-[132px]">
                                 <input
                                   type="text"
                                   value={
@@ -350,12 +350,13 @@ export const SingleStakePool = ({
                                     }
                                   }}
                                   className="smallBtn"
-                                >
-                                  max
-                                </button>
+                                >max</button>
                               </div>
                               <div
-                                className="btn mb-1"
+                                className="btn mb-1 w-[132px]"
+                                style={{
+                                  marginLeft: 0,
+                                }}
                                 onClick={
                                   isStakeVisible
                                     ? () => deposit(stakeValue, address)

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { StakingSelectTab } from "../ui/StakingSelectTab";
 import HeartBreakTable from "./table";
 import { HeartBreakTab } from "./tab";
 import ChatBox from "./chatbox";
@@ -12,10 +11,10 @@ const Features = () => {
       title: "History",
       key: "history",
     },
-    // {
-    //   title: "LeaderBoard",
-    //   key: "leaderboard",
-    // },
+    {
+      title: "LeaderBoard",
+      key: "leaderboard",
+    },
     // {
     //   title: "Chat",
     //   key: "chat",
