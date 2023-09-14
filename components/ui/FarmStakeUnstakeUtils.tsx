@@ -48,6 +48,14 @@ export const FarmStakeUnstakeUtils = ({
         return "WBTC";
       case 3:
         return "PEPE";
+      case 4: 
+        return "ETH";
+      case 5: 
+        return "BOBO";
+      case 6: 
+        return "MOG";
+      case 7: 
+        return "NINA";
       default:
         return "ETH";
     }
@@ -57,7 +65,7 @@ export const FarmStakeUnstakeUtils = ({
       <div>{poolName}</div>
       <div className="flex flex-row w-[300px] justify-between">
         <div className="flex flex-col text-xs text-[#0A0080] my-2">
-          <div>{Number(lovePerUser).toFixed(6)} LOVE</div>
+          <div>{Number(lovePerUser).toFixed(6)} {poolIndex == 4 ? 'WAR3' : 'LOVE'}</div>
           <div>{`${Number(ethPerUser).toFixed(6)} ${tokenText(poolIndex)}`}</div>
         </div>
         <div className="flex flex-col justify-between">

@@ -138,7 +138,7 @@ export const useFetchUserPoolData = () => {
       const LOVEKey = token0IsLOVE ? `_reserve0` : `_reserve1`;
       const LOVEReservesBN = lpReserves[LOVEKey];
 
-      const tokenKey = token0IsLOVE ? `_reserve0` : `_reserve1`;
+      const tokenKey = token0IsLOVE ? `_reserve1` : `_reserve0`;
       const tokenReservesBN = lpReserves[tokenKey];
       const tokenAddress = token0IsLOVE ? lpToken1 : lpToken0;
       const tokenContract = new ethers.Contract(
@@ -173,7 +173,7 @@ export const useFetchUserPoolData = () => {
       const warKey = token0IsWar ? `_reserve0` : `_reserve1`;
       const warReservesBN = lpReserves[warKey];
 
-      const ethKey = token0IsWar ? `_reserve0` : `_reserve1`;
+      const ethKey = token0IsWar ? `_reserve1` : `_reserve0`;
       const ethReservesBN = lpReserves[ethKey];
 
       const ethPerUserBN = ethReservesBN
