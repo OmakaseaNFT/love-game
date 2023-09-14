@@ -13,16 +13,16 @@ import SettingsIcon from "../../assets/settings.png";
 import PaperIcon from "../../assets/book.png";
 import LoveIcon from "../../assets/love-icon.png";
 // import FireIcon from "../../assets/fire-icon.png";
+import HeartBreakIcon from "../../assets/half-heart-break.svg";
+import DirectoryIcon from "../../assets/closed-folder.png";
 import { ethers } from "ethers";
-import {
-  USDCAddress,
-} from "../../utils/constant";
+import { USDCAddress } from "../../utils/constant";
 import { contractAddressLove, contractAddressWar } from "../../utils/constant";
 import { PoolAbi } from "../../system/PoolAbi";
 import { AppContracts } from "../../system/AppContracts";
 import { CopyAddressButton } from "../../components/copyAddressButton";
-import { useWrongNetwork } from "../../system/hooks/useWrongNetwork";
 import { HeartBreaker } from "../../components/heartbreaker";
+import LinksDirectory from "../../components/linksDirectory";
 
 interface Props {
   lock?: Boolean;
@@ -41,7 +41,6 @@ interface Content {
 const Win98 = (props: Props) => {
   const [scale, setScale] = useState<string>();
   const [showBar, setShowBar] = useState<boolean>(false);
-  const [time, setTime] = useState(moment().format("HH:mm"));
   const [price, setPrice] = useState<number>(0);
   const [usdPrice, setUSDPrice] = useState<number>(0);
   const [wallpaper, setWallpaper] = useState<string>(
@@ -50,16 +49,6 @@ const Win98 = (props: Props) => {
 
   const useIsomorphicLayoutEffect =
     typeof window !== "undefined" ? useLayoutEffect : useEffect;
-
-  const claim: any = useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(moment().format("HH:mm"));
-    }, 60000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   useEffect(() => {
     if ((window as any).ethereum) {
@@ -158,7 +147,7 @@ const Win98 = (props: Props) => {
       component: <HeartBreaker />,
       width: "60%",
       height: "100%",
-      icon: PaperIcon,
+      icon: HeartBreakIcon,
       maxHeight: true,
     },
     {
@@ -168,6 +157,30 @@ const Win98 = (props: Props) => {
       width: "200px",
       height: "80px",
       icon: SettingsIcon,
+    },
+    {
+      menu: "charts",
+      title: "Charts",
+      component: <LinksDirectory name="charts" />,
+      width: "60%",
+      height: "100%",
+      icon: DirectoryIcon,
+    },
+    {
+      menu: "socials",
+      title: "Socials",
+      component: <LinksDirectory name="socials" />,
+      width: "60%",
+      height: "100%",
+      icon: DirectoryIcon,
+    },
+    {
+      menu: "contracts",
+      title: "Contracts",
+      component: <LinksDirectory name="contracts" />,
+      width: "60%",
+      height: "100%",
+      icon: DirectoryIcon,
     },
     // {
     //   menu: "claim",
@@ -221,11 +234,7 @@ const Win98 = (props: Props) => {
         </div>
       ) : null}
 
-      <Screen
-        wallpaper={wallpaper}
-        setSelected={setSelected}
-        onTrigger={() => setSelectedContent(contents[5])}
-      >
+      <Screen wallpaper={wallpaper} setSelected={setSelected}>
         {selectedContent?.title && (
           <Dialog
             closeMe={closeContent}

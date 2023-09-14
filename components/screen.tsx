@@ -1,5 +1,8 @@
+import DirectoryIcon from "../assets/closed-folder.png";
 import EtherscanIcon from "../assets/etherscan.png";
-import LoveIcon from "../assets/love-icon.png";
+import HeartbreakIcon from "../assets/half-heart-break.svg";
+import LoveSmileIcon from "../assets/love-icon.png";
+import LoveIcon from "../assets/heart-static.svg";
 import UniswapIcon from "../assets/uniswap.png";
 import PaperIcon from "../assets/book.png";
 import FireIcon from "../assets/fire-icon.png";
@@ -12,43 +15,40 @@ import {
   TELEGRAM_LINK,
   TWITTER_LINK,
   UNISWAP_LINK,
-  WAR_SWAP_LINK
+  WAR_SWAP_LINK,
+  LOVE_SWAP_LINK,
 } from "../utils/constant";
 
 interface ScreenProps {
   children: ReactNode;
   setSelected: (selected: string) => void;
   wallpaper: string;
-  onTrigger: () => void;
 }
-const Screen = ({
-  children,
-  setSelected,
-  wallpaper,
-  onTrigger,
-}: ScreenProps) => {
+const Screen = ({ children, setSelected, wallpaper }: ScreenProps) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const iconsLeft = [
     {
-      onClick: () => window.open(ETHERSCAN_CLAIM_LINK, "_blank"),
-      icon: EtherscanIcon,
-    },
-    {
-      onClick: () => window.open(UNISWAP_LINK, "_blank"),
-      icon: UniswapIcon,
-      label: "Uniswap",
+      onClick: () => setSelected("heartbreak"),
+      icon: HeartbreakIcon,
+      label: "HeartBreak",
       logoHeight: 60,
     },
     {
-      onClick: () => window.open(TWITTER_LINK, "_blank"),
-      icon: "/assets/logo_twitter.png",
-      label: "Twitter",
+      onClick: () => setSelected("charts"),
+      icon: DirectoryIcon,
+      label: "Charts",
       logoHeight: 60,
     },
     {
-      onClick: () => window.open(TELEGRAM_LINK, "_blank"),
-      icon: "/assets/logo_telegram.png",
-      label: "Telegram",
+      onClick: () => setSelected("socials"),
+      icon: DirectoryIcon,
+      label: "Socials",
+      logoHeight: 60,
+    },
+    {
+      onClick: () => setSelected("contracts"),
+      icon: DirectoryIcon,
+      label: "Contracts",
       logoHeight: 60,
     },
   ];
@@ -56,19 +56,24 @@ const Screen = ({
   const iconsRight = [
     {
       onClick: () => setSelected("farm"),
-      icon: LoveIcon,
+      icon: LoveSmileIcon,
       label: "Farm $LOVE",
-    },
-    {
-      onClick: () => window.open(WAR_SWAP_LINK, "_blank"),
-      icon: FireIcon,
-      label: "Swap $WAR3"
     },
     {
       onClick: () => setSelected("paper"),
       icon: PaperIcon,
       label: "Paper",
-    }
+    },
+    {
+      onClick: () => window.open(WAR_SWAP_LINK, "_blank"),
+      icon: FireIcon,
+      label: "Buy War",
+    },
+    {
+      onClick: () => window.open(LOVE_SWAP_LINK, "_blank"),
+      icon: LoveIcon,
+      label: "Buy Love",
+    },
   ];
 
   useEffect(() => {
@@ -90,7 +95,7 @@ const Screen = ({
               return (
                 <div
                   key={index}
-                  className="h-36  flex-col flex justify-center flex items-center cursor-pointer"
+                  className="h-36 flex-col flex justify-center flex items-center cursor-pointer"
                   onClick={item.onClick}
                 >
                   <Image
@@ -123,10 +128,10 @@ const Screen = ({
                   >
                     <Image src={item.icon} alt="icon" height={55} />
                     {item.label && (
-                    <div className="text-[rgba(255,255,255,.80)] text-lg mt-2">
-                      {item.label}
-                    </div>
-                  )}
+                      <div className="text-[rgba(255,255,255,.80)] text-lg mt-2">
+                        {item.label}
+                      </div>
+                    )}
                   </div>
                 );
               })}

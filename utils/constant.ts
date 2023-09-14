@@ -10,7 +10,7 @@ export const contractAddressWar: string =
 export const USDETHPoolAddy: string =
   process.env.NEXT_PUBLIC_CONTRACT_USDETHPoolAddy || "";
 export const ETHLOVEPoolAddy: string =
-  process.env.NEXT_PUBLIC_CONTRACT_ETHLOVEPoolAddy || "";
+  "0xdd97fce8441dabf221b330269750b18ba82b0cd6";
 export const USDCAddress: string =
   process.env.NEXT_PUBLIC_CONTRACT_USDCAddress || "";
 export const ETHLPAddy: string =
@@ -27,7 +27,9 @@ export const BIT_QUERY_LINK =
 export const DEXSCREENER_LINK =
   "https://dexscreener.com/ethereum/0xDD97FCe8441dABf221B330269750B18bA82b0CD6";
 export const LOVE_ETH_LP_LINK = `https://app.uniswap.org/#/add/v2/ETH/${contractAddressLove}`;
+export const LOVE_SWAP_LINK = `https://app.uniswap.org/#/swap?theme=dark&inputCurrency=ETH&outputCurrency=${contractAddressLove}`;
 export const WAR_SWAP_LINK = `https://app.uniswap.org/#/swap?theme=dark&inputCurrency=${contractAddressLove}&outputCurrency=${contractAddressWar}`;
+export const WARLPAddy = "0x1c9189593669b5c1fbc33d7ff522b1b2dd0646e4";
 
 export const contractAddressFaith =
   process.env.NEXT_PUBLIC_CONTRACT_FAITH || "";
@@ -50,8 +52,9 @@ export const HOT_JAR_VERSION = 6;
 export const TELEGRAM_LINK = "https://t.me/loveethereum";
 export const TWITTER_LINK = "https://twitter.com/lovegameeth";
 export const HEARTBREAKER_SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL!;
-export const HEARTBREAKER_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_HEARTBREAKER_CONTRACT_ADDRESS!;
-export const ETHUSDTPoolAddy = "0xE24Ab719209A9844E59dBfEEe91ce7d8D482532e"
+export const HEARTBREAKER_CONTRACT_ADDRESS =
+  process.env.NEXT_PUBLIC_HEARTBREAKER_CONTRACT_ADDRESS!;
+export const ETHUSDTPoolAddy = "0xE24Ab719209A9844E59dBfEEe91ce7d8D482532e";
 export const USD_WBTC_POOL_ADDY = process.env.NEXT_PUBLIC_USD_WBTC_POOL_ADDY!;
 export const USD_PEPE_POOL_ADDY = process.env.NEXT_PUBLIC_USD_PEPE_POOL_ADDY!;
 
@@ -60,5 +63,5 @@ export const KV_REST_API_URL = IS_DEV_ENV
   : process.env.KV_PROD_REST_API_URL || "";
 
 export const KV_REST_API_TOKEN = IS_DEV_ENV
-  ? process.env.KV_REST_API_TOKEN || "" 
+  ? process.env.KV_REST_API_TOKEN || ""
   : process.env.KV_PROD_REST_API_TOKEN || "";
