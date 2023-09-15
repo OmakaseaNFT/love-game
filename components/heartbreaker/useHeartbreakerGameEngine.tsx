@@ -4,9 +4,9 @@ import { useAccount } from "wagmi";
 import { io, Socket } from "socket.io-client";
 import { ethers } from "ethers";
 import {
-  HEARTBREAKER_CONTRACT_ADDRESS,
   HEARTBREAKER_SOCKET_URL,
   contractAddressLove,
+  contractAddressHeartbreak,
   BE_URL,
 } from "../../utils/constant";
 import { HeartbreakerAbi } from "../../system/HeartbreakerAbi";
@@ -223,7 +223,7 @@ export const useHeartbreakerGameEngine = () => {
     const signer = provider.getSigner();
     const abi = require("../../utils/heartbreaker.json");
     const contract = new ethers.Contract(
-      HEARTBREAKER_CONTRACT_ADDRESS,
+      contractAddressHeartbreak,
       abi,
       signer
     ) as HeartbreakerAbi;
@@ -259,7 +259,7 @@ export const useHeartbreakerGameEngine = () => {
 
     try {
       const tx = await contract.transfer(
-        HEARTBREAKER_CONTRACT_ADDRESS,
+        contractAddressHeartbreak,
         ethers.utils.parseEther(amount.toString())
       );
 

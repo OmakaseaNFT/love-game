@@ -56,7 +56,7 @@ const ClaimWarTokens = () => {
       (window as any).ethereum
     );
     const signer = provider.getSigner();
-    const { warClaimContract } = new AppContracts(signer);
+    const { warContract } = new AppContracts(signer);
     setRequestState(requestPendingState);
     try {
       const sig = await signMessageAsync({message});
@@ -66,11 +66,11 @@ const ClaimWarTokens = () => {
       });
       if (!result.data) return rickRollError({ reason: `Address is not eligible for claim!` });
       const owner = await signer.getAddress();
-      const hasClaimed = owner ? await warClaimContract.hasClaimed(owner) : false;
+      const hasClaimed = owner ? await warContract.hasClaimed(owner) : false;
       if (hasClaimed) return rickRollError({ reason: `Address has already claimed!` });
       try {
         const { messageHash, signature } = result.data;
-        const tx: ContractTransaction = await warClaimContract.claim(messageHash, signature);
+        const tx: ContractTransaction = await warContract.claim(messageHash, signature);
         await tx.wait(2)
         return handleTransactionSuccess();
       } catch (error: any) {

@@ -1,25 +1,13 @@
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
 import { useState, useEffect } from "react";
-import {
-  BLOCKS_PER_YEAR,
-  contractAddressLove,
-  LOVE_POOLS,
-  USDCAddress,
-} from "../../utils/constant";
+import { LOVE_POOLS } from "../../utils/constant";
 import { AppContracts } from "../AppContracts";
 import { LoveFarmAbi } from "../LoveFarmAbi";
 import { PoolAbi } from "../PoolAbi";
 import {
   calculateAPR,
-  calculateAPRLovePepe,
-  calculateAPRLoveUsdt,
-  calculateAPRLoveWbtc,
-  calculateStakedLiquidityEthLove,
-  calculateStakedLiquidityPepe,
-  calculateStakedLiquidityUSDT,
-  calculateStakedLiquidityWbtc,
-} from "./poolCalcUtils";
-import { parseEther } from "viem";
+  calculateStakedLiquidity,
+} from "./poolCalcUtils"
 
 const lpContractAbi = require("../../utils/poolABI.json");
 
@@ -42,30 +30,30 @@ export type GeneralPoolData = {
   stakedLiquidity: number;
   poolName: string;
   poolIcon: string;
+  token: string;
+  baseAsset: string;
 };
 
 export const useFetchFarmData = () => {
   const [farmData, setFarmData] = useState<GeneralPoolData[]>([]);
   const [poolDataLoading, setPoolDataLoading] = useState<boolean>(false);
 
-  const getPoolData = async (usdContract: any, farmContract: LoveFarmAbi) => {
+  const getPoolData = async (appContracts: AppContracts) => {
     setPoolDataLoading(true);
     try {
-      const pool = await farmContract.poolLength();
+      const { loveFarmContract } = appContracts;
+      const pool = await loveFarmContract.poolLength();
       let poolInfo;
-      let aprValue;
-      let stakedLiquidity;
+
       const poolDataArr = [];
 
       if (Number(pool) > 0) {
         for (let index = 0; index < Number(pool); index++) {
           // Get pool info from Farm contract.
-          poolInfo = await farmContract.poolInfo(index);
+          poolInfo = await loveFarmContract.poolInfo(index);
 
-          const totalAllocPoint = await farmContract.totalAllocPoint();
           const poolInfoReceipt = poolInfo.depositFeeBP / 10000;
           const lpContractAddress = poolInfo.lpToken;
-          const allocPoint = poolInfo.allocPoint;
           const provider = new ethers.providers.Web3Provider(
             (window as any).ethereum
           );
@@ -77,43 +65,16 @@ export const useFetchFarmData = () => {
             provider
           ) as PoolAbi;
 
-          if (index === 0) {
-            aprValue = await calculateAPR(index);
-          } else if (index === 1) {
-            aprValue = await calculateAPRLoveUsdt(index);
-          }else if (index === 2) {
-            aprValue = await calculateAPRLoveWbtc(index);
-          }else if (index === 3) {
-            aprValue = await calculateAPRLovePepe(index);
-          } else {
-            aprValue = 0;
-          }
+          const aprValue = await calculateAPR(index);
 
-          if (index === 0) {
-            stakedLiquidity = await calculateStakedLiquidityEthLove(
-              usdContract,
-              lpContract,
-              farmContract
-            );
-          } else if (index === 1) {
-            stakedLiquidity = await calculateStakedLiquidityUSDT(
-              usdContract,
-              lpContract,
-              farmContract
-            );
-          } else if (index === 2) {
-            stakedLiquidity = await calculateStakedLiquidityWbtc(
-              lpContract,
-              farmContract
-            );
-          } else if (index === 3) {
-            stakedLiquidity = await calculateStakedLiquidityPepe(
-              lpContract,
-              farmContract
-            );
-          } else {
-            stakedLiquidity = 0;
-          }
+          const stakedLiquidity = await calculateStakedLiquidity(
+            lpContract,
+            appContracts
+          )
+            .catch((e) => {
+              console.log(`error calculating staked liquidity: \n${e}`);
+              return 0
+            });
 
           poolDataArr.push({
             poolInfo: poolInfo,
@@ -122,6 +83,8 @@ export const useFetchFarmData = () => {
             stakedLiquidity: stakedLiquidity,
             poolName: LOVE_POOLS[index].name,
             poolIcon: LOVE_POOLS[index].icon,
+            token: LOVE_POOLS[index].token,
+            baseAsset: LOVE_POOLS[index].baseAsset,
           });
         }
 
@@ -141,8 +104,8 @@ export const useFetchFarmData = () => {
     const provider = new ethers.providers.Web3Provider(
       (window as any).ethereum
     );
-    const { loveFarmContract, usdEthPoolContract } = new AppContracts(provider);
-    await getPoolData(usdEthPoolContract, loveFarmContract);
+    const appContracts = new AppContracts(provider);
+    await getPoolData(appContracts);
   };
 
   useEffect(() => {
