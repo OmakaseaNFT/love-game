@@ -35,6 +35,7 @@ export const FileTheme = ({}: FileThemeProps) => {
             width={"94%"}
             height={"200px"}
             title={"file.exe" ?? ""}
+            id=""
           >
             <MintSkin closeMe={closePayment} />
           </Dialog>
