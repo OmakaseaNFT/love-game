@@ -1,18 +1,15 @@
 import BottomBar from "../../components/bottombar";
 import { useEffect, useState, useLayoutEffect } from "react";
-import moment from "moment";
 import Dialog from "../../components/dialog";
 import Screen from "../../components/screen";
 import ActiveButton from "../../components/activeButton";
 import ControlPanel from "../../components/controlPanel";
-import ClaimWarTokens from "../../components/claimWarTokens";
 import Paper from "../../components/paper";
 import Farm from "../../components/farm";
 import ComputerIcon from "../../assets/computer.png";
 import SettingsIcon from "../../assets/settings.png";
 import PaperIcon from "../../assets/book.png";
 import LoveIcon from "../../assets/love-icon.png";
-// import FireIcon from "../../assets/fire-icon.png";
 import { ethers } from "ethers";
 import { contractAddressLove, contractAddressWar } from "../../utils/constant";
 import { PoolAbi } from "../../system/PoolAbi";
@@ -23,6 +20,8 @@ import {
   fetchLovePriceUSDT,
   fetchLovePriceETH,
 } from "../../system/hooks/poolCalcUtils";
+import { useFetchTotalStaked } from "../../system/hooks/useFetchStakingTotal";
+import { thousandSeparator } from "../../system/appUtils";
 
 interface Props {
   lock?: Boolean;
@@ -41,25 +40,15 @@ interface Content {
 const Win98 = (props: Props) => {
   const [scale, setScale] = useState<string>();
   const [showBar, setShowBar] = useState<boolean>(false);
-  const [time, setTime] = useState(moment().format("HH:mm"));
   const [price, setPrice] = useState<number>(0);
   const [usdPrice, setUSDPrice] = useState<number>(0);
   const [wallpaper, setWallpaper] = useState<string>(
     "/assets/lovegame_background.png"
   );
+  const { isFetchingTotals, totalStakedUSD } = useFetchTotalStaked();
 
   const useIsomorphicLayoutEffect =
     typeof window !== "undefined" ? useLayoutEffect : useEffect;
-
-  const claim: any = useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(moment().format("HH:mm"));
-    }, 60000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   useEffect(() => {
     if ((window as any).ethereum) {
@@ -175,6 +164,13 @@ const Win98 = (props: Props) => {
     }
   }, []);
 
+  const formatFarmTitle = (str: string) =>
+    str != "FARM"
+      ? str
+      : isFetchingTotals
+      ? str
+      : `${str} TVL: $${thousandSeparator(totalStakedUSD)}`;
+
   return !scale ? (
     <div />
   ) : (
@@ -208,7 +204,7 @@ const Win98 = (props: Props) => {
             closeMe={closeContent}
             width={selectedContent?.width ?? "94%"}
             height={selectedContent?.height ?? "200px"}
-            title={selectedContent?.title ?? ""}
+            title={formatFarmTitle(selectedContent?.title ?? "")}
             maxHeight={selectedContent?.maxHeight}
           >
             {selectedContent?.component}

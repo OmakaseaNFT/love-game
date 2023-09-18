@@ -1,6 +1,6 @@
 import { useAccount } from "wagmi";
 import { useFetchSingleStakingData } from "../system/hooks/useFetchSingleStakingData";
-import { useFetchTotalFaith } from "../system/hooks/useFetchStakingTotal";
+import { useFetchTotalStaked } from "../system/hooks/useFetchStakingTotal";
 import { SingleStakePool } from "./singleStakePool";
 import { useWrongNetwork } from "../system/hooks/useWrongNetwork";
 
@@ -9,11 +9,11 @@ const SingleStaking = () => {
   const { onGetSingleStakingData, singleStakingData, dataLoading } =
     useFetchSingleStakingData();
   const { isWrongNetwork } = useWrongNetwork();
-  const { totalFaithStakedUSD, isFetchingTotalFaith } = useFetchTotalFaith();
+  const { totalFaithStakedUSD, isFetchingTotals } = useFetchTotalStaked();
 
   return (
     <>
-      {!dataLoading && !isWrongNetwork && !isFetchingTotalFaith && (
+      {!dataLoading && !isWrongNetwork && !isFetchingTotals && (
         <SingleStakePool
           fee={singleStakingData?.fee}
           aprValue={singleStakingData?.aprValue}

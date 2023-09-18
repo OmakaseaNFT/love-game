@@ -1,21 +1,11 @@
 import { useEffect, useState } from "react";
-import { useAccount, useSwitchNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import { StakingSelectTab } from "./ui/StakingSelectTab";
 import { useFetchFarmData } from "../system/hooks/useFetchFarmData";
-import { useFetchTotalFaith } from "../system/hooks/useFetchStakingTotal";
 import { Pool } from "./pool";
 import SingleStaking from "./singleStakingV2";
 import { useWrongNetwork } from "../system/hooks/useWrongNetwork";
 import { WalletConnectButton } from "./ui/WallectConnectButton";
-
-const thousandSeparator = (value: number) => {
-  let formattedValue = value.toLocaleString("en-US", {
-    style: "decimal",
-    maximumFractionDigits: 3,
-  });
-
-  return formattedValue;
-};
 
 const Farm = () => {
   const [tab, setTab] = useState<string>("live");
@@ -25,14 +15,8 @@ const Farm = () => {
     },
   });
   const { farmData, onGetFarmData, poolDataLoading } = useFetchFarmData();
-  const { totalFaithStakedUSD, isFetchingTotalFaith } = useFetchTotalFaith();
   const { isWrongNetwork } = useWrongNetwork();
   const [prevWrongNetwork, setPrevWrongNetwork] = useState<boolean>(false);
-
-  const totalFarmStakedUSD: number = farmData.reduce(
-    (sum, { stakedLiquidity }) => sum + stakedLiquidity,
-    0
-  );
 
   useEffect(() => {
     setPrevWrongNetwork(isWrongNetwork);
@@ -58,15 +42,6 @@ const Farm = () => {
                 }}
                 isSelected={tab == "finished"}
               />
-              {!poolDataLoading && !isFetchingTotalFaith && (
-                <StakingSelectTab
-                  title={`TVL $${thousandSeparator(
-                    totalFarmStakedUSD + totalFaithStakedUSD
-                  )}`}
-                  onClick={() => {}}
-                  isSelected={false}
-                />
-              )}
             </div>
           </div>
         </div>
