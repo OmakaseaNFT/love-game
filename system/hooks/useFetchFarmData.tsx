@@ -4,10 +4,7 @@ import { LOVE_POOLS } from "../../utils/constant";
 import { AppContracts } from "../AppContracts";
 import { LoveFarmAbi } from "../LoveFarmAbi";
 import { PoolAbi } from "../PoolAbi";
-import {
-  calculateAPR,
-  calculateStakedLiquidity,
-} from "./poolCalcUtils"
+import { calculateAPR, calculateStakedLiquidity } from "./poolCalcUtils";
 
 const lpContractAbi = require("../../utils/poolABI.json");
 
@@ -70,11 +67,10 @@ export const useFetchFarmData = () => {
           const stakedLiquidity = await calculateStakedLiquidity(
             lpContract,
             appContracts
-          )
-            .catch((e) => {
-              console.log(`error calculating staked liquidity: \n${e}`);
-              return 0
-            });
+          ).catch((e) => {
+            console.log(`error calculating staked liquidity: \n${e}`);
+            return 0;
+          });
 
           poolDataArr.push({
             poolInfo: poolInfo,
@@ -88,7 +84,7 @@ export const useFetchFarmData = () => {
           });
         }
 
-        console.log(poolDataArr);
+        // console.log(poolDataArr);
         setFarmData(poolDataArr);
         setPoolDataLoading(false);
       } else {

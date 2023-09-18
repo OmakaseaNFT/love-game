@@ -6,7 +6,7 @@ import { contractAddressFaith } from "../../utils/constant";
 import { AppContracts } from "../AppContracts";
 import { LoveTokenAbi } from "../LoveTokenAbi";
 import { FaithAbi } from "../FaithAbi";
-import { fetchLovePriceUSDT } from "./poolCalcUtils";
+import { getTotalFaithUSD } from "./useFetchStakingTotal";
 
 type PoolData = {
   availableValue: any;
@@ -41,43 +41,25 @@ export type GeneralPoolData = {
   poolName: string;
 };
 
-export async function totalFaithUSD() {
-  const provider = new ethers.providers.Web3Provider(
-    (window as any).ethereum
-  );
-  const signer = provider.getSigner();
-  const {
-    loveTokenContract,
-    usdtLovePoolContract,
-  } = new AppContracts(signer);
-
-  const loveBalanceInFaithContract = await loveTokenContract.balanceOf(
-    contractAddressFaith
-  );
-
-  const lovePriceUSDT = await fetchLovePriceUSDT(usdtLovePoolContract);
-
-  const totalFaithUSD = Number(ethers.utils.formatUnits(loveBalanceInFaithContract, 18)) * lovePriceUSDT;
-
-  return totalFaithUSD;
+export interface SingleStakingProps {
+  onGetSingleStakingData: () => Promise<void>;
+  singleStakingData: PoolData | undefined;
+  dataLoading: boolean;
 }
 
-export const useFetchSingleStakingData = () => {
+export const useFetchSingleStakingData = (): SingleStakingProps => {
   const { address } = useAccount();
   const [singleStakingData, setSingleStakingData] = useState<PoolData>();
   const [dataLoading, setDataLoading] = useState<boolean>(false);
 
-  const getSingleStakingData = async (
-  ) => {
+  const getSingleStakingData = async () => {
     setDataLoading(true);
     try {
       const provider = new ethers.providers.Web3Provider(
         (window as any).ethereum
       );
-      const {
-        loveTokenContract,
-        faithContract,
-      } = new AppContracts(provider);
+      const { loveTokenContract, faithContract, usdtLovePoolContract } =
+        new AppContracts(provider);
       let availableValue;
       let availableStaked;
       let realValue;
@@ -92,7 +74,10 @@ export const useFetchSingleStakingData = () => {
       const fee = await faithContract.faithFeePercent();
       const lovePerUser =
         Number(ethers.utils.formatEther(faithBalance)) * aprValue;
-      const totalStakedLove = await totalFaithUSD();
+      const totalStakedLove = await getTotalFaithUSD(
+        loveTokenContract,
+        usdtLovePoolContract
+      );
       const data: PoolData = {
         availableValue: availableValue,
         stakedValue: availableStaked,
@@ -105,7 +90,7 @@ export const useFetchSingleStakingData = () => {
         fee: Number(fee),
         lovePerUser,
       };
-      console.log(data);
+      // console.log(data);
       setSingleStakingData(data);
       setDataLoading(false);
     } catch (error) {
@@ -138,7 +123,7 @@ export const useFetchSingleStakingData = () => {
   }, []);
 
   return {
-    onGetSingleStakingData: getSingleStakingData ,
+    onGetSingleStakingData: getSingleStakingData,
     singleStakingData,
     dataLoading,
   };

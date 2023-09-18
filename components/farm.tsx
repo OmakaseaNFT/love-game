@@ -2,10 +2,20 @@ import { useEffect, useState } from "react";
 import { useAccount, useSwitchNetwork } from "wagmi";
 import { StakingSelectTab } from "./ui/StakingSelectTab";
 import { useFetchFarmData } from "../system/hooks/useFetchFarmData";
+import { useFetchTotalFaith } from "../system/hooks/useFetchStakingTotal";
 import { Pool } from "./pool";
 import SingleStaking from "./singleStakingV2";
 import { useWrongNetwork } from "../system/hooks/useWrongNetwork";
 import { WalletConnectButton } from "./ui/WallectConnectButton";
+
+const thousandSeparator = (value: number) => {
+  let formattedValue = value.toLocaleString("en-US", {
+    style: "decimal",
+    maximumFractionDigits: 3,
+  });
+
+  return formattedValue;
+};
 
 const Farm = () => {
   const [tab, setTab] = useState<string>("live");
@@ -15,8 +25,14 @@ const Farm = () => {
     },
   });
   const { farmData, onGetFarmData, poolDataLoading } = useFetchFarmData();
+  const { totalFaithStakedUSD, isFetchingTotalFaith } = useFetchTotalFaith();
   const { isWrongNetwork } = useWrongNetwork();
   const [prevWrongNetwork, setPrevWrongNetwork] = useState<boolean>(false);
+
+  const totalFarmStakedUSD: number = farmData.reduce(
+    (sum, { stakedLiquidity }) => sum + stakedLiquidity,
+    0
+  );
 
   useEffect(() => {
     setPrevWrongNetwork(isWrongNetwork);
@@ -42,11 +58,31 @@ const Farm = () => {
                 }}
                 isSelected={tab == "finished"}
               />
+              {!poolDataLoading && !isFetchingTotalFaith && (
+                <StakingSelectTab
+                  title={`TVL $${thousandSeparator(
+                    totalFarmStakedUSD + totalFaithStakedUSD
+                  )}`}
+                  onClick={() => {}}
+                  isSelected={false}
+                />
+              )}
             </div>
           </div>
         </div>
       </div>
       <div className="w-full h-[360px] overflow-y-auto border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-gray-600 portrait:border-b-0 border-2 p-2 mb-2">
+        {(isWrongNetwork || !address) && !poolDataLoading && (
+          <WalletConnectButton
+            connectWalletElement={
+              <p className="cursor-pointer hover:opacity-70">Connect Wallet</p>
+            }
+            walletConnectedElement={<></>}
+            wrongNetworkElement={
+              <p className="cursor-pointer hover:opacity-70">Switch Network</p>
+            }
+          />
+        )}
         {tab === "live" && (
           <>
             {!poolDataLoading ? (
@@ -68,22 +104,6 @@ const Farm = () => {
           </>
         )}
         {tab === "finished" && <SingleStaking />}
-        {(isWrongNetwork ||
-          !address) && !poolDataLoading &&
-            <WalletConnectButton
-              connectWalletElement={
-                <p className="cursor-pointer hover:opacity-70">
-                  Connect Wallet
-                </p>
-              }
-              walletConnectedElement={<></>}
-              wrongNetworkElement={
-                <p className="cursor-pointer hover:opacity-70">
-                  Switch Network
-                </p>
-              }
-            />
-          }
       </div>
     </div>
   );
