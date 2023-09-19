@@ -14,6 +14,7 @@ import { FaithAbi } from "../system/FaithAbi";
 import { LoveTokenAbi } from "../system/LoveTokenAbi";
 import { getTotalFaithUSD } from "../system/hooks/useFetchStakingTotal";
 import { PoolAbi } from "../system/PoolAbi";
+import { thousandSeparator } from "../system/appUtils";
 
 const listLive = [1];
 type PoolData = {
@@ -203,15 +204,6 @@ const SingleStaking = () => {
     return ether;
   };
 
-  const thousandSeparator = (value: number) => {
-    let formattedValue = value.toLocaleString("en-US", {
-      style: "decimal",
-      maximumFractionDigits: 3,
-    });
-
-    return formattedValue;
-  };
-
   const boxStyle =
     "p-2 h-16 flex border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-gray-600 portrait:border-b-0 border-2 ml-[0.5px] borderBottomShadow";
   const boxStyle2 =
@@ -276,7 +268,7 @@ const SingleStaking = () => {
                       <div className="w-full flex flex-col m-auto">
                         <div className="text-xs">Total Staked Love</div>
                         <div className="flex flex-row justify-between text-xs">
-                          ${thousandSeparator(item.totalStakedLove)}
+                          ${thousandSeparator(item.totalStakedLove, 2, 2)}
                           {/* <span className="text-white border-2 rounded-[2px] leading-3 h-[16px] mt-1 ml-1">
                                 ?
                               </span> */}

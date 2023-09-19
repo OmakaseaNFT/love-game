@@ -41,13 +41,7 @@ export type GeneralPoolData = {
   poolName: string;
 };
 
-export interface SingleStakingProps {
-  onGetSingleStakingData: () => Promise<void>;
-  singleStakingData: PoolData | undefined;
-  dataLoading: boolean;
-}
-
-export const useFetchSingleStakingData = (): SingleStakingProps => {
+export const useFetchSingleStakingData = () => {
   const { address } = useAccount();
   const [singleStakingData, setSingleStakingData] = useState<PoolData>();
   const [dataLoading, setDataLoading] = useState<boolean>(false);

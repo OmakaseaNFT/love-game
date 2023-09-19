@@ -169,7 +169,7 @@ const Win98 = (props: Props) => {
       ? str
       : isFetchingTotals
       ? str
-      : `${str} TVL: $${thousandSeparator(totalStakedUSD)}`;
+      : `${str} TVL: $${thousandSeparator(totalStakedUSD, 2, 2)}`;
 
   return !scale ? (
     <div />

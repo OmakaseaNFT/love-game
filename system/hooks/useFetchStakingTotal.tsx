@@ -7,6 +7,7 @@ import { LoveTokenAbi } from "../LoveTokenAbi";
 import { PoolAbi } from "../PoolAbi";
 import lpContractAbi from "../../utils/poolABI.json";
 import { contractAddressFaith } from "../../utils/constant";
+import { roundUSDToCents } from "../appUtils";
 
 export async function getTotalFaithUSD(
   loveTokenContract: LoveTokenAbi,
@@ -68,11 +69,11 @@ export const useFetchTotalStaked = () => {
         loveTokenContract,
         usdtLovePoolContract
       );
-      const tvl = Number((totalStakedUSD + totalFaithUSD).toFixed(2));
+      const tvl = totalStakedUSD + totalFaithUSD;
 
-      setTotalFarm(totalStakedUSD);
-      setTotalFaith(totalFaithUSD);
-      setTotalStaked(tvl);
+      setTotalFarm(roundUSDToCents(totalStakedUSD));
+      setTotalFaith(roundUSDToCents(totalFaithUSD));
+      setTotalStaked(roundUSDToCents(tvl));
       setIsLoading(false);
     } catch (e) {
       console.log(`failed to fetch a staking totals: \n${e}`);

@@ -2,7 +2,6 @@ import { ethers } from "ethers";
 import { useState, useEffect } from "react";
 import { LOVE_POOLS } from "../../utils/constant";
 import { AppContracts } from "../AppContracts";
-import { LoveFarmAbi } from "../LoveFarmAbi";
 import { PoolAbi } from "../PoolAbi";
 import { calculateAPR, calculateStakedLiquidity } from "./poolCalcUtils";
 
