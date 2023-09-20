@@ -1,6 +1,5 @@
 import EtherscanIcon from "../assets/etherscan.png";
 import LoveIcon from "../assets/love-icon.png";
-import UniswapIcon from "../assets/uniswap.png";
 import PaperIcon from "../assets/book.png";
 import FireIcon from "../assets/fire-icon.png";
 // import WarBanner from "../assets/war-banner.gif";
@@ -11,9 +10,14 @@ import {
   ETHERSCAN_LOVE_LINK,
   TELEGRAM_LINK,
   TWITTER_LINK,
-  UNISWAP_LINK,
-  WAR_SWAP_LINK
+  WAR3_TWITTER_LINK,
+  WAR3_SWAP_LINK,
+  DISCORD_LINK,
 } from "../utils/constant";
+
+const DiscordIcon = "/assets/logo_discord.png";
+const TwitterIcon = "/assets/logo_twitter.png";
+const TelegramIcon = "/assets/logo_telegram.png";
 
 interface ScreenProps {
   children: ReactNode;
@@ -30,24 +34,26 @@ const Screen = ({
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const iconsLeft = [
     {
-      onClick: () => window.open(ETHERSCAN_LOVE_LINK, "_blank"),
-      icon: EtherscanIcon,
-    },
-    {
-      onClick: () => window.open(UNISWAP_LINK, "_blank"),
-      icon: UniswapIcon,
-      label: "Uniswap",
+      onClick: () => window.open(DISCORD_LINK, "_blank"),
+      icon: DiscordIcon,
+      label: "Discord",
       logoHeight: 60,
     },
     {
       onClick: () => window.open(TWITTER_LINK, "_blank"),
-      icon: "/assets/logo_twitter.png",
-      label: "Twitter",
+      icon: TwitterIcon,
+      label: "Love Twitter",
+      logoHeight: 60,
+    },
+    {
+      onClick: () => window.open(WAR3_TWITTER_LINK, "_blank"),
+      icon: TwitterIcon,
+      label: "War3 Twitter",
       logoHeight: 60,
     },
     {
       onClick: () => window.open(TELEGRAM_LINK, "_blank"),
-      icon: "/assets/logo_telegram.png",
+      icon: TelegramIcon,
       label: "Telegram",
       logoHeight: 60,
     },
@@ -60,15 +66,15 @@ const Screen = ({
       label: "Farm $LOVE",
     },
     {
-      onClick: () => window.open(WAR_SWAP_LINK, "_blank"),
+      onClick: () => window.open(WAR3_SWAP_LINK, "_blank"),
       icon: FireIcon,
-      label: "Swap $WAR3"
+      label: "Swap $WAR3",
     },
     {
       onClick: () => setSelected("paper"),
       icon: PaperIcon,
       label: "Paper",
-    }
+    },
   ];
 
   useEffect(() => {
@@ -123,10 +129,10 @@ const Screen = ({
                   >
                     <Image src={item.icon} alt="icon" height={55} />
                     {item.label && (
-                    <div className="text-[rgba(255,255,255,.80)] text-lg mt-2">
-                      {item.label}
-                    </div>
-                  )}
+                      <div className="text-[rgba(255,255,255,.80)] text-lg mt-2">
+                        {item.label}
+                      </div>
+                    )}
                   </div>
                 );
               })}

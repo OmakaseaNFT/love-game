@@ -8,17 +8,7 @@ import { thousandSeparator } from "../system/appUtils";
 import { StakedLiquidityDataDisplay } from "./ui/StakedLiquidityDataDisplay";
 import { ExpandPoolUtilsButton } from "./ui/ExpandPoolUtilsButton";
 import { FarmStakeUnstakeUtils } from "./ui/FarmStakeUnstakeUtils";
-import {
-  contractAddressBobo,
-  contractAddressLove,
-  contractAddressLoveFarm,
-  contractAddressMog,
-  contractAddressNina,
-  contractAddressPepe,
-  contractAddressUsdt,
-  contractAddressWar,
-  contractAddressWbtc
-} from "../utils/constant";
+import { contractAddressLoveFarm } from "../utils/constant";
 import { ethers } from "ethers";
 import { AppContracts } from "../system/AppContracts";
 import {
@@ -222,7 +212,7 @@ export const Pool = ({
                 <div className={`w-[50%] ${boxStyle2}`}>
                   <StakedLiquidityDataDisplay
                     title="Staked Liquidity"
-                    data={`$${thousandSeparator(pool.stakedLiquidity)}`}
+                    data={`$${thousandSeparator(pool.stakedLiquidity, 2, 2)}`}
                   />
                 </div>
                 <div className={`w-[25%] ${boxStyle2}`}>

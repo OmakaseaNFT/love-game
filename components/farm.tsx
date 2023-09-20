@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAccount, useSwitchNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import { StakingSelectTab } from "./ui/StakingSelectTab";
 import { useFetchFarmData } from "../system/hooks/useFetchFarmData";
 import { Pool } from "./pool";
@@ -47,6 +47,17 @@ const Farm = () => {
         </div>
       </div>
       <div className="w-full h-[360px] overflow-y-auto border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-gray-600 portrait:border-b-0 border-2 p-2 mb-2">
+        {(isWrongNetwork || !address) && !poolDataLoading && (
+          <WalletConnectButton
+            connectWalletElement={
+              <p className="cursor-pointer hover:opacity-70">Connect Wallet</p>
+            }
+            walletConnectedElement={<></>}
+            wrongNetworkElement={
+              <p className="cursor-pointer hover:opacity-70">Switch Network</p>
+            }
+          />
+        )}
         {tab === "live" && (
           <>
             {!poolDataLoading ? (
@@ -68,22 +79,6 @@ const Farm = () => {
           </>
         )}
         {tab === "finished" && <SingleStaking />}
-        {(isWrongNetwork ||
-          !address) && !poolDataLoading &&
-            <WalletConnectButton
-              connectWalletElement={
-                <p className="cursor-pointer hover:opacity-70">
-                  Connect Wallet
-                </p>
-              }
-              walletConnectedElement={<></>}
-              wrongNetworkElement={
-                <p className="cursor-pointer hover:opacity-70">
-                  Switch Network
-                </p>
-              }
-            />
-          }
       </div>
     </div>
   );
