@@ -3,7 +3,7 @@ import { useAccount } from "wagmi";
 import { StakingSelectTab } from "./ui/StakingSelectTab";
 import { useFetchFarmData } from "../system/hooks/useFetchFarmData";
 import { Pool } from "./pool";
-import SingleStaking from "./singleStakingV2";
+import SingleStaking from "./singleStaking";
 import { useWrongNetwork } from "../system/hooks/useWrongNetwork";
 import { WalletConnectButton } from "./ui/WallectConnectButton";
 
@@ -16,7 +16,7 @@ const Farm = () => {
   });
   const { farmData, onGetFarmData, poolDataLoading } = useFetchFarmData();
   const { isWrongNetwork } = useWrongNetwork();
-  const [prevWrongNetwork, setPrevWrongNetwork] = useState<boolean>(false);
+  const [, setPrevWrongNetwork] = useState<boolean>(false);
 
   useEffect(() => {
     setPrevWrongNetwork(isWrongNetwork);
