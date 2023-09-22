@@ -17,6 +17,7 @@ const SingleStaking = () => {
         <SingleStakePool
           fee={singleStakingData?.fee}
           aprValue={singleStakingData?.aprValue}
+          apyValue={singleStakingData?.apyValue}
           loveFaithRatio={singleStakingData?.loveFaithRatio}
           totalStakedLove={totalFaithStakedUSD}
           loveBalance={singleStakingData?.loveBalance}

@@ -23,6 +23,7 @@ import { StakedLiquidityDataDisplay } from "./ui/StakedLiquidityDataDisplay";
 interface ISingleStakePoolProps {
   fee: number;
   aprValue: string;
+  apyValue: string;
   loveFaithRatio: number;
   totalStakedLove: number;
   loveBalance: string;
@@ -42,6 +43,7 @@ const boxStyle3 =
 export const SingleStakePool = ({
   fee,
   aprValue,
+  apyValue,
   loveFaithRatio,
   totalStakedLove,
   loveBalance,
@@ -172,13 +174,13 @@ export const SingleStakePool = ({
                     style={{ position: "relative" }}
                   >
                     <div className="text-xs font-semibold text-center mb-[2px]">
-                      APR
+                      APY
                     </div>
                     <div
                       style={{ position: "relative", whiteSpace: "nowrap" }}
                       className="mb-[-2px]"
                     >
-                      {`${aprValue}%`}
+                      {`${apyValue}%`}
                     </div>
                   </div>
                 </div>

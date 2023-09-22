@@ -4,7 +4,8 @@ import { useAccount } from "wagmi";
 
 import { AppContracts } from "../AppContracts";
 import {
-  getFaithAPY,
+  aprToApy,
+  getFaithAPR,
   getLoveFaithRatio,
   getTotalFaithUSD,
 } from "./useFetchStakingTotal";
@@ -15,6 +16,7 @@ type PoolData = {
   availableBalance: any;
   stakeValue: any;
   aprValue: any;
+  apyValue: any;
   loveFaithRatio: any;
   totalStakedLove: any;
   faithBalance: any;
@@ -78,13 +80,15 @@ export const useFetchSingleStakingData = () => {
         loveTokenContract,
         usdtLovePoolContract
       );
-      const aprValue = await getFaithAPY(faithContract, loveTokenContract);
+      const aprValue = await getFaithAPR(faithContract, loveTokenContract);
+      const apyValue = aprToApy(aprValue);
       const data: PoolData = {
         availableValue: availableValue,
         stakedValue: availableStaked,
         availableBalance: realValue,
         stakeValue: stakeValue,
         aprValue,
+        apyValue,
         loveFaithRatio,
         totalStakedLove,
         faithBalance,

@@ -13,7 +13,12 @@ import { roundUSDToCents } from "../appUtils";
 const loveFromBN = (bn: ethers.BigNumber): number =>
   Number(ethers.utils.formatUnits(bn, 18));
 
-export async function getFaithAPY(
+export const aprToApy = (apr: number): number => {
+  const apy = ((1 + apr / 100 / BLOCKS_PER_YEAR) ** BLOCKS_PER_YEAR - 1) * 100;
+  return Math.trunc(apy);
+};
+
+export async function getFaithAPR(
   faithContract: FaithAbi,
   loveTokenContract: LoveTokenAbi
 ) {
