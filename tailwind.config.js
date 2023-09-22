@@ -24,6 +24,7 @@ module.exports = {
     createThemes({
       love: {
         tab: "#C1C1C1",
+        "tab-2": "#C1C1C1",
         dialog: "#C1C1C1",
         "button-hover-bg": "#0A0080",
         "button-hover-text": "white",
@@ -32,6 +33,7 @@ module.exports = {
       "vaporwave-arcade": {
         dialog: "rgba(255,255,255,.2)",
         tab: "#7E71AC",
+        "tab-2": "#6D7AA4",
         "button-hover-bg": "#EC9B9B",
         "button-hover-text": "black",
         "reduced-text": 'rgb(75, 85, 99)',
