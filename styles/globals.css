@@ -339,8 +339,22 @@ input:focus {
   position: relative;
   border-radius: 0!important;
 }
-[role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div:before,
-[role="dialog"][data-rk="rainbowkitConnected"]>div>div>div:before{ /* add custom blue header*/
+
+.theme-vaporwave-arcade [role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div,
+.theme-vaporwave-arcade [role="dialog"][data-rk="rainbowkitConnected"]>div>div>div {
+  background-color: rgba(255,255,255,.2)!important; /**/
+  /* START copy paste from tailwindcss backdrop-blur class*/
+  --tw-backdrop-blur: blur(8px);
+  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+  /* END copy paste from tailwindcss backdrop-blur class*/
+  border-radius:8px!important;
+}
+.theme-love [role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div,
+.theme-love [role="dialog"][data-rk="rainbowkitConnected"]>div>div>div {
+  background-color: #C1C1C1!important;
+}
+.theme-love [role="dialog"][data-rk="rainbowkitNotConnected"]>div>div>div:before,
+.theme-love [role="dialog"][data-rk="rainbowkitConnected"]>div>div>div:before{ /* add custom blue header*/
   content: '';
   height: 26px;
   color: white;
@@ -449,7 +463,7 @@ input:focus {
   right: 1px;
   top: 1px;
   z-index: 10;
-  background-color: #C1C1C1;
+  background-color: #C1C1C1; /*TODO*/
   border-left: 1px solid #eee!important;
   border-top: 1px solid #eee!important;
   border-right: 1px solid #444!important;

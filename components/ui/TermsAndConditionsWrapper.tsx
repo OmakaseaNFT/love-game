@@ -1,8 +1,9 @@
 import { useAccount } from "wagmi";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { on } from "events";
 import { getTermsAgreement, saveTermsAgreement } from "../../system/appUtils";
+import { FileThemeContext } from "../../system/context/FileThemeContext";
 
 interface ITermsAndConditionsWrapperProps {
   children: React.ReactNode;
@@ -11,6 +12,7 @@ interface ITermsAndConditionsWrapperProps {
 export const TermsAndConditionsWrapper = ({
   children,
 }: ITermsAndConditionsWrapperProps) => {
+  const { fileTheme } = useContext(FileThemeContext)
   const [showTermsAndConditions, setShowTermsAndConditions] =
     useState<boolean>(false);
   const { address } = useAccount();
@@ -39,12 +41,12 @@ export const TermsAndConditionsWrapper = ({
           style={{ zIndex: 100 }}
           className="w-full h-full flex justify-center items-center fixed top-0"
         >
-          <div className="w-[320px] h-[220px] bg-[#C1C1C1] border-t-white border-l-white border-r-black border-b-black border-2 flex flex-col font-windows items-center pb-4">
-            <div className=" flex justify-end bg-[#0A0080] pl-1 w-[100%] h-[20px]">
+          <div className={`${fileTheme === 'vaporwave-arcade' && 'rounded-lg'} w-[320px] h-[220px] bg-dialog backdrop-blur border-t-white border-l-white border-r-black border-b-black border-2 flex flex-col font-windows items-center pb-4`}>
+            <div className={`${fileTheme === 'vaporwave-arcade' ? 'rounded-lg' : 'bg-[#0A0080]'} flex justify-end  pl-1 w-[100%] h-[20px]`}>
               <div />
               <button className="mr-[1px]"></button>
             </div>
-            <div className="flex flex-row items-center m-auto h-[100%] items-center overflow-hidden">
+            <div className="flex flex-row m-auto h-[100%] items-center overflow-hidden">
               {icon && <Image alt="" src={icon ?? ""} width={48} height={48} />}
               <div
                 className={`px-2 flex h-[100%] items-center overflow-x-hidden overflow-y-auto`}

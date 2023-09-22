@@ -55,11 +55,19 @@ export const FileThemeProvider = ({ children }: { children: any }) => {
     return defaultTheme;
   });
 
+  const setBodyThemeClass = (theme: FileTheme) => {
+    // tailwindcss adds theme class to a div that is not the parent of the rainbowkit modal
+    // this code adds the theme class to the body so that the rainbowkit modal can be styled correctly
+    const body = document.querySelector("body");
+    body!.className = `theme-${theme}`;
+  }
+
   useEffect(() => {
     const localStorageFileTheme = localStorage.getItem("fileTheme");
     if (!localStorageFileTheme) {
       return;
     }
+    setBodyThemeClass(localStorageFileTheme as FileTheme);
     // const theme = JSON.parse(localStorageFileTheme) as FileTheme;
     // if (theme !== fileTheme) {
     //   _setFileTheme(theme);
@@ -75,7 +83,8 @@ export const FileThemeProvider = ({ children }: { children: any }) => {
 
   const setFileTheme = (fileTheme: FileTheme) => {
     _setFileTheme(fileTheme);
-    localStorage.setItem("fileTheme", JSON.stringify(fileTheme));
+    localStorage.setItem("fileTheme", fileTheme);
+    setBodyThemeClass(fileTheme);
   }
 
   return (

@@ -16,14 +16,14 @@ const AppNotification = ({
   notificationKey,
   onClose,
 }: AppNotificationProps) => {
-  const { files: { closeIcon } } = useContext(FileThemeContext);
+  const { files: { closeIcon }, fileTheme } = useContext(FileThemeContext);
   return (
     <div
       style={{ zIndex: 100 }}
       className="w-full h-full flex justify-center items-center fixed top-0"
     >
-      <div className="w-[220px] h-[110px] bg-[#C1C1C1] border-t-white border-l-white border-r-black border-b-black border-2 flex flex-col font-windows">
-        <div className=" flex justify-between items-center bg-[#0A0080] pl-1">
+      <div className={`${fileTheme === 'vaporwave-arcade' && 'rounded-lg'} w-[220px] h-[110px] bg-[#C1C1C1] border-t-white border-l-white border-r-black border-b-black border-2 flex flex-col font-windows`}>
+        <div className={`${fileTheme === 'love' && 'bg-[#0A0080]'} flex justify-between items-center pl-1`}>
           <div />
           <button onClick={() => onClose()} className="mr-[1px]">
             <Image alt="" src={closeIcon} width={16} height={16} />

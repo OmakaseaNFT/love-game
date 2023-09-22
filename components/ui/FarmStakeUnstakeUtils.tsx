@@ -86,8 +86,8 @@ export const FarmStakeUnstakeUtils = ({
               }}
               className={`borderBottomNone px-4 py-1 flex flex-row border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-gray-600 border-2 cursor-pointer ${
                 isStakeVisible
-                  ? "text-gray-800 border-b-0 bg-[#C1C1C1]"
-                  : "text-gray-500"
+                  ? "text-gray-800 border-b-0 bg-tab-2"
+                  : "text-reduced-text"
               }`}
             >
               Stake
@@ -96,8 +96,8 @@ export const FarmStakeUnstakeUtils = ({
               onClick={onShowUnstake}
               className={`w-[82px] borderBottomNone px-4 py-1 flex flex-row border-r-gray-600 border-t-gray-200 border-l-gray-200 border-b-gray-600 border-2 cursor-pointer ${
                 isUnstakeVisible
-                  ? "text-gray-800  bg-[#C1C1C1] border-b-0"
-                  : "text-gray-500"
+                  ? "text-gray-800  bg-tab-2 border-b-0"
+                  : "text-reduced-text"
               }`}
               style={{
                 zIndex: isUnstakeVisible ? 5 : 0,
@@ -108,9 +108,9 @@ export const FarmStakeUnstakeUtils = ({
           </div>
         </div>
       </div>
-      <div className="justify-between mb-1 bg-[#c1c1c1] px-4 py-1 flex flex-row border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-gray-600 border-2">
+      <div className="justify-between mb-1 px-4 py-1 flex flex-row border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-gray-600 border-2">
         <div className="flex flex-col gap-1">
-          <div className="text-[11px] text-gray-500 leading-3">
+          <div className="text-[11px] text-reduced-text leading-3">
             Amount to be {isStakeVisible ? "staked" : "unstaked"}
           </div>
           <div className="text-xs">
