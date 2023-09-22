@@ -1,7 +1,4 @@
 import Image from "next/image";
-import DeadButton from "../../assets/dead-game-button.png";
-import ExitButton from "../../assets/exit-button.png";
-import ActiveButton from "../../assets/active-game-button.png";
 import { useContext, useEffect, useMemo, useState } from "react";
 import {
   HeartBreakerContext,
@@ -10,8 +7,14 @@ import {
 import { useAccount, useSignMessage } from "wagmi";
 import { TransactionNotificationWrapper } from "../ui/TransactionNotificationWrapper";
 import { requestErrorState } from "../../system/hooks/useRequestState";
+import { FileThemeContext } from "../../system/context/FileThemeContext";
 
 const Control = () => {
+  const { files: { 
+    heartbreakActiveButton: ActiveButton, 
+    heartbreakDeadButton: DeadButton, 
+    heartbreakExitButton: ExitButton  
+  } } = useContext(FileThemeContext)
   const { address } = useAccount();
   const { signMessageAsync } = useSignMessage();
   const points = [25, 50, 75, 100];

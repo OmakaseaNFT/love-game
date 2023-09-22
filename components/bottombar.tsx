@@ -1,13 +1,10 @@
 import Image from "next/image";
-import TreeIcon from "../assets/three.png";
-import PaperIcon from "../assets/book.png";
-import SettingsIcon from "../assets/settings.png";
-import ShutdownIcon from "../assets/shutdown.png";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { StartMenuListItem } from "./startMenuListItem";
 import { useCopyText } from "../system/hooks/useCopyText";
 import { truncateEthAddress } from "../system/appUtils";
 import { contractAddressLove, contractAddressWar } from "../utils/constant";
+import { FileThemeContext } from "../system/context/FileThemeContext";
 
 interface Props {
   setSelected: (selected: string) => void;
@@ -15,11 +12,12 @@ interface Props {
 
 const BottomBar = (props: Props) => {
   const [showSide, setShowSide] = useState<boolean>(false);
+  const { files: { LoveIcon, PaperIcon, heartbreakIcon, SettingsIcon, ShutdownIcon }} = useContext(FileThemeContext);
   const { onCopyText, copied } = useCopyText();
   const list = [
     {
       menu: "farm",
-      icon: TreeIcon,
+      icon: LoveIcon,
       name: "<u>F</u>arm",
     },
     {
@@ -29,7 +27,7 @@ const BottomBar = (props: Props) => {
     },
     {
       menu: "heartbreak",
-      icon: "/assets/start-icon.png",
+      icon: heartbreakIcon,
       name: "<u>H</u>EARTBREAK",
     },
     {
@@ -48,7 +46,7 @@ const BottomBar = (props: Props) => {
   const renderCopyAddress = (ca: string, label = "CA:") => {
     return (
       <div
-        className={`flex flex-row justify-between font-windows hover:text-white hover:bg-[#0A0080] cursor-pointer sm:hidden`}
+        className={`flex flex-row justify-between font-windows hover:text-button-hover-text hover:bg-button-hover-bg cursor-pointer sm:hidden`}
       >
         <div className="flex flex-row items-center w-full">
           <div className="py-1 justify-center items-center w-[68px] flex">
@@ -91,14 +89,14 @@ const BottomBar = (props: Props) => {
             onClick={() => {
               props.setSelected("cp");
             }}
-            className={`flex flex-row justify-between font-windows hover:text-white  hover:bg-[#0A0080] cursor-pointer  bg-gray-400 w-[187px] h-[39px] absolute bottom-[40px] right-0 border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white  
+            className={`flex flex-row justify-between font-windows hover:text-white  hover:bg-button-hover cursor-pointer  bg-gray-400 w-[187px] h-[39px] absolute bottom-[40px] right-0 border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white  
           }`}
           >
             <div className="flex flex-row w-full items-center">
               <div className="w-1/3 flex flex-row justify-center ">
                 <Image src={SettingsIcon} width={29} height={29} alt="icon" />
               </div>
-              <div className="text-[22px]">
+              <div className="text-[22px] whitespace-nowrap">
                 <span>
                   <u>C</u>ontrol Panel
                 </span>

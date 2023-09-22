@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import LoadingBar from "./LoadingBar";
+import { FileThemeContext } from "../../system/context/FileThemeContext";
 
 interface AppNotificationProps {
   notificationKey: string;
@@ -15,6 +16,7 @@ const AppNotification = ({
   notificationKey,
   onClose,
 }: AppNotificationProps) => {
+  const { files: { closeIcon } } = useContext(FileThemeContext);
   return (
     <div
       style={{ zIndex: 100 }}
@@ -24,7 +26,7 @@ const AppNotification = ({
         <div className=" flex justify-between items-center bg-[#0A0080] pl-1">
           <div />
           <button onClick={() => onClose()} className="mr-[1px]">
-            <Image alt="" src="/assets/win98Close.png" width={16} height={16} />
+            <Image alt="" src={closeIcon} width={16} height={16} />
           </button>
         </div>
         <div className="flex flex-row items-center m-auto h-[100%] items-center overflow-hidden">

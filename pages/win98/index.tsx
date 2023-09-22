@@ -1,15 +1,12 @@
 import BottomBar from "../../components/bottombar";
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState, useLayoutEffect, useContext } from "react";
+import Image from "next/image";
 import Dialog from "../../components/dialog";
 import Screen from "../../components/screen";
 import ActiveButton from "../../components/activeButton";
 import ControlPanel from "../../components/controlPanel";
 import Paper from "../../components/paper";
 import Farm from "../../components/farm";
-import ComputerIcon from "../../assets/computer.png";
-import SettingsIcon from "../../assets/settings.png";
-import PaperIcon from "../../assets/book.png";
-import LoveIcon from "../../assets/love-icon.png";
 import { ethers } from "ethers";
 import { contractAddressLove, contractAddressWar } from "../../utils/constant";
 import { PoolAbi } from "../../system/PoolAbi";
@@ -22,6 +19,7 @@ import {
 } from "../../system/hooks/poolCalcUtils";
 import { useFetchTotalStaked } from "../../system/hooks/useFetchStakingTotal";
 import { thousandSeparator } from "../../system/appUtils";
+import { FileThemeContext } from "../../system/context/FileThemeContext";
 
 interface Props {
   lock?: Boolean;
@@ -38,13 +36,15 @@ interface Content {
 }
 
 const Win98 = (props: Props) => {
+  const {
+    files: { background, LoveIcon, PaperIcon, startIcon, startLoveIcon, SettingsIcon, ShutdownIcon },
+    wallpaper,
+    setWallpaper,
+  } = useContext(FileThemeContext);
   const [scale, setScale] = useState<string>();
   const [showBar, setShowBar] = useState<boolean>(false);
   const [price, setPrice] = useState<number>(0);
   const [usdPrice, setUSDPrice] = useState<number>(0);
-  const [wallpaper, setWallpaper] = useState<string>(
-    "/assets/lovegame_background.png"
-  );
   const { isFetchingTotals, totalStakedUSD } = useFetchTotalStaked();
 
   const useIsomorphicLayoutEffect =
@@ -93,8 +93,10 @@ const Win98 = (props: Props) => {
       title: "Control Panel",
       component: (
         <ControlPanel
-          backgroundImage={wallpaper}
-          onChangeBG={(val: string) => setWallpaper(val)}
+          backgroundImage={wallpaper ?? background}
+          onChangeBG={(val: string) => {
+            setWallpaper(val);
+          }}
           closeMe={closeContent}
         />
       ),
@@ -195,7 +197,7 @@ const Win98 = (props: Props) => {
       ) : null}
 
       <Screen
-        wallpaper={wallpaper}
+        wallpaper={wallpaper ?? background}
         setSelected={setSelected}
         onTrigger={() => setSelectedContent(contents[5])}
       >
@@ -206,6 +208,7 @@ const Win98 = (props: Props) => {
             height={selectedContent?.height ?? "200px"}
             title={formatFarmTitle(selectedContent?.title ?? "")}
             maxHeight={selectedContent?.maxHeight}
+            id={selectedContent?.menu ?? ""}
           >
             {selectedContent?.component}
           </Dialog>
@@ -223,13 +226,13 @@ const Win98 = (props: Props) => {
               width="0"
               height="0"
               // quality={100}
-              src="/assets/startLove.png"
+              src={startLoveIcon}
               className="m-auto w-[80px] h-[22px]"
             />
           </button>
           {selectedContent?.title && (
             <ActiveButton
-              icon={selectedContent?.icon ?? ComputerIcon}
+              icon={selectedContent?.icon ?? ShutdownIcon}
               text={selectedContent?.title ?? ""}
               isSmall
             />
@@ -239,10 +242,12 @@ const Win98 = (props: Props) => {
         </div>
         <div className="px-1 my-auto border-b-gray-300 items-center border-r-gray-300 border-l-gray-600 text-sm border-t-gray-600 max-w-[162px] w-full h-[30px] border-[3px] text-[18px] rounded-[2px] flex flex-row justify-center items-center mr-2">
           <div>
-            <img
+            <Image
               alt=""
               // quality={100}
-              src="/assets/start-icon.png"
+              width={20}
+              height={20}
+              src={startIcon}
               className="m-auto w-[20px] h-[20px] mr-2"
             />
           </div>
