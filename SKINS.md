@@ -4,18 +4,10 @@
 
 1. Gather the following assets that you would like to replace:
 
-TODO UPDATE THIS
 ```
+// check system/context/FileThemeContext.tsx for the latest skin settings
 export interface FileThemeCustomOptions {
-  Etherscan: StaticImageData;
-  Farm: StaticImageData;
-  Paper: StaticImageData;
-  Uniswap: StaticImageData;
-  Wallet: StaticImageData;
-  startIcon: string;
-  background: string;
-  telegram: string;
-  twitter: string;
+  // ...
 };
 ```
 
