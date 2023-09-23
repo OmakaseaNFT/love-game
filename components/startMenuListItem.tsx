@@ -20,7 +20,7 @@ export const StartMenuListItem = ({
 }: IStartMenuListItemProps) => {
   return (
     <div
-      className={`flex flex-row justify-between font-windows hover:text-white hover:bg-[#0A0080] cursor-pointer ${
+      className={`flex flex-row justify-between font-windows hover:text-button-hover-text hover:bg-button-hover-bg cursor-pointer ${
         haveSub ? "border-gray-300 border-b-2" : ""
       }`}
       onMouseEnter={() => haveSub && onShowSide(true)}

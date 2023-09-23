@@ -1,6 +1,7 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import Image from "next/image";
 import LoadingBar from "./ui/LoadingBar";
+import { FileThemeContext } from "../system/context/FileThemeContext";
 
 interface AlertProps {
   key:
@@ -19,6 +20,7 @@ const Alert: FC<{
   alertKey: AlertProps["key"];
   close: () => void;
 }> = ({ alertKey, close }) => {
+  const { files: { closeIcon } } = useContext(FileThemeContext);
   const alerts: AlertProps[] = [
     {
       key: "not_enough_eth",
@@ -69,7 +71,7 @@ const Alert: FC<{
             <button onClick={() => close()} className="mr-[1px]">
               <Image
                 alt=""
-                src="/assets/win98Close.png"
+                src={closeIcon}
                 width={16}
                 height={16}
               />

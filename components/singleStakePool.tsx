@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { thousandSeparator } from "../system/appUtils";
 import {
   ETHERSCAN_FAITH_LINK,
@@ -19,6 +19,7 @@ import { ExpandPoolUtilsButton } from "./ui/ExpandPoolUtilsButton";
 import { PoolDataDisplay } from "./ui/PoolDataDisplay";
 import { TransactionNotificationWrapper } from "./ui/TransactionNotificationWrapper";
 import { StakedLiquidityDataDisplay } from "./ui/StakedLiquidityDataDisplay";
+import { FileThemeContext } from "../system/context/FileThemeContext";
 
 interface ISingleStakePoolProps {
   fee: number;
@@ -48,6 +49,7 @@ export const SingleStakePool = ({
   address,
   onGetSingleStakingData,
 }: ISingleStakePoolProps) => {
+  const { files: { startIcon }} = useContext(FileThemeContext);
   const [expanded, setExpanded] = useState(true);
   const [isStakeVisible, setIsStakeVisible] = useState(true);
   const [stakeValue, setStakeValue] = useState<string>("");
@@ -150,7 +152,7 @@ export const SingleStakePool = ({
                 <div className={`w-[78%] ${boxStyle}`}>
                   <div className="w-full flex flex-row justify-between items-center px-1">
                     <Image
-                      src="/assets/start-icon.png"
+                      src={startIcon}
                       alt=""
                       width={20}
                       height={20}
@@ -159,7 +161,7 @@ export const SingleStakePool = ({
                     <PoolDataDisplay title="DEP FEE" data={`${fee}%`} />
                     <div>
                       <div className="w-full flex flex-col">
-                        <div className="text-gray-500"></div>
+                        <div className="text-reduced-text"></div>
                       </div>
                     </div>
                   </div>
@@ -264,14 +266,14 @@ export const SingleStakePool = ({
                                   }}
                                   className={`borderBottomNone px-4 py-1 flex flex-row border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-gray-600 border-2 cursor-pointer ${
                                     isStakeVisible
-                                      ? "text-gray-800 border-b-0 bg-[#C1C1C1]"
-                                      : "text-gray-500"
+                                      ? "text-gray-800 border-b-1 bg-tab-2"
+                                      : "text-reduced-text"
                                     }`}
                                 >
                                   Stake
                                   {isStakeVisible && (
                                     <div
-                                      className={`w-full flex bg-[#C1C1C1] h-2 mb-[-4px]`}
+                                      className={`w-full flex bg-tab h-2 mb-[-4px]`}
                                     />
                                   )}
                                 </div>
@@ -281,8 +283,8 @@ export const SingleStakePool = ({
                                   }}
                                   className={`borderBottomNone px-4 py-1 flex flex-row border-r-gray-600 border-t-gray-200 border-l-gray-200 border-b-gray-600 border-2 cursor-pointer ${
                                     !isStakeVisible
-                                      ? "text-gray-800  bg-[#C1C1C1]"
-                                      : "text-gray-500"
+                                      ? "text-gray-800 bg-tab-2"
+                                      : "text-reduced-text"
                                     }`}
                                   style={{
                                     zIndex: !isStakeVisible ? 5 : 0,
@@ -291,7 +293,7 @@ export const SingleStakePool = ({
                                   Unstake
                                   {!isStakeVisible && (
                                     <div
-                                      className={`w-full flex bg-[#C1C1C1] h-2 mb-[-4px]`}
+                                      className={`w-full flex h-2 mb-[-4px]`}
                                     />
                                   )}
                                 </div>
@@ -299,7 +301,7 @@ export const SingleStakePool = ({
                             </div>
                           </div>
 
-                          <div className="w-[300px] justify-between mb-1 bg-[#c1c1c1] px-4 py-1 flex flex-row border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-gray-600 border-2">
+                          <div className="w-[300px] justify-between mb-1 px-4 py-1 flex flex-row border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-gray-600 border-2">
                             <div className="flex flex-col gap-1 w-[50%]"
                               dangerouslySetInnerHTML={{
                                 __html: isStakeVisible
@@ -307,7 +309,7 @@ export const SingleStakePool = ({
                                   : "Burn FAITH,<br />get LOVE"
                               }} />
                             <div className="flex flex-col gap-1">
-                              <div className="text-[11px] text-gray-500 leading-3">
+                              <div className="text-[11px] text-reduced-text leading-3">
                                 {isStakeVisible
                                   ? "Unstaked LOVE balance"
                                   : "FAITH Balance"}

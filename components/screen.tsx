@@ -1,9 +1,4 @@
-import EtherscanIcon from "../assets/etherscan.png";
-import LoveIcon from "../assets/love-icon.png";
-import PaperIcon from "../assets/book.png";
-import FireIcon from "../assets/fire-icon.png";
-// import WarBanner from "../assets/war-banner.gif";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { Connect } from "./connect";
 import {
@@ -14,10 +9,8 @@ import {
   WAR3_SWAP_LINK,
   DISCORD_LINK,
 } from "../utils/constant";
+import { FileThemeContext } from "../system/context/FileThemeContext";
 
-const DiscordIcon = "/assets/logo_discord.png";
-const TwitterIcon = "/assets/logo_twitter.png";
-const TelegramIcon = "/assets/logo_telegram.png";
 
 interface ScreenProps {
   children: ReactNode;
@@ -31,6 +24,7 @@ const Screen = ({
   wallpaper,
   onTrigger,
 }: ScreenProps) => {
+  const { files: { TelegramIcon, DiscordIcon, TwitterIcon, PaperIcon, LoveIcon, FireIcon } } = useContext(FileThemeContext)
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const iconsLeft = [
     {
@@ -96,7 +90,7 @@ const Screen = ({
               return (
                 <div
                   key={index}
-                  className="h-36  flex-col flex justify-center flex items-center cursor-pointer"
+                  className="h-36  flex-col flex justify-center items-center cursor-pointer"
                   onClick={item.onClick}
                 >
                   <Image

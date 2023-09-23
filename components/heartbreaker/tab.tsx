@@ -12,13 +12,13 @@ export const HeartBreakTab = ({
   return (
     <div
       onClick={onClick}
-      className={`text-center cursor-pointer w-1/3 text-[14px] border-t-1 text-left border-l-gray-200 border-t-gray-200 border-r-gray-600 border ${
+      className={`z-50 text-center cursor-pointer w-1/3 text-[14px] border-t-1 border-l-gray-200 border-t-gray-200 border-r-gray-600 border ${
         isSelected ? "border-b-0" : "border-b-0"
-      }  ${isSelected ? "bg-[#c1c1c1]" : "bg-none"}`}
+      }  ${isSelected ? "bg-tab-2" : "bg-none"}`}
     >
       {title}
       {isSelected && (
-        <div className="w-full flex bg-[#C1C1C1] h-2 mb-[-4px]" />
+        <div className="w-full flex bg-tab-2 h-[2px] mb-[-1px]" />
       )}
     </div>
   );
