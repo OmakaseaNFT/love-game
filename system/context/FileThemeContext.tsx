@@ -65,6 +65,7 @@ export const FileThemeProvider = ({ children }: { children: any }) => {
   useEffect(() => {
     const localStorageFileTheme = localStorage.getItem("fileTheme");
     if (!localStorageFileTheme) {
+      setBodyThemeClass(defaultTheme as FileTheme);
       return;
     }
     setBodyThemeClass(localStorageFileTheme as FileTheme);
