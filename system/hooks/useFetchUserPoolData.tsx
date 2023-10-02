@@ -153,15 +153,16 @@ export const useFetchUserPoolData = () => {
       );
       const tokenDecimals = await tokenContract.decimals();
 
-      const tokensPerUserBN = tokenReservesBN
-        .mul(lpBalanceUser)
-        .div(lpTotalSupply);
+      const tokensPerUserBN = lpTotalSupply.isZero()
+        ? lpTotalSupply
+        : tokenReservesBN.mul(lpBalanceUser).div(lpTotalSupply);
       const tokensPerUser = Number(
         ethers.utils.formatUnits(tokensPerUserBN, tokenDecimals)
       );
 
-      const LOVEPerUserBN =
-        LOVEReservesBN.mul(lpBalanceUser).div(lpTotalSupply);
+      const LOVEPerUserBN = lpTotalSupply.isZero()
+        ? lpTotalSupply
+        : LOVEReservesBN.mul(lpBalanceUser).div(lpTotalSupply);
       const LOVEPerUser = Number(ethers.utils.formatUnits(LOVEPerUserBN, 18));
       const LOVEInFarmValueUSDT = LOVEPerUser * LOVEPriceInUSDT;
       const totalValue = LOVEInFarmValueUSDT * 2;
@@ -185,10 +186,14 @@ export const useFetchUserPoolData = () => {
       const ethKey = token0IsWar ? `_reserve1` : `_reserve0`;
       const ethReservesBN = lpReserves[ethKey];
 
-      const ethPerUserBN = ethReservesBN.mul(lpBalanceUser).div(lpTotalSupply);
+      const ethPerUserBN = lpTotalSupply.isZero()
+        ? lpTotalSupply
+        : ethReservesBN.mul(lpBalanceUser).div(lpTotalSupply);
       const ethPerUser = Number(ethers.utils.formatUnits(ethPerUserBN, 18));
 
-      const warPerUserBN = warReservesBN.mul(lpBalanceUser).div(lpTotalSupply);
+      const warPerUserBN = lpTotalSupply.isZero()
+        ? lpTotalSupply
+        : warReservesBN.mul(lpBalanceUser).div(lpTotalSupply);
       const warPerUser = Number(ethers.utils.formatUnits(warPerUserBN, 18));
       const warInFarmValueUSDT = warPerUser * warPriceInUSDT;
       const totalValue = warInFarmValueUSDT * 2;

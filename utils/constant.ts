@@ -29,6 +29,10 @@ export const contractAddressMog: string =
   "0xaaee1a9723aadb7afa2810263653a34ba2c21c7a";
 export const contractAddressNina: string =
   "0x697a79AF2De4Af9E9aA0D08905374556AD1353bB";
+export const contractAddressSpx: string =
+  "0xE0f63A424a4439cBE457D80E4f4b51aD25b2c56C";
+export const contractAddressBITCOIN: string =
+  "0x72e4f9F808C49A2a61dE9C5896298920Dc4EEEa9";
 export const ETHERSCAN_LOVE_LINK = `https://etherscan.io/address/${contractAddressLove}`;
 export const ETHERSCAN_FARM_LINK = `https://etherscan.io/address/${contractAddressLoveFarm}`;
 
@@ -106,6 +110,18 @@ export const LOVE_POOLS = [
     name: "LOVE-MOG",
     icon: "/assets/love_mog.svg",
     token: contractAddressMog,
+    baseAsset: contractAddressLove,
+  },
+  {
+    name: "LOVE-SPX",
+    icon: "/assets/love_eth.svg",
+    token: contractAddressSpx,
+    baseAsset: contractAddressLove,
+  },
+  {
+    name: "LOVE-BITCOIN",
+    icon: "/assets/love_harrypotterobamasonic10inu.svg",
+    token: contractAddressBITCOIN,
     baseAsset: contractAddressLove,
   },
 ];
