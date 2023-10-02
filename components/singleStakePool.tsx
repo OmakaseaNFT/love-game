@@ -23,6 +23,8 @@ import { StakedLiquidityDataDisplay } from "./ui/StakedLiquidityDataDisplay";
 interface ISingleStakePoolProps {
   fee: number;
   aprValue: string;
+  apyValue: string;
+  loveFaithRatio: number;
   totalStakedLove: number;
   loveBalance: string;
   faithBalance: string;
@@ -41,6 +43,8 @@ const boxStyle3 =
 export const SingleStakePool = ({
   fee,
   aprValue,
+  apyValue,
+  loveFaithRatio,
   totalStakedLove,
   loveBalance,
   faithBalance,
@@ -169,9 +173,30 @@ export const SingleStakePool = ({
                     className="w-full flex flex-col m-auto text-sm"
                     style={{ position: "relative" }}
                   >
-                    <div className="text-xs font-semibold text-center mb-[2px]">Ratio</div>
-                    <div style={{ position: "relative", whiteSpace: "nowrap" }} className="mb-[-2px]">
-                      {`${aprValue} LOVE / FAITH`}
+                    <div className="text-xs font-semibold text-center mb-[2px]">
+                      APY
+                    </div>
+                    <div
+                      style={{ position: "relative", whiteSpace: "nowrap" }}
+                      className="mb-[-2px]"
+                    >
+                      {`${apyValue}%`}
+                    </div>
+                  </div>
+                </div>
+                <div className={`${boxStyle}`}>
+                  <div
+                    className="w-full flex flex-col m-auto text-sm"
+                    style={{ position: "relative" }}
+                  >
+                    <div className="text-xs font-semibold text-center mb-[2px]">
+                      Ratio
+                    </div>
+                    <div
+                      style={{ position: "relative", whiteSpace: "nowrap" }}
+                      className="mb-[-2px]"
+                    >
+                      {`${loveFaithRatio} LOVE / FAITH`}
                     </div>
                   </div>
                 </div>
@@ -192,7 +217,7 @@ export const SingleStakePool = ({
           <div
             className={`${boxStyle3} ${
               expanded ? "" : "embossBorderBottomExpanded"
-              }`}
+            }`}
             style={{ marginBottom: "-10px" }}
           >
             <ExpandPoolUtilsButton
@@ -206,7 +231,7 @@ export const SingleStakePool = ({
             <div
               className={`relative w-full flex ${
                 loveBalance || faithBalance ? "flex-col" : "flex-row"
-                } sm:flex-row justify-between pt-0 sm:pt-2 sm:border-2 sm:border-t-0 sm:border-l-gray-200 sm:border-b-gray-600 sm:border-r-gray-200 pb-[8px] pr-0 sm:pr-[8px]`}
+              } sm:flex-row justify-between pt-0 sm:pt-2 sm:border-2 sm:border-t-0 sm:border-l-gray-200 sm:border-b-gray-600 sm:border-r-gray-200 pb-[8px] pr-0 sm:pr-[8px]`}
             >
               <div className="w-[31.9%] sm:w-[28%] flex border-2 sm:border-0 border-l-gray-600 border-r-0 sm:border-t-gray-600 border-t-0 border-b-0 sm:border-b-gray-100">
                 <div className="w-full border-l-gray-200 border-t-0 border-r-0 border-b-0 sm:border-b-gray-600 border-2 sm:border-0 flex">
@@ -215,7 +240,7 @@ export const SingleStakePool = ({
                       loveBalance || faithBalance
                         ? "sm:ml-8 mt-1 mb-[-10px] sm:mb-auto"
                         : "m-auto"
-                      }`}
+                    }`}
                   >
                     <div
                       onClick={() => {
@@ -236,7 +261,7 @@ export const SingleStakePool = ({
               <div
                 className={`flex flex-col ${
                   loveBalance || faithBalance ? "w-full" : "w-[68.1%]"
-                  } sm:w-[72%]`}
+                } sm:w-[72%]`}
               >
                 <div className="w-full flex flex-row border-l-gray-600 sm:border-t-gray-600 border-t-0 sm:border-t-2 border-r-gray-100 border-b-gray-100 border-2 p-[0.5px]">
                   <div className="pb-2 sm:pb-0 w-full flex border-l-gray-200 border-t-0 sm:border-t-2 border-r-gray-600 border-b-gray-600 border-2 pt-1">
@@ -253,7 +278,7 @@ export const SingleStakePool = ({
                               <div
                                 className={`flex flex-row text-md h-[30px] ${
                                   isStakeVisible ? "mb-[-2px]" : "mb-[-2px]"
-                                  }`}
+                                }`}
                               >
                                 <div
                                   onClick={() => {
@@ -266,7 +291,7 @@ export const SingleStakePool = ({
                                     isStakeVisible
                                       ? "text-gray-800 border-b-0 bg-[#C1C1C1]"
                                       : "text-gray-500"
-                                    }`}
+                                  }`}
                                 >
                                   Stake
                                   {isStakeVisible && (
@@ -283,7 +308,7 @@ export const SingleStakePool = ({
                                     !isStakeVisible
                                       ? "text-gray-800  bg-[#C1C1C1]"
                                       : "text-gray-500"
-                                    }`}
+                                  }`}
                                   style={{
                                     zIndex: !isStakeVisible ? 5 : 0,
                                   }}
@@ -300,12 +325,14 @@ export const SingleStakePool = ({
                           </div>
 
                           <div className="w-[300px] justify-between mb-1 bg-[#c1c1c1] px-4 py-1 flex flex-row border-l-gray-200 border-t-gray-200 border-r-gray-600 border-b-gray-600 border-2">
-                            <div className="flex flex-col gap-1 w-[50%]"
+                            <div
+                              className="flex flex-col gap-1 w-[50%]"
                               dangerouslySetInnerHTML={{
                                 __html: isStakeVisible
                                   ? "Stake LOVE,<br />get FAITH"
-                                  : "Burn FAITH,<br />get LOVE"
-                              }} />
+                                  : "Burn FAITH,<br />get LOVE",
+                              }}
+                            />
                             <div className="flex flex-col gap-1">
                               <div className="text-[11px] text-gray-500 leading-3">
                                 {isStakeVisible

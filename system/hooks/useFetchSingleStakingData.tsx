@@ -2,11 +2,13 @@ import { ethers } from "ethers";
 import { useState, useEffect } from "react";
 import { useAccount } from "wagmi";
 
-import { contractAddressFaith } from "../../utils/constant";
 import { AppContracts } from "../AppContracts";
-import { LoveTokenAbi } from "../LoveTokenAbi";
-import { FaithAbi } from "../FaithAbi";
-import { getTotalFaithUSD } from "./useFetchStakingTotal";
+import {
+  aprToApy,
+  getFaithAPR,
+  getLoveFaithRatio,
+  getTotalFaithUSD,
+} from "./useFetchStakingTotal";
 
 type PoolData = {
   availableValue: any;
@@ -14,6 +16,8 @@ type PoolData = {
   availableBalance: any;
   stakeValue: any;
   aprValue: any;
+  apyValue: any;
+  loveFaithRatio: any;
   totalStakedLove: any;
   faithBalance: any;
   loveBalance: any;
@@ -59,55 +63,46 @@ export const useFetchSingleStakingData = () => {
       let realValue;
       let stakeValue;
 
-      const faithBalance = await faithContract.balanceOf(address!);
-      const loveBalance = await loveTokenContract.balanceOf(address!);
-      const aprValue = await calculateRatioAPR(
+      const faithBalance = address
+        ? await faithContract.balanceOf(address!)
+        : 0;
+      const loveBalance = address
+        ? await loveTokenContract.balanceOf(address!)
+        : 0;
+      const loveFaithRatio = await getLoveFaithRatio(
         faithContract,
         loveTokenContract
       );
       const fee = await faithContract.faithFeePercent();
       const lovePerUser =
-        Number(ethers.utils.formatEther(faithBalance)) * aprValue;
+        Number(ethers.utils.formatEther(faithBalance)) * loveFaithRatio;
       const totalStakedLove = await getTotalFaithUSD(
         loveTokenContract,
         usdtLovePoolContract
       );
+      const aprValue = await getFaithAPR(faithContract, loveTokenContract);
+      const apyValue = aprToApy(aprValue);
       const data: PoolData = {
         availableValue: availableValue,
         stakedValue: availableStaked,
         availableBalance: realValue,
         stakeValue: stakeValue,
-        aprValue: aprValue,
+        aprValue,
+        apyValue,
+        loveFaithRatio,
         totalStakedLove,
         faithBalance,
         loveBalance,
         fee: Number(fee),
         lovePerUser,
       };
-      // console.log(data);
+      console.log(data);
       setSingleStakingData(data);
       setDataLoading(false);
     } catch (error) {
       console.log(error);
       setDataLoading(false);
     }
-  };
-
-  const calculateRatioAPR = async (
-    faithContract: FaithAbi,
-    loveContract: LoveTokenAbi
-  ) => {
-    const loveBalanceInFaithContract = await loveContract.balanceOf(
-      contractAddressFaith
-    );
-    const totalFaith = await faithContract.totalSupply();
-
-    let lovePerFaith = loveBalanceInFaithContract
-      .mul(ethers.BigNumber.from("1000"))
-      .div(totalFaith);
-    const lovePerFaithRatio = lovePerFaith.toNumber() / 1000;
-
-    return lovePerFaithRatio;
   };
 
   useEffect(() => {

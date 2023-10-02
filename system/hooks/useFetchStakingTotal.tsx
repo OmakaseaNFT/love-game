@@ -1,13 +1,58 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { useState, useEffect } from "react";
 
 import { AppContracts } from "../AppContracts";
 import { calculateStakedLiquidity, fetchLovePriceUSDT } from "./poolCalcUtils";
+import { FaithAbi } from "../FaithAbi";
 import { LoveTokenAbi } from "../LoveTokenAbi";
 import { PoolAbi } from "../PoolAbi";
 import lpContractAbi from "../../utils/poolABI.json";
-import { contractAddressFaith } from "../../utils/constant";
+import { BLOCKS_PER_YEAR, contractAddressFaith } from "../../utils/constant";
 import { roundUSDToCents } from "../appUtils";
+
+const loveFromBN = (bn: ethers.BigNumber): number =>
+  Number(ethers.utils.formatUnits(bn, 18));
+
+export const aprToApy = (apr: number): number => {
+  const apy = ((1 + apr / 100 / BLOCKS_PER_YEAR) ** BLOCKS_PER_YEAR - 1) * 100;
+  return Math.trunc(apy);
+};
+
+export async function getFaithAPR(
+  faithContract: FaithAbi,
+  loveTokenContract: LoveTokenAbi
+) {
+  const loveBalanceInFaithContract = await loveTokenContract.balanceOf(
+    contractAddressFaith
+  );
+  const lovePerBlock = await faithContract.lovePerBlock();
+  const annualRewardInLove = lovePerBlock.mul(
+    ethers.BigNumber.from(BLOCKS_PER_YEAR)
+  );
+
+  const apy =
+    (loveFromBN(annualRewardInLove) / loveFromBN(loveBalanceInFaithContract)) *
+    100;
+
+  return Math.trunc(Number(apy));
+}
+
+export const getLoveFaithRatio = async (
+  faithContract: FaithAbi,
+  loveContract: LoveTokenAbi
+) => {
+  const loveBalanceInFaithContract = await loveContract.balanceOf(
+    contractAddressFaith
+  );
+  const totalFaith = await faithContract.totalSupply();
+
+  let lovePerFaith = loveBalanceInFaithContract
+    .mul(ethers.BigNumber.from("1000"))
+    .div(totalFaith);
+  const lovePerFaithRatio = lovePerFaith.toNumber() / 1000;
+
+  return lovePerFaithRatio;
+};
 
 export async function getTotalFaithUSD(
   loveTokenContract: LoveTokenAbi,
