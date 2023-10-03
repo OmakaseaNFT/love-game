@@ -114,7 +114,7 @@ export const LOVE_POOLS = [
   },
   {
     name: "LOVE-SPX",
-    icon: "/assets/love_eth.svg",
+    icon: "/assets/love_spx.svg",
     token: contractAddressSpx,
     baseAsset: contractAddressLove,
   },
