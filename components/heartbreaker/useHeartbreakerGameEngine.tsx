@@ -275,7 +275,7 @@ export const useHeartbreakerGameEngine = () => {
 
   useEffect(() => {
     if (!socket) {
-      const socket = io(HEARTBREAKER_SOCKET_URL);
+      const socket = io(HEARTBREAKER_SOCKET_URL, { withCredentials: true });
       setSocket(socket);
       handleGetGameHistory();
     }
