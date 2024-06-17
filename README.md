@@ -20,5 +20,7 @@ MONGOO_URL=
 yarn
 yarn dev
 ```
+on win use
+yarn add cross-env
 
 See our [contribution guidelines](https://github.com/OmakaseaNFT/love-game/blob/main/CONTRIBUTING.md) if you wish to contribute!!!

@@ -2,6 +2,9 @@ import EtherscanIcon from "../assets/etherscan.png";
 import LoveIcon from "../assets/love-icon.png";
 import PaperIcon from "../assets/book.png";
 import FireIcon from "../assets/fire-icon.png";
+import BridgeIcon from "../assets/bridge-icon.png";
+import MglthIcon from "../assets/mglth-icon.png";
+
 // import WarBanner from "../assets/war-banner.gif";
 import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
@@ -56,6 +59,15 @@ const Screen = ({
       icon: TelegramIcon,
       label: "Telegram",
       logoHeight: 60,
+    },
+  ];
+
+  const iconsCenter = [
+    {
+      onClick: () => setSelected("mglth"),
+      icon: MglthIcon,
+      label: "Megalith TV",
+
     },
   ];
 
@@ -114,6 +126,25 @@ const Screen = ({
               );
             })}
           </div>
+          <div className="w-[110px] sm:w-[200px] pt-[2px]">
+            {showMenu &&
+              iconsCenter.map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="h-36 flex-col flex justify-center flex items-center cursor-pointer"
+                    onClick={item.onClick}
+                  >
+                    <Image src={item.icon} alt="icon" height={55} />
+                    {item.label && (
+                      <div className="text-[rgba(255,255,255,.80)] text-lg mt-2">
+                        {item.label}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           <div className="w-[110px] sm:w-[200px] pt-[2px]">
             <div className="h-36 flex-row justify-center flex items-center">
               {" "}

@@ -3,6 +3,8 @@ import TreeIcon from "../assets/three.png";
 import PaperIcon from "../assets/book.png";
 import SettingsIcon from "../assets/settings.png";
 import ShutdownIcon from "../assets/shutdown.png";
+import BridgeIcon from "../assets/bridge.png";
+import MglthIcon from "../assets/mglth.png";
 import { useState } from "react";
 import { StartMenuListItem } from "./startMenuListItem";
 import { useCopyText } from "../system/hooks/useCopyText";
@@ -17,6 +19,11 @@ const BottomBar = (props: Props) => {
   const [showSide, setShowSide] = useState<boolean>(false);
   const { onCopyText, copied } = useCopyText();
   const list = [
+    {
+      menu: "mglth",
+      icon: MglthIcon,
+      name: "<u>M</u>glth",
+    },
     {
       menu: "farm",
       icon: TreeIcon,
