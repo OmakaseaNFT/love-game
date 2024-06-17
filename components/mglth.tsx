@@ -18,6 +18,14 @@ const Mglth = () => {
     const video = videoRef.current;
     const videoSrc = "https://mglth.tv/hls/mglth.m3u8";
 
+    const playVideo = () => {
+      if (video) {
+        video.play().catch((error) => {
+          console.error("Autoplay was prevented:", error);
+        });
+      }
+    };
+
     const initializeHls = () => {
       if (video) {
         if (Hls.isSupported()) {
