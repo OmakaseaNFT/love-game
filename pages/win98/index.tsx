@@ -6,10 +6,14 @@ import ActiveButton from "../../components/activeButton";
 import ControlPanel from "../../components/controlPanel";
 import Paper from "../../components/paper";
 import Farm from "../../components/farm";
+import WarpBridge from "../../components/warpbridge";
+import MglthTv from "../../components/mglth";
 import ComputerIcon from "../../assets/computer.png";
 import SettingsIcon from "../../assets/settings.png";
 import PaperIcon from "../../assets/book.png";
 import LoveIcon from "../../assets/love-icon.png";
+import BridgeIcon from "../../assets/bridge-icon.png";
+import MglthIcon from "../../assets/mglth-icon.png";
 import { ethers } from "ethers";
 import { contractAddressLove, contractAddressWar } from "../../utils/constant";
 import { PoolAbi } from "../../system/PoolAbi";
@@ -111,6 +115,22 @@ const Win98 = (props: Props) => {
       icon: LoveIcon,
     },
     {
+      menu: "warpbridge",
+      title: "WarpBridge",
+      component: <WarpBridge />,
+      width: "800px",
+      height: "600px",
+      icon: BridgeIcon,
+    },
+    {
+      menu: "mglth",
+      title: "MglthTv",
+      component: <MglthTv />,
+      width: "800px",
+      height: "600px",
+      icon: MglthIcon,
+    },
+    {
       menu: "paper",
       title: "PAPER",
       component: <Paper />,
@@ -170,6 +190,18 @@ const Win98 = (props: Props) => {
       : isFetchingTotals
       ? str
       : `${str} TVL: $${thousandSeparator(totalStakedUSD, 2, 2)}`;
+
+  const closeDialog = () => {
+        setSelectedContent(undefined);
+  };
+    
+  const handleEmbeddedWindowClose = () => {
+        // Logic to stop video playback when embedded window (dialog) is closed
+        const video = document.getElementById("video") as HTMLVideoElement;
+        if (video) {
+          video.pause();
+        }
+  };
 
   return !scale ? (
     <div />

@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "dev": "NEXT_PUBLIC_NODE_ENV=dev next dev",
+    "dev": "cross-env NEXT_PUBLIC_NODE_ENV=dev next dev",
     "build": "next build",
     "start": "next start -p 3030",
     "lint": "next lint",
@@ -21,6 +21,7 @@
     "ethers": "5",
     "gsap": "^3.12.1",
     "husky": "^8.0.3",
+    "hls.js": "^1.5.11",
     "moment": "^2.29.4",
     "next": "^14.0.3",
     "postcss": "^8.4.23",
@@ -41,6 +42,7 @@
     "@types/react": "^18.2.42",
     "eslint": "^8.15.0",
     "eslint-config-next": "^14.0.3",
+    "cross-env": "^7.0.3",
     "jest-worker": "^29.7.0",
     "typechain": "^8.3.1",
     "typescript": "^5.0.4"
