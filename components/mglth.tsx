@@ -18,28 +18,14 @@ const Mglth = () => {
     const video = videoRef.current;
     const videoSrc = "https://mglth.tv/hls/mglth.m3u8";
 
-    const playVideo = () => {
-      if (video) {
-        video.play().catch((error) => {
-          console.error("Autoplay was prevented:", error);
-        });
-      }
-    };
-
     const initializeHls = () => {
       if (Hls.isSupported()) {
         const hls = new Hls();
         hls.loadSource(videoSrc);
         hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, function () {
-          playVideo();
-        });
         hlsRef.current = hls; // Save HLS.js instance to ref
       } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
         video.src = videoSrc;
-        video.addEventListener("loadedmetadata", function () {
-          playVideo();
-        });
       }
     };
 
@@ -48,7 +34,6 @@ const Mglth = () => {
     // Cleanup function
     return () => {
       if (video) {
-        video.pause();
         if (hlsRef.current) {
           hlsRef.current.destroy();
         }
@@ -75,7 +60,7 @@ const Mglth = () => {
         ))}
       </div>
       <div style={{ maxWidth: "100%", maxHeight: maxHeight, overflow: "hidden" }}>
-        <video ref={videoRef} controls autoPlay style={{ width: "100%", height: "100%", objectFit: "cover" }}></video>
+        <video ref={videoRef} controls style={{ width: "100%", height: "100%", objectFit: "cover" }}></video>
       </div>
     </div>
   );

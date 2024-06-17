@@ -3,6 +3,7 @@ import LoveIcon from "../assets/love-icon.png";
 import PaperIcon from "../assets/book.png";
 import FireIcon from "../assets/fire-icon.png";
 import BridgeIcon from "../assets/bridge-icon.png";
+import MglthIcon from "../assets/mglth-icon.png";
 
 // import WarBanner from "../assets/war-banner.gif";
 import { ReactNode, useEffect, useState } from "react";
@@ -63,9 +64,9 @@ const Screen = ({
 
   const iconsCenter = [
     {
-      onClick: () => setSelected("warpbridge"),
-      icon: BridgeIcon,
-      label: "Warp Bridge",
+      onClick: () => setSelected("mglth"),
+      icon: MglthIcon,
+      label: "Megalith TV",
 
     },
   ];
