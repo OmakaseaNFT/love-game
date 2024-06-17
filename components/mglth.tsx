@@ -11,21 +11,23 @@ const Mglth = () => {
     },
   ];
 
-  const videoRef = useRef(null);
-  const hlsRef = useRef(null); // Reference to HLS.js instance
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const hlsRef = useRef<Hls | null>(null); // Reference to HLS.js instance
 
   useEffect(() => {
     const video = videoRef.current;
     const videoSrc = "https://mglth.tv/hls/mglth.m3u8";
 
     const initializeHls = () => {
-      if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(videoSrc);
-        hls.attachMedia(video);
-        hlsRef.current = hls; // Save HLS.js instance to ref
-      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-        video.src = videoSrc;
+      if (video) {
+        if (Hls.isSupported()) {
+          const hls = new Hls();
+          hls.loadSource(videoSrc);
+          hls.attachMedia(video);
+          hlsRef.current = hls; // Save HLS.js instance to ref
+        } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+          video.src = videoSrc;
+        }
       }
     };
 
