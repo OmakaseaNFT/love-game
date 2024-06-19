@@ -16,6 +16,7 @@ import {
   WAR3_TWITTER_LINK,
   WAR3_SWAP_LINK,
   DISCORD_LINK,
+  BRIDGE_LINK,
 } from "../utils/constant";
 
 const DiscordIcon = "/assets/logo_discord.png";
@@ -68,6 +69,11 @@ const Screen = ({
       icon: MglthIcon,
       label: "Megalith TV",
 
+    },
+    {
+      onClick: () => window.open(BRIDGE_LINK, "_blank"),
+      icon: BridgeIcon,
+      label: "Warp Bridge",
     },
   ];
 

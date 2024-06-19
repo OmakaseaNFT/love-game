@@ -115,14 +115,6 @@ const Win98 = (props: Props) => {
       icon: LoveIcon,
     },
     {
-      menu: "warpbridge",
-      title: "WarpBridge",
-      component: <WarpBridge />,
-      width: "800px",
-      height: "600px",
-      icon: BridgeIcon,
-    },
-    {
       menu: "mglth",
       title: "MglthTv",
       component: <MglthTv />,
