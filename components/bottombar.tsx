@@ -9,7 +9,7 @@ import { useState } from "react";
 import { StartMenuListItem } from "./startMenuListItem";
 import { useCopyText } from "../system/hooks/useCopyText";
 import { truncateEthAddress } from "../system/appUtils";
-import { contractAddressLove, contractAddressWar } from "../utils/constant";
+import { contractAddressLove, contractAddressWar, BRIDGE_LINK } from "../utils/constant";
 
 interface Props {
   setSelected: (selected: string) => void;
@@ -74,6 +74,14 @@ const BottomBar = (props: Props) => {
     );
   };
 
+  const handleSelected = (selected: string) => {
+    if (selected === "bridge") {
+      window.open(BRIDGE_LINK, "_blank");
+    } else {
+      props.setSelected(selected);
+    }
+  };
+
   return (
     <div className="flex flex-row relative w-[372px] sm:w-[427px]">
       <div className="bg-[#C1C1C1] w-[185px] sm:w-[240px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white">
@@ -83,7 +91,7 @@ const BottomBar = (props: Props) => {
           <StartMenuListItem
             key={`start-menu-list-item-${index}`}
             haveSub={item.haveSub}
-            onSelected={(selected) => props.setSelected(selected)}
+            onSelected={(selected) => handleSelected(selected)}
             onShowSide={(showSide) => setShowSide(showSide)}
             icon={item.icon}
             name={item.name}
@@ -118,4 +126,5 @@ const BottomBar = (props: Props) => {
     </div>
   );
 };
+
 export default BottomBar;

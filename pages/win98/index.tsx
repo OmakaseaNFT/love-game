@@ -6,7 +6,6 @@ import ActiveButton from "../../components/activeButton";
 import ControlPanel from "../../components/controlPanel";
 import Paper from "../../components/paper";
 import Farm from "../../components/farm";
-import WarpBridge from "../../components/warpbridge";
 import MglthTv from "../../components/mglth";
 import ComputerIcon from "../../assets/computer.png";
 import SettingsIcon from "../../assets/settings.png";
@@ -113,14 +112,6 @@ const Win98 = (props: Props) => {
       width: "720px",
       height: "300px",
       icon: LoveIcon,
-    },
-    {
-      menu: "warpbridge",
-      title: "WarpBridge",
-      component: <WarpBridge />,
-      width: "800px",
-      height: "600px",
-      icon: BridgeIcon,
     },
     {
       menu: "mglth",
