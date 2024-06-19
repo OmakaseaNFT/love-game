@@ -6,7 +6,6 @@ import ActiveButton from "../../components/activeButton";
 import ControlPanel from "../../components/controlPanel";
 import Paper from "../../components/paper";
 import Farm from "../../components/farm";
-import WarpBridge from "../../components/warpbridge";
 import MglthTv from "../../components/mglth";
 import ComputerIcon from "../../assets/computer.png";
 import SettingsIcon from "../../assets/settings.png";
