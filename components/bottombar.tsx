@@ -95,7 +95,7 @@ const BottomBar = (props: Props) => {
           >
             {copied
               ? "Copied.........."
-              : `${truncateEthAddress(ca)}`}
+              : `${""}`}
           </div>
         </div>
       </div>
