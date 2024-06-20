@@ -33,6 +33,8 @@ export const contractAddressSpx: string =
   "0xE0f63A424a4439cBE457D80E4f4b51aD25b2c56C";
 export const contractAddressBITCOIN: string =
   "0x72e4f9F808C49A2a61dE9C5896298920Dc4EEEa9";
+export const TipAddress: string =
+  "0xc14402bd424Ac35E296F4577C8F19c9A73C6e452";
 export const ETHERSCAN_LOVE_LINK = `https://etherscan.io/address/${contractAddressLove}`;
 export const ETHERSCAN_FARM_LINK = `https://etherscan.io/address/${contractAddressLoveFarm}`;
 

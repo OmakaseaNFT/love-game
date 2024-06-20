@@ -216,7 +216,24 @@ input:focus {
   padding-right: 8px;
   font-size: 14px;
   text-align: center;
+  /*new */
+  max-width: 200px; /* Maximum width for buttons to ensure they don't overflow */
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Show ellipsis for overflow text */
 }
+
+.btn .text-lg {
+  font-size: 0.875rem; /* Adjust this value as needed */
+}
+
+/* Additional custom styles if needed */
+@media (max-width: 768px) {
+  .btn {
+    font-size: 12px; /* Smaller font size for smaller screens */
+  }
+}
+
 .btn:hover,
 .btn.active {
   background-color: #C1C1C1;

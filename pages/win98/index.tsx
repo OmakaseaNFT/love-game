@@ -14,10 +14,11 @@ import LoveIcon from "../../assets/love-icon.png";
 import BridgeIcon from "../../assets/bridge-icon.png";
 import MglthIcon from "../../assets/mglth-icon.png";
 import { ethers } from "ethers";
-import { contractAddressLove, contractAddressWar } from "../../utils/constant";
+import { contractAddressLove, contractAddressWar, TipAddress } from "../../utils/constant";
 import { PoolAbi } from "../../system/PoolAbi";
 import { AppContracts } from "../../system/AppContracts";
 import { CopyAddressButton } from "../../components/copyAddressButton";
+import { CopyAddressButtonTip } from "../../components/copyAddressButtonTip";
 import { HeartBreaker } from "../../components/heartbreaker";
 import {
   fetchLovePriceUSDT,
@@ -259,6 +260,7 @@ const Win98 = (props: Props) => {
           )}
           <CopyAddressButton address={contractAddressLove} label="LOVE:" />
           <CopyAddressButton address={contractAddressWar} label="WAR3:" />
+          <CopyAddressButtonTip address={TipAddress} label="Tip:" label2="Love.aWizard.eth" />
         </div>
         <div className="px-1 my-auto border-b-gray-300 items-center border-r-gray-300 border-l-gray-600 text-sm border-t-gray-600 max-w-[162px] w-full h-[30px] border-[3px] text-[18px] rounded-[2px] flex flex-row justify-center items-center mr-2">
           <div>
