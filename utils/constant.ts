@@ -51,7 +51,7 @@ export const TELEGRAM_LINK = "https://t.me/loveethereum";
 export const TWITTER_LINK = "https://twitter.com/lovegameeth";
 export const WAR3_TWITTER_LINK = "https://twitter.com/webwar3";
 export const DISCORD_LINK = "https://discord.gg/loveethereum";
-export const BRIDGE_LINK = "https://warp.jono.tech";
+export const BRIDGE_LINK = "https://warp.jono.tech/bridge";
 
 export const IS_DEV_ENV = process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true";
 export const CHAIN_ID = IS_DEV_ENV ? 11155111 : 1;
