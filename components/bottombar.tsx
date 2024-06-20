@@ -87,7 +87,6 @@ const BottomBar = (props: Props) => {
         <div className="flex flex-row items-center w-full">
           <div className="py-1 justify-center items-center w-[68px] flex">
             {label}
-            {label2}
           </div>
           <div
             className="text-[22px] truncate"
@@ -95,7 +94,7 @@ const BottomBar = (props: Props) => {
           >
             {copied
               ? "Copied.........."
-              : `${""}`}
+              : `${label2}`}
           </div>
         </div>
       </div>
