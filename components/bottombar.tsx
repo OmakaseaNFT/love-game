@@ -1,15 +1,16 @@
 import Image from "next/image";
 import TreeIcon from "../assets/three.png";
-import PaperIcon from "../assets/book.png";
-import SettingsIcon from "../assets/settings.png";
-import ShutdownIcon from "../assets/shutdown.png";
-import BridgeIcon from "../assets/bridge.png";
-import MglthIcon from "../assets/mglth.png";
-import { useState } from "react";
+//import PaperIcon from "../assets/book.png";
+//import SettingsIcon from "../assets/settings.png";
+//import ShutdownIcon from "../assets/shutdown.png";
+//import BridgeIcon from "../assets/bridge.png";
+//import MglthIcon from "../assets/mglth.png";
+import { useContext, useState } from "react";
 import { StartMenuListItem } from "./startMenuListItem";
 import { useCopyText } from "../system/hooks/useCopyText";
 import { truncateEthAddress } from "../system/appUtils";
-import { contractAddressLove, contractAddressWar, TipAddress, BRIDGE_LINK } from "../utils/constant";
+import { contractAddressLove, contractAddressWar, TipAddress, TipENS, BRIDGE_LINK } from "../utils/constant";
+import { FileThemeContext } from "../system/context/FileThemeContext";
 
 interface Props {
   setSelected: (selected: string) => void;
@@ -17,6 +18,7 @@ interface Props {
 
 const BottomBar = (props: Props) => {
   const [showSide, setShowSide] = useState<boolean>(false);
+  const { files: { FarmIcon, PaperIcon, BridgeIcon, MglthIcon, startIcon, heartbreakIcon, SettingsIcon, ShutdownIcon }} = useContext(FileThemeContext);
   const { onCopyText, copied } = useCopyText();
   const list = [
     {
@@ -31,7 +33,7 @@ const BottomBar = (props: Props) => {
     },
     {
       menu: "farm",
-      icon: TreeIcon,
+      icon: FarmIcon,
       name: "<u>F</u>arm",
     },
     {
@@ -41,7 +43,7 @@ const BottomBar = (props: Props) => {
     },
     {
       menu: "heartbreak",
-      icon: "/assets/start-icon.png",
+      icon: heartbreakIcon,
       name: "<u>H</u>EARTBREAK",
     },
     {
@@ -79,7 +81,7 @@ const BottomBar = (props: Props) => {
     );
   };
 
-  const renderCopyAddressTip = (ca: string, label = "CA:", label2 = "Love.aWizard.eth") => {
+  const renderCopyAddressTip = (ca: string, label = "CA:", label2 = TipENS) => {
     return (
       <div
         className={`flex flex-row justify-between font-windows hover:text-white hover:bg-[#0A0080] cursor-pointer sm:hidden`}
@@ -112,10 +114,10 @@ const BottomBar = (props: Props) => {
 
   return (
     <div className="flex flex-row relative w-[372px] sm:w-[427px]">
-      <div className="bg-[#C1C1C1] w-[185px] sm:w-[240px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white">
+    <div className="bg-[#C1C1C1] w-[185px] sm:w-[240px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white">
         {renderCopyAddress(contractAddressLove, "LOVE:")}
         {renderCopyAddress(contractAddressWar, "WAR3:")}
-        {renderCopyAddressTip(TipAddress, "Tip:", "Love.aWizard.eth")}
+        {renderCopyAddressTip(TipAddress, "Tip:", TipENS)}
         {list.map((item, index) => (
           <StartMenuListItem
             key={`start-menu-list-item-${index}`}
@@ -127,6 +129,7 @@ const BottomBar = (props: Props) => {
             menu={item.menu}
           />
         ))}
+        
       </div>
 
       {showSide ? (
@@ -142,7 +145,7 @@ const BottomBar = (props: Props) => {
               <div className="w-1/3 flex flex-row justify-center ">
                 <Image src={SettingsIcon} width={29} height={29} alt="icon" />
               </div>
-              <div className="text-[22px]">
+              <div className="text-[22px] whitespace-nowrap">
                 <span>
                   <u>C</u>ontrol Panel
                 </span>

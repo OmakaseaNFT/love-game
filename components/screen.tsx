@@ -1,12 +1,12 @@
 import EtherscanIcon from "../assets/etherscan.png";
-import LoveIcon from "../assets/love-icon.png";
-import PaperIcon from "../assets/book.png";
-import FireIcon from "../assets/fire-icon.png";
-import BridgeIcon from "../assets/bridge-icon.png";
-import MglthIcon from "../assets/mglth-icon.png";
+//import LoveIcon from "../assets/love-icon.png";
+//import PaperIcon from "../assets/book.png";
+//import FireIcon from "../assets/fire-icon.png";
+//import BridgeIcon from "../assets/bridge-icon.png";
+//import MglthIcon from "../assets/mglth-icon.png";
 
 // import WarBanner from "../assets/war-banner.gif";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { Connect } from "./connect";
 import {
@@ -19,9 +19,12 @@ import {
   BRIDGE_LINK,
 } from "../utils/constant";
 
-const DiscordIcon = "/assets/logo_discord.png";
-const TwitterIcon = "/assets/logo_twitter.png";
-const TelegramIcon = "/assets/logo_telegram.png";
+import { FileThemeContext } from "../system/context/FileThemeContext";
+import { useAccount } from "wagmi";
+
+//const DiscordIcon = "/assets/logo_discord.png";
+//const TwitterIcon = "/assets/logo_twitter.png";
+//const TelegramIcon = "/assets/logo_telegram.png";
 
 interface ScreenProps {
   children: ReactNode;
@@ -34,7 +37,10 @@ const Screen = ({
   setSelected,
   wallpaper,
   onTrigger,
-}: ScreenProps) => {
+}: ScreenProps) => {  
+  const { files: {PaperIcon, FireIcon, LoveIcon, MglthIcon, BridgeIcon, TwitterIcon, TelegramIcon, DiscordIcon } } = useContext(FileThemeContext)
+  const { address, connector, isConnected } = useAccount();
+  const [hide, setHide] = useState<boolean>(true);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const iconsLeft = [
     {

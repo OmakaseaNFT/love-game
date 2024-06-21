@@ -14,6 +14,7 @@ import {
   HOT_JAR_VERSION,
 } from "../utils/constant";
 import { TermsAndConditionsWrapper } from "../components/ui/TermsAndConditionsWrapper";
+import { FileThemeProvider } from "../system/context/FileThemeContext";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
@@ -56,10 +57,16 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains} theme={null} id={isConnected ? "rainbowkitConnected" : "rainbowkitNotConnected"}>
-        <TermsAndConditionsWrapper>
-          <Component {...pageProps} />
-        </TermsAndConditionsWrapper>
+      <RainbowKitProvider
+        chains={chains}
+        theme={null}
+        id={isConnected ? "rainbowkitConnected" : "rainbowkitNotConnected"}
+      >
+        <FileThemeProvider>
+          <TermsAndConditionsWrapper>
+            <Component {...pageProps} />
+          </TermsAndConditionsWrapper>
+        </FileThemeProvider>
         <Analytics />
       </RainbowKitProvider>
     </WagmiConfig>
