@@ -13,6 +13,15 @@ import ExitButton from "../../assets/skins/vaporwave-arcade/exit-button.png";
 import ActiveButton from "../../assets/skins/vaporwave-arcade/active-game-button.png";
 import BridgeIcon from "../../assets/bridge-icon.png";
 import MglthIcon from "../../assets/mglth-icon.png";
+import ChiaIcon from "../../assets/chia-icon.png";
+import GobyIcon from "../../assets/goby-icon.png";
+import CLinksIcon from "../../assets/clinks-icon.png";
+import SpaceIcon from "../../assets/space-icon.png";
+import MintIcon from "../../assets/mint-icon.svg";
+import TradeIcon from "../../assets/chia-icon.png";
+import DexieIcon from "../../assets/dexie-icon.svg";
+import TibetIcon from "../../assets/tibet-icon.jpg";
+import FarmerIcon from "../../assets/farmer-icon.jpg";
 
 const themeMap : Partial<FileThemeCustomOptions> = {
     name: 'Vaporwave Arcade',
@@ -25,6 +34,15 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     WalletIcon,
     BridgeIcon,
     MglthIcon,
+    ChiaIcon,
+    GobyIcon,
+    CLinksIcon,
+    SpaceIcon,
+    MintIcon, 
+    TradeIcon, 
+    DexieIcon, 
+    TibetIcon, 
+    FarmerIcon,
     SettingsIcon,
     ShutdownIcon,
     startLoveIcon: '/assets/skins/vaporwave-arcade/startLove.png',

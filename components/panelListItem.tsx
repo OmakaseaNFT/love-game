@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { MdArrowRight } from "react-icons/md";
 
-interface IStartMenuListItemProps {
-  haveSub: boolean | undefined;
+interface IPanelListItemProps {
+  haveSub?: boolean; // Make haveSub optional
   onSelected: (selected: string) => void;
   onShowSide: (showSide: boolean) => void;
   icon: any;
@@ -11,7 +11,7 @@ interface IStartMenuListItemProps {
   link?: string;
 }
 
-export const StartMenuListItem = ({
+export const PanelListItem = ({
   haveSub,
   onSelected,
   onShowSide,
@@ -19,7 +19,7 @@ export const StartMenuListItem = ({
   name,
   menu,
   link,
-}: IStartMenuListItemProps) => {
+}: IPanelListItemProps) => {
   const handleClick = () => {
     if (link) {
       window.open(link, "_blank"); // Open the provided link in a new tab
@@ -31,18 +31,17 @@ export const StartMenuListItem = ({
 
   return (
     <div
-      className={`flex flex-row justify-between font-windows hover:text-white hover:bg-[#0A0080] cursor-pointer`}
+      className="flex flex-row justify-between font-windows hover:text-white hover:bg-[#0A0080] cursor-pointer"
       onMouseEnter={() => haveSub && onShowSide(true)}
-      onMouseLeave={() => !haveSub && onShowSide(false)}
+      // onMouseLeave={() => !haveSub && onShowSide(false)} // Unnecessary comment
       onClick={handleClick}
     >
       <div className="flex flex-row items-center w-full">
         <div className="py-1 justify-center items-center w-[68px] flex">
           <Image src={icon} width={29} height={29} alt="icon" />
         </div>
-        <div className="text-[22px]">
-
-          <span dangerouslySetInnerHTML={{ __html: name }}></span> 
+        <div className="text-[16px]">
+          <span dangerouslySetInnerHTML={{ __html: name }}></span>
         </div>
       </div>
       <div className="mt-1 ml-2">
@@ -51,5 +50,3 @@ export const StartMenuListItem = ({
     </div>
   );
 };
-
-export default StartMenuListItem;

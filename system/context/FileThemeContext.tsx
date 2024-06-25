@@ -31,6 +31,15 @@ export interface FileThemeCustomOptions {
   heartbreakActiveButton: StaticImageData;
   heartbreakExitButton: StaticImageData;
   heartbreakDeadButton: StaticImageData;
+  ChiaIcon: StaticImageData;
+  GobyIcon: StaticImageData;
+  SpaceIcon: StaticImageData;
+  MintIcon:  StaticImageData;
+  TradeIcon:  StaticImageData;
+  DexieIcon:  StaticImageData;
+  TibetIcon: StaticImageData;
+  FarmerIcon: StaticImageData;
+  CLinksIcon: StaticImageData;
 }
 
 export interface IFileTheme {

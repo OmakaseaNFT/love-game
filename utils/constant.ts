@@ -61,6 +61,18 @@ export const WAR3_TWITTER_LINK = "https://twitter.com/webwar3";
 export const DISCORD_LINK = "https://discord.gg/loveethereum";
 export const BRIDGE_LINK = "https://warp.jono.tech/bridge";
 
+//chia links
+export const CHIA_LINK = "https://www.chia.net/downloads/";
+export const GOBY_LINK = "https://www.goby.app";
+export const CHIALINKS_LINK = "https://chialinks.com/";
+export const SPACESCAN_LINK = "https://www.spacescan.io";
+export const MINTGARDEN_LINK = "https://mintgarden.io";
+export const XCHTRADE_LINK = "https://xch.trade";
+export const DEXIE_LINK = "https://dexie.space/markets";
+export const TIBETSWAP_LINK = "https://v2.tibetswap.io/LOVE"; //"https://v2.tibetswap.io";
+export const FARMERVERSE_LINK = "https://play.farmerverse.space";
+
+
 export const IS_DEV_ENV = process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true";
 export const CHAIN_ID = IS_DEV_ENV ? 11155111 : 1;
 
