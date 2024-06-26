@@ -18,6 +18,13 @@ import {
   DEXIE_LINK,
   TIBETSWAP_LINK,
   FARMERVERSE_LINK,
+  TG_DISCORD_LINK,
+  TG_TWITTER_LINK,
+  HOA_LINK,
+  WHOA_9MM_LINK,
+  WHOA_DS_LINK,
+  TANGBEARS_LINK,
+  BASE_TANGBEARS_LINK,
 } from "../utils/constant";
 import { FileThemeContext } from "../system/context/FileThemeContext";
 
@@ -48,10 +55,24 @@ const BottomBar = (props: Props) => {
       heartbreakIcon,
       SettingsIcon,
       ShutdownIcon,
+      TwitterIcon,
+      DiscordIcon,
+      HoaIcon,
+      NinemmIcon,
+      TangbearsIcon,
+      BasebearsIcon,
+      DexscreenerIcon,
+      TGtwitterIcon,
     },
   } = useContext(FileThemeContext);
   const { onCopyText, copied } = useCopyText();
   const list = [
+    {
+      menu: "tanggang",
+      icon: HoaIcon,
+      name: "<u>T</u>ang Gang",
+      haveSub: true,
+    },
     {
       menu: "chia",
       icon: ChiaIcon,
@@ -104,6 +125,7 @@ const BottomBar = (props: Props) => {
       name: "<u>C</u>ontrol Panel",
     },
   ];
+
   const list_chia = [
     {
       menu: "chia",
@@ -158,6 +180,51 @@ const BottomBar = (props: Props) => {
       icon: FarmerIcon,
       name: "<u>F</u>armer Verse",
       link: FARMERVERSE_LINK,
+    },
+  ];
+
+  const list_tanggang = [
+        {
+      menu: "hoa_trade",
+      icon: HoaIcon,
+      name: "<u>H</u>OA on Chia",
+      link: HOA_LINK,
+    },
+        {
+      menu: "hoa_twitter",
+      icon: TGtwitterIcon,
+      name: "TG <u>T</u>witter",
+      link: TG_TWITTER_LINK,
+    },
+    {
+      menu: "hoa_discord",
+      icon: DiscordIcon,
+      name: "TG <u>D</u>iscord",
+      link: TG_DISCORD_LINK,
+    },
+    {
+      menu: "tangbears",
+      icon: TangbearsIcon,
+      name: "<u>T</u>ang Bears",
+      link: TANGBEARS_LINK,
+    },
+    {
+      menu: "hoa_9mm",
+      icon: NinemmIcon,
+      name: "wHOA <u>9</u>mm on Base",
+      link: WHOA_9MM_LINK,
+    },
+    {
+      menu: "hoa_ds",
+      icon: DexscreenerIcon,
+      name: "wHOA <u>D</u>exScreener",
+      link: WHOA_DS_LINK,
+    },
+    {
+      menu: "basetangbears",
+      icon: BasebearsIcon,
+      name: "<u>B</u>ase Tang Bears",
+      link: BASE_TANGBEARS_LINK,
     },
   ];
 
@@ -224,7 +291,8 @@ const BottomBar = (props: Props) => {
              className="absolute bg-[#C1C1C1] w-[240px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white overflow-y-auto max-h-[100.0vh] ml-2"
              style={{
               bottom: list[sidePosition]?.menu === "settings" ? `${36}px` : 
-              (list[sidePosition]?.menu === "chia" ? `${0}px` : "auto"),
+              list[sidePosition]?.menu === "chia" ? `${-4}px` : 
+              (list[sidePosition]?.menu === "tanggang" ? `${70}px` :   "auto"),
 
               left: "100%", // Position it to the right of the parent container
                transform: "translateX(-8px)", // Adjust as needed for alignment
@@ -246,7 +314,20 @@ const BottomBar = (props: Props) => {
           {list[sidePosition]?.menu === "chia" &&
             list_chia.map((item, index) => (
               <PanelListItem
-                key={`panel-list-item-${index}`}
+                key={`chia-panel-list-item-${index}`}
+                onSelected={(selected) => props.setSelected(selected)}
+                onShowSide={(showSide) => handleShowSide(showSide, index)}
+                icon={item.icon}
+                name={item.name}
+                menu={item.menu}
+                link={item.link} // Pass the link prop
+                    />
+            ))}
+
+          {list[sidePosition]?.menu === "tanggang" &&
+            list_tanggang.map((item, index) => (
+              <PanelListItem
+                key={`tanggang-panel-list-item-${index}`}
                 onSelected={(selected) => props.setSelected(selected)}
                 onShowSide={(showSide) => handleShowSide(showSide, index)}
                 icon={item.icon}

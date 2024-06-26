@@ -40,6 +40,12 @@ export interface FileThemeCustomOptions {
   TibetIcon: StaticImageData;
   FarmerIcon: StaticImageData;
   CLinksIcon: StaticImageData;
+  HoaIcon: StaticImageData;
+  NinemmIcon: StaticImageData;
+  TangbearsIcon: StaticImageData;
+  BasebearsIcon: StaticImageData;
+  DexscreenerIcon: StaticImageData;
+  TGtwitterIcon: StaticImageData;
 }
 
 export interface IFileTheme {

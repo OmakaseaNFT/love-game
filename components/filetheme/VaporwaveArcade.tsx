@@ -22,6 +22,12 @@ import TradeIcon from "../../assets/chia-icon.png";
 import DexieIcon from "../../assets/dexie-icon.svg";
 import TibetIcon from "../../assets/tibet-icon.jpg";
 import FarmerIcon from "../../assets/farmer-icon.jpg";
+import HoaIcon from "../../assets/hoa-icon.png";
+import NinemmIcon from "../../assets/9mm-icon.png";
+import TangbearsIcon from "../../assets/tangbears-icon.png";
+import BasebearsIcon from "../../assets/basebears-icon.png";
+import DexscreenerIcon from "../../assets/dexscreener-icon.png";
+import TGtwitterIcon from "../../assets/tgtwitter-icon.png";
 
 const themeMap : Partial<FileThemeCustomOptions> = {
     name: 'Vaporwave Arcade',
@@ -43,6 +49,12 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     DexieIcon, 
     TibetIcon, 
     FarmerIcon,
+    HoaIcon,
+    NinemmIcon,
+    TangbearsIcon,
+    BasebearsIcon,
+    DexscreenerIcon,
+    TGtwitterIcon,
     SettingsIcon,
     ShutdownIcon,
     startLoveIcon: '/assets/skins/vaporwave-arcade/startLove.png',
@@ -53,6 +65,7 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     TwitterIcon: '/assets/skins/vaporwave-arcade/logo_twitter.png',
     DiscordIcon: '/assets/skins/vaporwave-arcade/logo_discord.png',
     heartbreakIcon: '/assets/skins/vaporwave-arcade/heartbreak.png',
+
     heartbreakActiveButton: ActiveButton,
     heartbreakExitButton: ExitButton,
     heartbreakDeadButton: DeadButton,

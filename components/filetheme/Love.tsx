@@ -22,8 +22,12 @@ import TradeIcon from "../../assets/chia-icon.png";
 import DexieIcon from "../../assets/dexie-icon.svg";
 import TibetIcon from "../../assets/tibet-icon.jpg";
 import FarmerIcon from "../../assets/farmer-icon.jpg";
-
-
+import HoaIcon from "../../assets/hoa-icon.png";
+import NinemmIcon from "../../assets/9mm-icon.png";
+import TangbearsIcon from "../../assets/tangbears-icon.png";
+import BasebearsIcon from "../../assets/basebears-icon.png";
+import DexscreenerIcon from "../../assets/dexscreener-icon.png";
+import TGtwitterIcon from "../../assets/tgtwitter-icon.png";
 
 import { FileThemeCustomOptions } from '../../system/context/FileThemeContext'
 
@@ -47,6 +51,12 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     TibetIcon, 
     FarmerIcon,
     CLinksIcon,
+    HoaIcon,
+    NinemmIcon,
+    TangbearsIcon,
+    BasebearsIcon,
+    DexscreenerIcon,
+    TGtwitterIcon,
     SettingsIcon,
     ShutdownIcon,
     startLoveIcon: '/assets/startLove.png',
@@ -57,6 +67,7 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     TwitterIcon: '/assets/logo_twitter.png',
     DiscordIcon: '/assets/logo_twitter.png',
     heartbreakIcon: '/assets/start-icon.png',
+    
     heartbreakActiveButton: ActiveButton,
     heartbreakExitButton: ExitButton,
     heartbreakDeadButton: DeadButton,

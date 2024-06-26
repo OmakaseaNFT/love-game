@@ -73,6 +73,20 @@ export const TIBETSWAP_LINK = "https://v2.tibetswap.io"; //"https://v2.tibetswap
 export const FARMERVERSE_LINK = "https://play.farmerverse.space";
 
 
+
+//tang gang links
+export const TG_DISCORD_LINK = "https://discord.gg/vTQHH5Qfbf";
+export const TG_TWITTER_LINK = "https://x.com/bytesandblocks";
+export const HOA_LINK = "https://xch.trade/tokens/?cat=HOA";
+export const WHOA_9MM_LINK = "https://base.9mm.pro/swap?chain=base&outputCurrency=0xee642384091f4bb9ab457b875E4e209b5a0BD147";
+export const WHOA_DS_LINK = "https://dexscreener.com/base/0xfb1ba038e1bc3b614fb38fc266411d38e0e39201";
+export const TANGBEARS_LINK = "https://mintgarden.io/collections/tangbears-on-chia-col1tezjkmzhnry4uhy3xpg0f2n2twdxy6mdrcsfknt5y845wut5jazqlv80yt";
+export const BASE_TANGBEARS_LINK = "https://opensea.io/collection/tangbears-from-chia";
+
+//featured chia collection links
+export const LOVEBEARS_LINK = "https://mintgarden.io/collections/love-bears-col1carm26r7stv647qncwpctcltuy8t277f2qyyum798ln447gex9vq9m86u6";
+export const MOJOCLUB_LINK = "https://mintgarden.io/collections/the-1-mojo-club-col1ls9uy90xygegve5yqurmnj0r733gc8407c70r5e5aepmt76x4tws9zv95l";
+
 export const IS_DEV_ENV = process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true";
 export const CHAIN_ID = IS_DEV_ENV ? 11155111 : 1;
 
