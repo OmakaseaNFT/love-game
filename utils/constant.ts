@@ -69,7 +69,7 @@ export const SPACESCAN_LINK = "https://www.spacescan.io";
 export const MINTGARDEN_LINK = "https://mintgarden.io";
 export const XCHTRADE_LINK = "https://xch.trade";
 export const DEXIE_LINK = "https://dexie.space/markets";
-export const TIBETSWAP_LINK = "https://v2.tibetswap.io/LOVE"; //"https://v2.tibetswap.io";
+export const TIBETSWAP_LINK = "https://v2.tibetswap.io"; //"https://v2.tibetswap.io";
 export const FARMERVERSE_LINK = "https://play.farmerverse.space";
 
 

@@ -225,6 +225,15 @@ const BottomBar = (props: Props) => {
     console.log("No Offset");
     return position;
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setShowSide(false);
+      setSidePosition(null);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   
   return (
     <div className="flex flex-row relative w-[372px] sm:w-[427px]">
@@ -248,11 +257,12 @@ const BottomBar = (props: Props) => {
 
       {showSide && sidePosition !== null && (
        <div
-          className="absolute bg-[#C1C1C1] w-[185px] sm:w-[240px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white overflow-y-auto max-h-[32.5vh]"
-          style={{
-            top: `${calculatePanelPosition()}px`,
-            left: "240px",
-          }}
+       className="absolute bg-[#C1C1C1] w-full max-w-[187px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white overflow-y-auto max-h-[32.5vh]"
+       style={{
+        top: `${calculatePanelPosition()}px`,
+        left: "100%", // Adjusted alignment for mobile devices
+        transform: "translateX(-100%)", // Ensures the panel appears right next to the main menu
+         }}
         >
           {list[sidePosition]?.menu === "settings" &&
             list_cp.map((item, index) => (
