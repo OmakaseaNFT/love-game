@@ -62,6 +62,32 @@ const Win98 = (props: Props) => {
   const useIsomorphicLayoutEffect =
     typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
+    useEffect(() => {
+      const handleResize = () => {
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var propotionWH = 4 / 3;
+        var propotionHW = 3 / 4;
+        var scale = 1;
+        if (w >= 640) {
+          if (w / h >= propotionWH) {
+            scale = h / 600;
+          } else if (h / w >= propotionHW) {
+            scale = w / 800;
+          }
+        }
+        setScale(`scale(${scale})`);
+      };
+  
+      handleResize(); // Initial setup
+  
+      window.addEventListener('resize', handleResize);
+  
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
+    
   useEffect(() => {
     if ((window as any).ethereum) {
       const provider = new ethers.providers.Web3Provider(

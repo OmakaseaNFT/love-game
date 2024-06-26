@@ -28,6 +28,7 @@ interface Props {
 const BottomBar = (props: Props) => {
   const [showSide, setShowSide] = useState<boolean>(false);
   const [sidePosition, setSidePosition] = useState<number | null>(null);
+  //const [menuItemId, setMenuItemId] = useState<string>("");
 
   const {
     files: {
@@ -175,12 +176,12 @@ const BottomBar = (props: Props) => {
     );
   };
 
-  const renderCopyAddressTip = (ca: string, label = "CA:", label2 = TipENS) => {
+  const renderCopyAddressTip = (ca: string, label1 = "CA:", label2 = TipENS) => {
     return (
       <div className="flex flex-row justify-between font-windows hover:text-white hover:bg-[#0A0080] cursor-pointer sm:hidden">
         <div className="flex flex-row items-center w-full">
           <div className="py-1 justify-center items-center w-[68px] flex">
-            {label}
+            {label1}
           </div>
           <div className="text-[22px] truncate" onClick={() => onCopyText(ca)}>
             {copied ? "Copied.........." : label2}
@@ -195,49 +196,10 @@ const BottomBar = (props: Props) => {
     setSidePosition(show ? index : null);
   };
 
-  const calculatePanelPosition = () => {
-    const maxHeight = window.innerHeight;
-    const position = sidePosition !== null ? sidePosition * 36 : 0; // Assuming each item is 36px in height
-    const panelHeight = 36 * list_chia.length; // Adjust as needed
-  
-    // Calculate the current bottom position of the panel
-    const panelBottom = position + panelHeight;
-    
-    // Calculate max bottom position based on the bottom of the screen
-    const maxBottomPosition = maxHeight - window.scrollY; // Adjust based on the current scroll position
-    
-    // Debugging output
-    console.log("sidePosition:", sidePosition);
-    console.log("Position:", position);
-    console.log("Panel Height:", panelHeight);
-    console.log("Panel Bottom:", panelBottom);
-    console.log("Max Bottom Position:", maxBottomPosition);
-    
-    // Check if the panel exceeds the max bottom position
-    if (panelBottom > maxBottomPosition) {
-      // Calculate the negative offset to move the panel up
-      const offset = -(panelBottom - maxBottomPosition);
-      console.log("Offset:", offset);
-      return offset;
-    }
-    
-    // Default: no adjustment needed, return the calculated position
-    console.log("No Offset");
-    return position;
-  };
-
-  useEffect(() => {
-    const handleResize = () => {
-      setShowSide(false);
-      setSidePosition(null);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-  
+ 
   return (
-    <div className="flex flex-row relative w-[372px] sm:w-[427px]">
-      <div className="bg-[#C1C1C1] w-[185px] sm:w-[240px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white">
+    <div  className="flex flex-row relative w-[372px] sm:w-[427px]">
+    <div className="bg-[#C1C1C1] w-[185px] sm:w-[240px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white">
         {renderCopyAddress(contractAddressLove, "LOVE:")}
         {renderCopyAddress(contractAddressWar, "WAR3:")}
         {renderCopyAddressTip(TipAddress, "Tip:", TipENS)}
@@ -251,19 +213,24 @@ const BottomBar = (props: Props) => {
             name={item.name}
             menu={item.menu}
             link={item.link} // Pass the link prop
+   
           />
         ))}
       </div>
 
       {showSide && sidePosition !== null && (
-       <div
-       className="absolute bg-[#C1C1C1] w-full max-w-[187px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white overflow-y-auto max-h-[32.5vh]"
-       style={{
-        top: `${calculatePanelPosition()}px`,
-        left: "100%", // Adjusted alignment for mobile devices
-        transform: "translateX(-100%)", // Ensures the panel appears right next to the main menu
-         }}
-        >
+           <div className="relative">
+           <div
+             className="absolute bg-[#C1C1C1] w-[240px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white overflow-y-auto max-h-[100.0vh] ml-2"
+             style={{
+              bottom: list[sidePosition]?.menu === "settings" ? `${36}px` : 
+              (list[sidePosition]?.menu === "chia" ? `${0}px` : "auto"),
+
+              left: "100%", // Position it to the right of the parent container
+               transform: "translateX(-8px)", // Adjust as needed for alignment
+             }}
+     
+        > 
           {list[sidePosition]?.menu === "settings" &&
             list_cp.map((item, index) => (
               <PanelListItem
@@ -273,8 +240,7 @@ const BottomBar = (props: Props) => {
                 icon={item.icon}
                 name={item.name}
                 menu={item.menu}
-               
-              />
+                  />
             ))}
 
           {list[sidePosition]?.menu === "chia" &&
@@ -287,9 +253,9 @@ const BottomBar = (props: Props) => {
                 name={item.name}
                 menu={item.menu}
                 link={item.link} // Pass the link prop
-                
-              />
+                    />
             ))}
+        </div>
         </div>
       )}
     </div>

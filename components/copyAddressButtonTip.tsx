@@ -14,9 +14,6 @@ export const CopyAddressButtonTip = ({
 }: ICopyAddressButtonProps) => {
   const { onCopyText, copied } = useCopyText();
 
-  // Debug logs
-  console.log('Label:', label);
-  console.log('Label2:', label2);
 
   return (
     <ActiveButton

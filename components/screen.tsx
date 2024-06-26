@@ -39,8 +39,8 @@ const Screen = ({
   onTrigger,
 }: ScreenProps) => {  
   const { files: {PaperIcon, FireIcon, LoveIcon, MglthIcon, BridgeIcon, TwitterIcon, TelegramIcon, DiscordIcon } } = useContext(FileThemeContext)
-  const { address, connector, isConnected } = useAccount();
-  const [hide, setHide] = useState<boolean>(true);
+ // const { address, connector, isConnected } = useAccount();
+  //const [hide, setHide] = useState<boolean>(true);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const iconsLeft = [
     {

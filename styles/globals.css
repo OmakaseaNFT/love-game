@@ -32,8 +32,6 @@
   }
 }
 
-
-
 body {
   font-family: var(--font-family);
   background-color: black;
@@ -51,6 +49,10 @@ input:focus {
   border: 2px solid #ccc;
   border-right: 2px solid #444444;
   border-bottom: 2px solid #444444;
+  width: 90%; /* Adjust the width for responsiveness */
+  max-width: 600px; /* Ensure it doesn't get too wide */
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .crazyAlert .header {

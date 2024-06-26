@@ -37,7 +37,7 @@ export const PanelListItem = ({
       onClick={handleClick}
     >
       <div className="flex flex-row items-center w-full">
-        <div className="py-1 justify-center items-center w-[68px] flex">
+        <div className="py-1 justify-center items-center w-[55px] flex">
           <Image src={icon} width={29} height={29} alt="icon" />
         </div>
         <div className="text-[16px]">

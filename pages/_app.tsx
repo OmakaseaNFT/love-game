@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
@@ -64,6 +65,13 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <FileThemeProvider>
           <TermsAndConditionsWrapper>
+          <Head>
+              <meta charSet="utf-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <title>Love Game</title>
+              <meta name="LOVE" content="Decentralized On Chain Love" />
+              {/* Add more meta tags as needed */}
+            </Head>
             <Component {...pageProps} />
           </TermsAndConditionsWrapper>
         </FileThemeProvider>
