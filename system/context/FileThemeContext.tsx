@@ -4,8 +4,9 @@ import { createContext } from "react";
 
 import VaporwaveArcade from "../../components/filetheme/VaporwaveArcade";
 import Love from "../../components/filetheme/Love";
+import TangGang from "../../components/filetheme/TangGang";
 
-export type FileTheme = "love" | "vaporwave-arcade";
+export type FileTheme = "love" | "vaporwave-arcade" | "tang-gang";
 
 export interface FileThemeCustomOptions {
   name: string;
@@ -62,6 +63,7 @@ export const themeMap: { [key in FileTheme]: Partial<FileThemeCustomOptions> } =
   {
     love: Love,
     "vaporwave-arcade": VaporwaveArcade,
+    "tang-gang": TangGang,
   };
 
 export const FileThemeContext = createContext<IFileTheme>({} as IFileTheme);
@@ -115,8 +117,8 @@ export const FileThemeProvider = ({ children }: { children: any }) => {
         wallpaper,
       }}
     >
-      <div key={fileTheme} className={`${fileTheme === 'love' ? `theme-love` : `theme-vaporwave-arcade`}`}>
-        {children}
+      <div className={fileTheme === 'love' ? 'theme-love' : fileTheme === 'vaporwave-arcade' ? 'theme-vaporwave-arcade' : 'theme-tang-gang'}>
+      {children}
       </div>
     </FileThemeContext.Provider>
   );
