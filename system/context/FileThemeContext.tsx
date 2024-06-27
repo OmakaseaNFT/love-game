@@ -17,6 +17,11 @@ export interface FileThemeCustomOptions {
   PaperIcon: StaticImageData;
   BridgeIcon: StaticImageData;
   MglthIcon: StaticImageData;
+  OmakIcon: StaticImageData;
+  BabiesIcon: StaticImageData;
+  WTIcon: StaticImageData;
+  GooeyIcon: StaticImageData;
+  PokeganIcon: StaticImageData;
   UniswapIcon: StaticImageData;
   WalletIcon: StaticImageData;
   SettingsIcon: StaticImageData;

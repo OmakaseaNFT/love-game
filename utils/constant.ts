@@ -72,9 +72,17 @@ export const DEXIE_LINK = "https://dexie.space/markets";
 export const TIBETSWAP_LINK = "https://v2.tibetswap.io"; //"https://v2.tibetswap.io";
 export const FARMERVERSE_LINK = "https://play.farmerverse.space";
 
+//Omakasea links
 
+export const GOOEYS_LINK = "https://ethgobblers.com";
+export const WELCOME_LINK = "https://omakasea.notion.site/Welcome-to-Omakasea-30a1ff7a8ac34bfbb5d1b2cacb7850fe";
+export const WT_LINK = "https://opensea.io/collection/winged-turtles";
+export const BABIES_LINK = "https://x.com/80sBabiesNFT";
+export const NOTNINTENDO_LINK = "https://x.com/NotNintendoLabs";
 
 //tang gang links
+
+export const TG_WEB_LINK = "https://www.tanggangchia.com";
 export const TG_DISCORD_LINK = "https://discord.gg/vTQHH5Qfbf";
 export const TG_TWITTER_LINK = "https://x.com/bytesandblocks";
 export const HOA_LINK = "https://xch.trade/tokens/?cat=HOA";

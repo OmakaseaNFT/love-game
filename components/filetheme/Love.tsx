@@ -29,6 +29,12 @@ import BasebearsIcon from "../../assets/basebears-icon.png";
 import DexscreenerIcon from "../../assets/dexscreener-icon.png";
 import TGtwitterIcon from "../../assets/tgtwitter-icon.png";
 
+import OmakIcon from "../../assets/omak-icon.png";
+import BabiesIcon from "../../assets/babies-icon.png";
+import WTIcon from "../../assets/wt-icon.png";
+import GooeyIcon from "../../assets/gooey-icon.png";
+import PokeganIcon from "../../assets/pokegan-icon.png";
+
 import { FileThemeCustomOptions } from '../../system/context/FileThemeContext'
 
 const themeMap : Partial<FileThemeCustomOptions> = {
@@ -40,6 +46,11 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     PaperIcon,
     BridgeIcon,
     MglthIcon,
+    OmakIcon,
+    BabiesIcon,
+    WTIcon,
+    GooeyIcon,
+    PokeganIcon,
     UniswapIcon,
     WalletIcon,
     ChiaIcon,

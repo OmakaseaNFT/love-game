@@ -17,6 +17,7 @@ import {
   WAR3_SWAP_LINK,
   DISCORD_LINK,
   BRIDGE_LINK,
+  GOOEYS_LINK,
 } from "../utils/constant";
 
 import { FileThemeContext } from "../system/context/FileThemeContext";
@@ -38,7 +39,7 @@ const Screen = ({
   wallpaper,
   onTrigger,
 }: ScreenProps) => {  
-  const { files: {PaperIcon, FireIcon, LoveIcon, MglthIcon, BridgeIcon, TwitterIcon, TelegramIcon, DiscordIcon } } = useContext(FileThemeContext)
+  const { files: {PaperIcon, FireIcon, LoveIcon, MglthIcon, GooeyIcon, BridgeIcon, TwitterIcon, TelegramIcon, DiscordIcon } } = useContext(FileThemeContext)
  // const { address, connector, isConnected } = useAccount();
   //const [hide, setHide] = useState<boolean>(true);
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -80,6 +81,11 @@ const Screen = ({
       onClick: () => window.open(BRIDGE_LINK, "_blank"),
       icon: BridgeIcon,
       label: "Warp Bridge",
+    },
+    {
+      onClick: () => window.open(GOOEYS_LINK, "_blank"),
+      icon: GooeyIcon,
+      label: "Eth Gobblers",
     },
   ];
 

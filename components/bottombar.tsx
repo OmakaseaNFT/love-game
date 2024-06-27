@@ -25,6 +25,12 @@ import {
   WHOA_DS_LINK,
   TANGBEARS_LINK,
   BASE_TANGBEARS_LINK,
+  GOOEYS_LINK,
+  TG_WEB_LINK,
+  WELCOME_LINK,
+  WT_LINK,
+  BABIES_LINK,
+  NOTNINTENDO_LINK,
 } from "../utils/constant";
 import { FileThemeContext } from "../system/context/FileThemeContext";
 
@@ -43,6 +49,11 @@ const BottomBar = (props: Props) => {
       PaperIcon,
       BridgeIcon,
       MglthIcon,
+      OmakIcon,
+      BabiesIcon,
+      WTIcon,
+      GooeyIcon,
+      PokeganIcon,
       ChiaIcon,
       GobyIcon,
       CLinksIcon,
@@ -70,7 +81,7 @@ const BottomBar = (props: Props) => {
     {
       menu: "tanggang",
       icon: HoaIcon,
-      name: "<u>T</u>ang Gang",
+      name: "<u>T</u>angGang",
       haveSub: true,
     },
     {
@@ -86,9 +97,10 @@ const BottomBar = (props: Props) => {
       link: BRIDGE_LINK,
     },
     {
-      menu: "mglth",
-      icon: MglthIcon,
-      name: "<u>M</u>glth",
+      menu: "omakasea",
+      icon: OmakIcon,
+      name: "<u>O</u>makasea",
+      haveSub: true,
     },
     {
       menu: "farm",
@@ -123,6 +135,45 @@ const BottomBar = (props: Props) => {
       menu: "cp",
       icon: SettingsIcon,
       name: "<u>C</u>ontrol Panel",
+    },
+  ];
+
+
+  const list_omak = [
+    {
+      menu: "omakaseaweb",
+      icon: OmakIcon,
+      name: "<u>O</u>makasea",
+      link: WELCOME_LINK,
+    },
+        {
+      menu: "gooeys",
+      icon: GooeyIcon,
+      name: "Eth <u>G</u>obblers",
+      link: GOOEYS_LINK,
+    },
+    {
+      menu: "mglth",
+      icon: MglthIcon,
+      name: "<u>M</u>glth",
+    },
+    {
+      menu: "notnintendo",
+      icon: PokeganIcon,
+      name: "<u>N</u>ot Nintendo",
+      link: NOTNINTENDO_LINK,
+    },
+    {
+      menu: "turtles",
+      icon: WTIcon,
+      name: "<u>W</u>inged Turtles",
+      link: WT_LINK,
+    },
+    {
+      menu: "babies",
+      icon: BabiesIcon,
+      name: "80's <u>B</u>abies",
+      link: BABIES_LINK,
     },
   ];
 
@@ -184,6 +235,12 @@ const BottomBar = (props: Props) => {
   ];
 
   const list_tanggang = [
+    {
+      menu: "tg_web",
+      icon: HoaIcon,
+      name: "<u>T</u>ang Gang",
+      link: TG_WEB_LINK,
+    },
         {
       menu: "hoa_trade",
       icon: HoaIcon,
@@ -235,7 +292,7 @@ const BottomBar = (props: Props) => {
           <div className="py-1 justify-center items-center w-[68px] flex">
             {label}
           </div>
-          <div className="text-[22px] truncate" onClick={() => onCopyText(ca)}>
+          <div className="text-[18px] truncate" onClick={() => onCopyText(ca)}>
             {copied ? "Copied.........." : truncateEthAddress(ca)}
           </div>
         </div>
@@ -250,7 +307,7 @@ const BottomBar = (props: Props) => {
           <div className="py-1 justify-center items-center w-[68px] flex">
             {label1}
           </div>
-          <div className="text-[22px] truncate" onClick={() => onCopyText(ca)}>
+          <div className="text-[18px] truncate" onClick={() => onCopyText(ca)}>
             {copied ? "Copied.........." : label2}
           </div>
         </div>
@@ -290,9 +347,10 @@ const BottomBar = (props: Props) => {
            <div
              className="absolute bg-[#C1C1C1] w-[240px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white overflow-y-auto max-h-[100.0vh] ml-2"
              style={{
-              bottom: list[sidePosition]?.menu === "settings" ? `${36}px` : 
-              list[sidePosition]?.menu === "chia" ? `${-4}px` : 
-              (list[sidePosition]?.menu === "tanggang" ? `${70}px` :   "auto"),
+              bottom: list[sidePosition]?.menu === "settings" ? `${34}px` : 
+              list[sidePosition]?.menu === "omakasea" ? `${6}px` : 
+              list[sidePosition]?.menu === "chia" ? `${3}px` : 
+              (list[sidePosition]?.menu === "tanggang" ? `${36}px` :   "auto"),
 
               left: "100%", // Position it to the right of the parent container
                transform: "translateX(-8px)", // Adjust as needed for alignment
@@ -309,6 +367,19 @@ const BottomBar = (props: Props) => {
                 name={item.name}
                 menu={item.menu}
                   />
+            ))}
+
+          {list[sidePosition]?.menu === "omakasea" &&
+            list_omak.map((item, index) => (
+              <PanelListItem
+                key={`omakasea-panel-list-item-${index}`}
+                onSelected={(selected) => props.setSelected(selected)}
+                onShowSide={(showSide) => handleShowSide(showSide, index)}
+                icon={item.icon}
+                name={item.name}
+                menu={item.menu}
+                link={item.link} // Pass the link prop
+                    />
             ))}
 
           {list[sidePosition]?.menu === "chia" &&
