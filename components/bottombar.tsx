@@ -31,6 +31,16 @@ import {
   WT_LINK,
   BABIES_LINK,
   NOTNINTENDO_LINK,
+  SPEECHLESS_X_LINK,
+  LOVEBEARS_LINK,
+  AWIZARD_X_LINK,
+  NEMO_X_LINK,
+  NEMO_FISH_LINK,
+  NEMO_RINOS_LINK,
+  DBC_X_LINK,
+  DBC_MOJO_LINK,
+  PAIN_X_LINK,
+  PAIN_F_LINK,
 } from "../utils/constant";
 import { FileThemeContext } from "../system/context/FileThemeContext";
 
@@ -41,6 +51,11 @@ interface Props {
 const BottomBar = (props: Props) => {
   const [showSide, setShowSide] = useState<boolean>(false);
   const [sidePosition, setSidePosition] = useState<number | null>(null);
+
+  const [showSide2, setShowSide2] = useState<boolean>(false);
+const [sidePosition2, setSidePosition2] = useState<number | null>(null);
+
+
   //const [menuItemId, setMenuItemId] = useState<string>("");
 
   const {
@@ -48,6 +63,7 @@ const BottomBar = (props: Props) => {
       FarmIcon,
       PaperIcon,
       BridgeIcon,
+      HeartBridgeIcon,
       MglthIcon,
       OmakIcon,
       BabiesIcon,
@@ -74,14 +90,29 @@ const BottomBar = (props: Props) => {
       BasebearsIcon,
       DexscreenerIcon,
       TGtwitterIcon,
+      ArtIcon,
+      SpeechlessIcon,
+      DBCIcon,
+      PainIcon,
+      NemoIcon,
+      NemoRinoIcon,
+      LoveBearIcon,
+      aWizardIcon,
     },
   } = useContext(FileThemeContext);
   const { onCopyText, copied } = useCopyText();
   const list = [
     {
+      menu: "featured",
+      icon: ArtIcon,
+      name: "<u>F</u>eatured",
+      haveSub: true,
+    },
+    {
       menu: "tanggang",
       icon: HoaIcon,
       name: "<u>T</u>angGang",
+      link: TG_WEB_LINK,
       haveSub: true,
     },
     {
@@ -91,16 +122,17 @@ const BottomBar = (props: Props) => {
       haveSub: true,
     },
     {
-      menu: "bridge",
-      icon: BridgeIcon,
-      name: "Warp<u>B</u>ridge",
-      link: BRIDGE_LINK,
-    },
-    {
       menu: "omakasea",
       icon: OmakIcon,
       name: "<u>O</u>makasea",
+      link: WELCOME_LINK,
       haveSub: true,
+    },
+    {
+      menu: "bridge",
+      icon: HeartBridgeIcon,
+      name: "Warp<u>B</u>ridge",
+      link: BRIDGE_LINK,
     },
     {
       menu: "farm",
@@ -140,12 +172,6 @@ const BottomBar = (props: Props) => {
 
 
   const list_omak = [
-    {
-      menu: "omakaseaweb",
-      icon: OmakIcon,
-      name: "<u>O</u>makasea",
-      link: WELCOME_LINK,
-    },
         {
       menu: "gooeys",
       icon: GooeyIcon,
@@ -236,12 +262,6 @@ const BottomBar = (props: Props) => {
 
   const list_tanggang = [
     {
-      menu: "tg_web",
-      icon: HoaIcon,
-      name: "<u>T</u>ang Gang",
-      link: TG_WEB_LINK,
-    },
-        {
       menu: "hoa_trade",
       icon: HoaIcon,
       name: "<u>H</u>OA on Chia",
@@ -285,6 +305,86 @@ const BottomBar = (props: Props) => {
     },
   ];
 
+  const list_featured = [
+    {
+      menu: "nemo",
+      icon: NemoIcon,
+      name: "<u>N</u>emo",
+      link: NEMO_X_LINK,
+      haveSub: true, // Ensure this is set to true
+    },
+        {
+      menu: "pain",
+      icon: PainIcon,
+      name: "<u>P</u>ain",
+      link: PAIN_X_LINK,
+      haveSub: true, // Ensure this is set to true
+    },
+    {
+      menu: "dbc",
+      icon: DBCIcon,
+      name: "<u>D</u>BC",
+      link: DBC_X_LINK,
+      haveSub: true, // Ensure this is set to true
+    },
+    {
+      menu: "speechless",
+      icon: SpeechlessIcon,
+      name: "<u>S</u>peechless",
+      link: SPEECHLESS_X_LINK,
+      haveSub: true, // Ensure this is set to true
+    },
+  ];
+
+  const list_nemo = [
+    {
+      menu: "nmint",
+      icon: NemoIcon,
+      name: "<u>M</u>int",
+      link: NEMO_FISH_LINK,
+    },
+    {
+      menu: "nrinos",
+      icon: NemoRinoIcon,
+      name: "<u>R</u>inos",
+      link: NEMO_RINOS_LINK,
+    },
+  ];
+
+  const list_pain = [
+    {
+      menu: "pfoundation",
+      icon: PainIcon,
+      name: "<u>F</u>oundation",
+      link: PAIN_F_LINK,
+    },
+  ];
+
+  const list_dbc = [
+    {
+      menu: "dgarden",
+      icon: DBCIcon,
+      name: "<u>M</u>ojo",
+      link: DBC_MOJO_LINK,
+    },
+  ];
+
+  const list_speechless = [
+    {
+      menu: "lovebear",
+      icon: LoveBearIcon,
+      name: "<u>L</u>oveBears",
+      link: LOVEBEARS_LINK,
+    },
+    {
+      menu: "awizx",
+      icon: aWizardIcon,
+      name: "a<u>W</u>izard",
+      link: AWIZARD_X_LINK,
+    },
+  ];
+
+
   const renderCopyAddress = (ca: string, label = "CA:") => {
     return (
       <div className="flex flex-row justify-between font-windows hover:text-white hover:bg-[#0A0080] cursor-pointer sm:hidden">
@@ -318,15 +418,26 @@ const BottomBar = (props: Props) => {
   const handleShowSide = (show: boolean, index: number) => {
     setShowSide(show);
     setSidePosition(show ? index : null);
+    setShowSide2(false);
   };
+  const handleShowSide2 = (show: boolean, index: number) => {
+    setShowSide2(show);
+    setSidePosition2(show ? index : null);
+  };
+  
 
- 
+  
   return (
-    <div  className="flex flex-row relative w-[372px] sm:w-[427px]">
-    <div className="bg-[#C1C1C1] w-[185px] sm:w-[240px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white">
+    //<div className="bottom-bar-container">
+    //</div><div className="start-menu-container">
+      
+    <div  className="flex flex-row relative w-[405px] sm:w-[460px]">
+      <div className="bg-[#C1C1C1] w-[185px] sm:w-[240px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white">
         {renderCopyAddress(contractAddressLove, "LOVE:")}
         {renderCopyAddress(contractAddressWar, "WAR3:")}
         {renderCopyAddressTip(TipAddress, "Tip:", TipENS)}
+
+        <div className="start-menu-list">
         {list.map((item, index) => (
           <StartMenuListItem
             key={`start-menu-list-item-${index}`}
@@ -341,22 +452,24 @@ const BottomBar = (props: Props) => {
           />
         ))}
       </div>
-
+      </div>
       {showSide && sidePosition !== null && (
-           <div className="relative">
+          <div className="relative">
            <div
-             className="absolute bg-[#C1C1C1] w-[240px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white overflow-y-auto max-h-[100.0vh] ml-2"
+             className="absolute bg-[#C1C1C1] w-[220px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white overflow-y-auto max-h-[100.0vh] ml-2"
              style={{
               bottom: list[sidePosition]?.menu === "settings" ? `${34}px` : 
-              list[sidePosition]?.menu === "omakasea" ? `${6}px` : 
+              list[sidePosition]?.menu === "omakasea" ? `${71}px` : 
               list[sidePosition]?.menu === "chia" ? `${3}px` : 
-              (list[sidePosition]?.menu === "tanggang" ? `${36}px` :   "auto"),
+              list[sidePosition]?.menu === "featured" ? `${198}px` :
+              (list[sidePosition]?.menu === "tanggang" ? `${68}px` :   "auto"),
 
-              left: "100%", // Position it to the right of the parent container
+              left: "56%", // Position it to the right of the parent container
                transform: "translateX(-8px)", // Adjust as needed for alignment
              }}
      
         > 
+        
           {list[sidePosition]?.menu === "settings" &&
             list_cp.map((item, index) => (
               <PanelListItem
@@ -407,11 +520,97 @@ const BottomBar = (props: Props) => {
                 link={item.link} // Pass the link prop
                     />
             ))}
+          {list[sidePosition]?.menu === "featured" &&
+              list_featured.map((item, index) => (
+                <PanelListItem
+                  key={`artist-panel-list-item-${index}`}
+                  haveSub={item.haveSub}
+                  onSelected={(selected) => props.setSelected(selected)}
+                  //onShowSide={(showSide) => handleShowSide(showSide, index)}
+                  icon={item.icon}
+                  name={item.name}
+                  menu={item.menu}
+                  link={item.link} // Pass the link prop
+                  onShowSide={(showSide) => handleShowSide2(showSide, index)}
+                 // onSelected={(selected) => props.setSelected(selected)}
+                      />
+              ))}
         </div>
         </div>
-      )}
+        )}
+        {showSide2 && sidePosition2 !== null && (
+          <div className="sub-menu">
+            <div
+              className="absolute bg-[#C1C1C1] w-[160px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white overflow-y-auto max-h-[100.0vh] ml-2"
+              style={{
+                bottom: list_featured[sidePosition2]?.menu === "pain" ? `${266}px` :
+                list_featured[sidePosition2]?.menu === "dbc" ? `${232}px` :
+                list_featured[sidePosition2]?.menu === "speechless" ? `${165}px` :
+                list_featured[sidePosition2]?.menu === "nemo" ? `${268}px` : "auto",
+                left: "100%", // Position it to the right of the parent container
+                transform: "translateX(-8px)", // Adjust as needed for alignment
+              }}
+            >
+              {list_featured[sidePosition2]?.menu === "nemo" &&
+                list_nemo.map((item, index) => (
+                  <PanelListItem
+                    key={`nemo-panel-list-item-${index}`}
+                    onSelected={(selected) => props.setSelected(selected)}
+                    onShowSide={(showSide) => handleShowSide2(showSide, index)}
+                    icon={item.icon}
+                    name={item.name}
+                    menu={item.menu}
+                    link={item.link} // Pass the link prop
+                  />
+                ))}
+              {list_featured[sidePosition2]?.menu === "pain" &&
+                list_pain.map((item, index) => (
+                  <PanelListItem
+                    key={`pain-panel-list-item-${index}`}
+                    onSelected={(selected) => props.setSelected(selected)}
+                    onShowSide={(showSide) => handleShowSide2(showSide, index)}
+                    icon={item.icon}
+                    name={item.name}
+                    menu={item.menu}
+                    link={item.link} // Pass the link prop
+                  />
+                ))}
+
+              {list_featured[sidePosition2]?.menu === "dbc" &&
+                list_dbc.map((item, index) => (
+                  <PanelListItem
+                    key={`dbc-panel-list-item-${index}`}
+                    onSelected={(selected) => props.setSelected(selected)}
+                    onShowSide={(showSide) => handleShowSide2(showSide, index)}
+                    icon={item.icon}
+                    name={item.name}
+                    menu={item.menu}
+                    link={item.link} // Pass the link prop
+                  />
+                ))}
+
+              {list_featured[sidePosition2]?.menu === "speechless" &&
+                list_speechless.map((item, index) => (
+                  <PanelListItem
+                    key={`speechless-panel-list-item-${index}`}
+                    onSelected={(selected) => props.setSelected(selected)}
+                    onShowSide={(showSide) => handleShowSide2(showSide, index)}
+                    icon={item.icon}
+                    name={item.name}
+                    menu={item.menu}
+                    link={item.link} // Pass the link prop
+                  />
+                ))}
+              </div>
+            </div>
+            )}
+
+        
+      
     </div>
+    
   );
 };
 
 export default BottomBar;
+

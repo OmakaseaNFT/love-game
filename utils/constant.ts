@@ -91,9 +91,26 @@ export const WHOA_DS_LINK = "https://dexscreener.com/base/0xfb1ba038e1bc3b614fb3
 export const TANGBEARS_LINK = "https://mintgarden.io/collections/tangbears-on-chia-col1tezjkmzhnry4uhy3xpg0f2n2twdxy6mdrcsfknt5y845wut5jazqlv80yt";
 export const BASE_TANGBEARS_LINK = "https://opensea.io/collection/tangbears-from-chia";
 
-//featured chia collection links
+//featured collection links
+
+
+
+
+export const PAIN_X_LINK = "https://x.com/poweredbypain";
+export const PAIN_F_LINK = "https://foundation.app/@poweredbypain";
+
+export const DBC_X_LINK = "https://x.com/dbc___";
+export const DBC_MOJO_LINK = "https://mintgarden.io/collections/col1ls9uy90xygegve5yqurmnj0r733gc8407c70r5e5aepmt76x4tws9zv95l?tab=items";
+
+
+export const NEMO_X_LINK = "https://x.com/cryptofish__";
+export const NEMO_FISH_LINK = "https://cryptofish.us/mint";
+export const NEMO_RINOS_LINK = "https://x.com/tinyrinos";
+
+export const SPEECHLESS_X_LINK = "https://x.com/SpeechlessZi";
 export const LOVEBEARS_LINK = "https://mintgarden.io/collections/love-bears-col1carm26r7stv647qncwpctcltuy8t277f2qyyum798ln447gex9vq9m86u6";
-export const MOJOCLUB_LINK = "https://mintgarden.io/collections/the-1-mojo-club-col1ls9uy90xygegve5yqurmnj0r733gc8407c70r5e5aepmt76x4tws9zv95l";
+export const AWIZARD_X_LINK = "https://x.com/aWizardeth";
+
 
 export const IS_DEV_ENV = process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true";
 export const CHAIN_ID = IS_DEV_ENV ? 11155111 : 1;

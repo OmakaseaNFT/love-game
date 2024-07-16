@@ -12,6 +12,7 @@ import DeadButton from "../../assets/skins/vaporwave-arcade/dead-game-button.png
 import ExitButton from "../../assets/skins/vaporwave-arcade/exit-button.png";
 import ActiveButton from "../../assets/skins/vaporwave-arcade/active-game-button.png";
 import BridgeIcon from "../../assets/bridge-icon.png";
+import HeartBridgeIcon from "../../assets/heart-bridge-icon.png";
 import MglthIcon from "../../assets/mglth-icon.png";
 import ChiaIcon from "../../assets/chia-icon.png";
 import GobyIcon from "../../assets/goby-icon.png";
@@ -28,11 +29,22 @@ import TangbearsIcon from "../../assets/tangbears-icon.png";
 import BasebearsIcon from "../../assets/basebears-icon.png";
 import DexscreenerIcon from "../../assets/dexscreener-icon.png";
 import TGtwitterIcon from "../../assets/tgtwitter-icon.png";
+
 import OmakIcon from "../../assets/omak-icon.png";
 import BabiesIcon from "../../assets/babies-icon.png";
 import WTIcon from "../../assets/wt-icon.png";
 import GooeyIcon from "../../assets/gooey-icon.png";
 import PokeganIcon from "../../assets/pokegan-icon.png";
+
+import ArtIcon from "../../assets/art-icon.png";
+import NemoIcon from "../../assets/nemo-icon.png";
+import NemoRinoIcon from "../../assets/nemo-rino-icon.png";
+
+import PainIcon from "../../assets/pain-icon.png";
+import DBCIcon from "../../assets/dbc-icon.png";
+import SpeechlessIcon from "../../assets/speechless-icon.png";
+import LoveBearIcon from "../../assets/love-bear-icon.png";
+import aWizardIcon from "../../assets/awizard-icon.png";
 
 const themeMap : Partial<FileThemeCustomOptions> = {
     name: 'Vaporwave Arcade',
@@ -44,6 +56,7 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     UniswapIcon,
     WalletIcon,
     BridgeIcon,
+    HeartBridgeIcon,
     MglthIcon,
     OmakIcon,
     BabiesIcon,
@@ -67,6 +80,16 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     TGtwitterIcon,
     SettingsIcon,
     ShutdownIcon,
+
+    ArtIcon,
+    NemoIcon,
+    NemoRinoIcon,
+    PainIcon,
+    DBCIcon,
+    SpeechlessIcon,
+    LoveBearIcon,
+    aWizardIcon,
+
     startLoveIcon: '/assets/skins/vaporwave-arcade/startLove.png',
     startIcon: '/assets/skins/vaporwave-arcade/start-icon.gif',
     closeIcon: '/assets/skins/vaporwave-arcade/close.png',

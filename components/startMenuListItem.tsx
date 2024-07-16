@@ -33,7 +33,7 @@ export const StartMenuListItem = ({
     <div
       className={`flex flex-row justify-between font-windows hover:text-white hover:bg-[#0A0080] cursor-pointer`}
       onMouseEnter={() => haveSub && onShowSide(true)}
-      onMouseLeave={() => !haveSub && onShowSide(false)}
+      //onMouseLeave={() => !haveSub && onShowSide(false)}
       onClick={handleClick}
     >
       <div className="flex flex-row items-center w-full">

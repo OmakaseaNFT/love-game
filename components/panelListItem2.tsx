@@ -1,36 +1,34 @@
 import Image from "next/image";
 import { MdArrowRight } from "react-icons/md";
 
-interface IPanelListItemProps {
-  haveSub?: boolean; // Make haveSub optional
+
+interface IPanelListItemProps2 {
+  haveSub?: boolean;
   onSelected: (selected: string) => void;
-  onShowSide: (showSide: boolean) => void;
-  icon: any;
+  onShowSide?: (show: boolean) => void;
+  onShowSide2?: (show: boolean) => void; // Add this prop
+  icon: string;
   name: string;
   menu: string;
   link?: string;
-  onShowSide2?: (showSide2: boolean) => void; // Add this prop
-
 }
 
-export const PanelListItem = ({
-  haveSub,
-  onShowSide,
+const PanelListItem2 = ({
+  haveSub = false,
   onSelected,
+  onShowSide,
   onShowSide2, // Add this prop
   icon,
   name,
   menu,
   link,
-}: IPanelListItemProps) => {
+}: IPanelListItemProps2) => {
   const handleClick = () => {
     if (link) {
-      window.open(link, "_blank"); // Open the provided link in a new tab
+      window.open(link, "_blank");
     } else if (!haveSub) {
-      onSelected(menu); // Select the menu item if no link and no submenu
-      
+      onSelected(menu);
     }
-    // If haveSub is true, you might want to handle another logic here
   };
 
   return (
@@ -42,7 +40,6 @@ export const PanelListItem = ({
           onShowSide2?.(true); // Show second-level menu
         }
       }}
-      // onMouseLeave={() => !haveSub && onShowSide(false)} // Unnecessary comment
       onClick={handleClick}
     >
       <div className="flex flex-row items-center w-full">
@@ -60,4 +57,4 @@ export const PanelListItem = ({
   );
 };
 
-export default PanelListItem;
+export { PanelListItem2 };

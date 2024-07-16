@@ -16,6 +16,7 @@ export interface FileThemeCustomOptions {
   FireIcon: StaticImageData;
   PaperIcon: StaticImageData;
   BridgeIcon: StaticImageData;
+  HeartBridgeIcon: StaticImageData;
   MglthIcon: StaticImageData;
   OmakIcon: StaticImageData;
   BabiesIcon: StaticImageData;
@@ -52,6 +53,16 @@ export interface FileThemeCustomOptions {
   BasebearsIcon: StaticImageData;
   DexscreenerIcon: StaticImageData;
   TGtwitterIcon: StaticImageData;
+
+  ArtIcon: StaticImageData;
+  SpeechlessIcon: StaticImageData;
+  LoveBearIcon: StaticImageData;
+  aWizardIcon: StaticImageData;
+
+  DBCIcon: StaticImageData;
+  PainIcon: StaticImageData;
+  NemoIcon: StaticImageData;
+  NemoRinoIcon: StaticImageData;
 }
 
 export interface IFileTheme {

@@ -39,7 +39,7 @@ const Screen = ({
   wallpaper,
   onTrigger,
 }: ScreenProps) => {  
-  const { files: {PaperIcon, FireIcon, LoveIcon, MglthIcon, GooeyIcon, BridgeIcon, TwitterIcon, TelegramIcon, DiscordIcon } } = useContext(FileThemeContext)
+  const { files: {PaperIcon, FireIcon, LoveIcon, MglthIcon, GooeyIcon, BridgeIcon, HeartBridgeIcon, TwitterIcon, TelegramIcon, DiscordIcon } } = useContext(FileThemeContext)
  // const { address, connector, isConnected } = useAccount();
   //const [hide, setHide] = useState<boolean>(true);
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -79,7 +79,7 @@ const Screen = ({
     },
     {
       onClick: () => window.open(BRIDGE_LINK, "_blank"),
-      icon: BridgeIcon,
+      icon: HeartBridgeIcon,
       label: "Warp Bridge",
     },
     {

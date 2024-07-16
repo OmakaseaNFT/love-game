@@ -12,6 +12,7 @@ import DeadButton from "../../assets/dead-game-button.png";
 import ExitButton from "../../assets/exit-button.png";
 import ActiveButton from "../../assets/active-game-button.png";
 import BridgeIcon from "../../assets/bridge-icon.png";
+import HeartBridgeIcon from "../../assets/heart-bridge-icon.png";
 import MglthIcon from "../../assets/mglth-icon.png";
 import ChiaIcon from "../../assets/chia-icon.png";
 import GobyIcon from "../../assets/goby-icon.png";
@@ -35,6 +36,16 @@ import WTIcon from "../../assets/wt-icon.png";
 import GooeyIcon from "../../assets/gooey-icon.png";
 import PokeganIcon from "../../assets/pokegan-icon.png";
 
+import ArtIcon from "../../assets/art-icon.png";
+import NemoIcon from "../../assets/nemo-icon.png";
+import NemoRinoIcon from "../../assets/nemo-rino-icon.png";
+
+import PainIcon from "../../assets/pain-icon.png";
+import DBCIcon from "../../assets/dbc-icon.png";
+import SpeechlessIcon from "../../assets/speechless-icon.png";
+import LoveBearIcon from "../../assets/love-bear-icon.png";
+import aWizardIcon from "../../assets/awizard-icon.png";
+
 import { FileThemeCustomOptions } from '../../system/context/FileThemeContext'
 
 const themeMap : Partial<FileThemeCustomOptions> = {
@@ -45,6 +56,7 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     FarmIcon,
     PaperIcon,
     BridgeIcon,
+    HeartBridgeIcon,
     MglthIcon,
     OmakIcon,
     BabiesIcon,
@@ -70,6 +82,16 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     TGtwitterIcon,
     SettingsIcon,
     ShutdownIcon,
+
+    ArtIcon,
+    NemoIcon,
+    NemoRinoIcon,
+    PainIcon,
+    DBCIcon,
+    SpeechlessIcon,
+    LoveBearIcon,
+    aWizardIcon,
+
     startLoveIcon: '/assets/startLove.png',
     startIcon: '/assets/start-icon.png',
     closeIcon: "/assets/win98Close.png",
