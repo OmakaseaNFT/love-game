@@ -63,6 +63,8 @@ export interface FileThemeCustomOptions {
   PainIcon: StaticImageData;
   NemoIcon: StaticImageData;
   NemoRinoIcon: StaticImageData;
+
+ VoteIcon: StaticImageData;
 }
 
 export interface IFileTheme {

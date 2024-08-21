@@ -18,6 +18,7 @@ import {
   DISCORD_LINK,
   BRIDGE_LINK,
   GOOEYS_LINK,
+  VOTE_LINK,
 } from "../utils/constant";
 
 import { FileThemeContext } from "../system/context/FileThemeContext";
@@ -39,7 +40,7 @@ const Screen = ({
   wallpaper,
   onTrigger,
 }: ScreenProps) => {  
-  const { files: {PaperIcon, FireIcon, LoveIcon, MglthIcon, GooeyIcon, BridgeIcon, HeartBridgeIcon, TwitterIcon, TelegramIcon, DiscordIcon } } = useContext(FileThemeContext)
+  const { files: {PaperIcon, FireIcon, LoveIcon, MglthIcon, GooeyIcon, BridgeIcon, HeartBridgeIcon, TwitterIcon, TelegramIcon, DiscordIcon, VoteIcon } } = useContext(FileThemeContext)
  // const { address, connector, isConnected } = useAccount();
   //const [hide, setHide] = useState<boolean>(true);
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -83,6 +84,11 @@ const Screen = ({
       label: "Warp Bridge",
     },
     {
+      onClick: () => window.open(VOTE_LINK, "_blank"),
+      icon: VoteIcon,
+      label: "VOTE",
+    },
+            {
       onClick: () => window.open(GOOEYS_LINK, "_blank"),
       icon: GooeyIcon,
       label: "Eth Gobblers",

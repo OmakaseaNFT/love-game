@@ -35,6 +35,8 @@ export const contractAddressSpx: string =
   "0xE0f63A424a4439cBE457D80E4f4b51aD25b2c56C";
 export const contractAddressBITCOIN: string =
   "0x72e4f9F808C49A2a61dE9C5896298920Dc4EEEa9";
+export const contractAddressUSA: string =
+  "0x806556cf7E17CFC743B003645429e92F4707312F";
 
 export const TipAddress: string =
   "0xc14402bd424Ac35E296F4577C8F19c9A73C6e452";
@@ -61,6 +63,8 @@ export const WAR3_TWITTER_LINK = "https://twitter.com/webwar3";
 export const DISCORD_LINK = "https://discord.gg/loveethereum";
 export const BRIDGE_LINK = "https://warp.jono.tech/bridge";
 
+export const VOTE_LINK = "https://snapshot.org/#/love.awizard.eth";
+
 //chia links
 export const CHIA_LINK = "https://www.chia.net/downloads/";
 export const GOBY_LINK = "https://www.goby.app";
@@ -78,7 +82,7 @@ export const GOOEYS_LINK = "https://ethgobblers.com";
 export const WELCOME_LINK = "https://omakasea.notion.site/Welcome-to-Omakasea-30a1ff7a8ac34bfbb5d1b2cacb7850fe";
 export const WT_LINK = "https://opensea.io/collection/winged-turtles";
 export const BABIES_LINK = "https://x.com/80sBabiesNFT";
-export const NOTNINTENDO_LINK = "https://x.com/NotNintendoLabs";
+export const NOTNINTENDO_LINK = "https://notnintendo.omakasea.com/learn";
 
 //tang gang links
 
@@ -92,16 +96,11 @@ export const TANGBEARS_LINK = "https://mintgarden.io/collections/tangbears-on-ch
 export const BASE_TANGBEARS_LINK = "https://opensea.io/collection/tangbears-from-chia";
 
 //featured collection links
-
-
-
-
 export const PAIN_X_LINK = "https://x.com/poweredbypain";
 export const PAIN_F_LINK = "https://foundation.app/@poweredbypain";
 
 export const DBC_X_LINK = "https://x.com/dbc___";
 export const DBC_MOJO_LINK = "https://mintgarden.io/collections/col1ls9uy90xygegve5yqurmnj0r733gc8407c70r5e5aepmt76x4tws9zv95l?tab=items";
-
 
 export const NEMO_X_LINK = "https://x.com/cryptofish__";
 export const NEMO_FISH_LINK = "https://cryptofish.us/mint";
@@ -182,6 +181,12 @@ export const LOVE_POOLS = [
     name: "LOVE-BITCOIN",
     icon: "/assets/love_harrypotterobamasonic10inu.svg",
     token: contractAddressBITCOIN,
+    baseAsset: contractAddressLove,
+  },
+  {
+    name: "LOVE-USA",
+    icon: "/assets/love_usa.svg",
+    token: contractAddressUSA,
     baseAsset: contractAddressLove,
   },
 ];
