@@ -46,6 +46,8 @@ import SpeechlessIcon from "../../assets/speechless-icon.png";
 import LoveBearIcon from "../../assets/love-bear-icon.png";
 import aWizardIcon from "../../assets/awizard-icon.png";
 
+import VoteIcon from "../../assets/vote-icon.png";
+
 import { FileThemeCustomOptions } from '../../system/context/FileThemeContext'
 
 const themeMap : Partial<FileThemeCustomOptions> = {
@@ -91,6 +93,8 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     SpeechlessIcon,
     LoveBearIcon,
     aWizardIcon,
+
+    VoteIcon,
 
     startLoveIcon: '/assets/startLove.png',
     startIcon: '/assets/start-icon.png',

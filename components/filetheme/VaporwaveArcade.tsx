@@ -46,6 +46,8 @@ import SpeechlessIcon from "../../assets/speechless-icon.png";
 import LoveBearIcon from "../../assets/love-bear-icon.png";
 import aWizardIcon from "../../assets/awizard-icon.png";
 
+import VoteIcon from "../../assets/vote-icon.png";
+
 const themeMap : Partial<FileThemeCustomOptions> = {
     name: 'Vaporwave Arcade',
     EtherscanIcon,
@@ -90,10 +92,12 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     LoveBearIcon,
     aWizardIcon,
 
+    VoteIcon,
+
     startLoveIcon: '/assets/skins/vaporwave-arcade/startLove.png',
     startIcon: '/assets/skins/vaporwave-arcade/start-icon.gif',
     closeIcon: '/assets/skins/vaporwave-arcade/close.png',
-    background: '/assets/skins/vaporwave-arcade/background.gif',
+    background: '/assets/skins/vaporwave-arcade/background.png',
     TelegramIcon: '/assets/skins/vaporwave-arcade/logo_telegram.png',
     TwitterIcon: '/assets/skins/vaporwave-arcade/logo_twitter.png',
     DiscordIcon: '/assets/skins/vaporwave-arcade/logo_discord.png',

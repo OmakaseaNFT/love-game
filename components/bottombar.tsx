@@ -41,6 +41,7 @@ import {
   DBC_MOJO_LINK,
   PAIN_X_LINK,
   PAIN_F_LINK,
+  VOTE_LINK,
 } from "../utils/constant";
 import { FileThemeContext } from "../system/context/FileThemeContext";
 
@@ -98,6 +99,7 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
       NemoRinoIcon,
       LoveBearIcon,
       aWizardIcon,
+      VoteIcon,
     },
   } = useContext(FileThemeContext);
   const { onCopyText, copied } = useCopyText();
@@ -145,9 +147,10 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
       name: "<u>P</u>aper",
     },
     {
-      menu: "heartbreak",
-      icon: heartbreakIcon,
-      name: "<u>H</u>EARTBREAK",
+      menu: "vote",
+      icon: VoteIcon,
+      name: "<u>V</u>ote",
+      link: VOTE_LINK,
     },
     {
       menu: "settings",

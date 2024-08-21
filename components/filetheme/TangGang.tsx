@@ -45,6 +45,8 @@ import SpeechlessIcon from "../../assets/speechless-icon.png";
 import LoveBearIcon from "../../assets/love-bear-icon.png";
 import aWizardIcon from "../../assets/awizard-icon.png";
 
+import VoteIcon from "../../assets/vote-icon.png";
+
 const themeMap : Partial<FileThemeCustomOptions> = {
     name: 'Tang Gang',
     EtherscanIcon,
@@ -89,6 +91,8 @@ const themeMap : Partial<FileThemeCustomOptions> = {
     LoveBearIcon,
     aWizardIcon,
 
+    VoteIcon,
+    
     startLoveIcon: '/assets/skins/vaporwave-arcade/startLove.png',
     startIcon: '/assets/skins/vaporwave-arcade/start-icon.gif',
     closeIcon: '/assets/skins/vaporwave-arcade/close.png',
