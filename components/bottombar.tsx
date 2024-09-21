@@ -42,6 +42,9 @@ import {
   PAIN_X_LINK,
   PAIN_F_LINK,
   VOTE_LINK,
+  TYLER_X_LINK,
+  QUANTUM_LINK,
+  QUANTUM_GH_LINK,
 } from "../utils/constant";
 import { FileThemeContext } from "../system/context/FileThemeContext";
 
@@ -100,6 +103,9 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
       LoveBearIcon,
       aWizardIcon,
       VoteIcon,
+      TylerIcon,
+      TylerQIcon,
+      TylerGHIcon,
     },
   } = useContext(FileThemeContext);
   const { onCopyText, copied } = useCopyText();
@@ -337,6 +343,13 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
       link: SPEECHLESS_X_LINK,
       haveSub: true, // Ensure this is set to true
     },
+    {
+      menu: "tyler",
+      icon: TylerIcon,
+      name: "<u>T</u>yler",
+      link: TYLER_X_LINK,
+      haveSub: true, // Ensure this is set to true
+    },
   ];
 
   const list_nemo = [
@@ -384,6 +397,21 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
       icon: aWizardIcon,
       name: "a<u>W</u>izard",
       link: AWIZARD_X_LINK,
+    },
+  ];
+
+  const list_tyler = [
+    {
+      menu: "quantum",
+      icon: TylerQIcon,
+      name: "<u>Q</u>uantum",
+      link: QUANTUM_LINK,
+    },
+    {
+      menu: "quantum_gh",
+      icon: TylerGHIcon,
+      name: "<u>T</u>rade GH Bot",
+      link: QUANTUM_GH_LINK,
     },
   ];
 
@@ -464,7 +492,7 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
               bottom: list[sidePosition]?.menu === "settings" ? `${34}px` : 
               list[sidePosition]?.menu === "omakasea" ? `${71}px` : 
               list[sidePosition]?.menu === "chia" ? `${3}px` : 
-              list[sidePosition]?.menu === "featured" ? `${198}px` :
+              list[sidePosition]?.menu === "featured" ? `${165}px` :
               (list[sidePosition]?.menu === "tanggang" ? `${68}px` :   "auto"),
 
               left: "56%", // Position it to the right of the parent container
@@ -549,6 +577,7 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
                 bottom: list_featured[sidePosition2]?.menu === "pain" ? `${266}px` :
                 list_featured[sidePosition2]?.menu === "dbc" ? `${232}px` :
                 list_featured[sidePosition2]?.menu === "speechless" ? `${165}px` :
+                list_featured[sidePosition2]?.menu === "tyler" ? `${135}px` :
                 list_featured[sidePosition2]?.menu === "nemo" ? `${268}px` : "auto",
                 left: "100%", // Position it to the right of the parent container
                 transform: "translateX(-8px)", // Adjust as needed for alignment
@@ -604,6 +633,20 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
                     link={item.link} // Pass the link prop
                   />
                 ))}
+
+              {list_featured[sidePosition2]?.menu === "tyler" &&
+                list_tyler.map((item, index) => (
+                  <PanelListItem
+                    key={`tyler-panel-list-item-${index}`}
+                    onSelected={(selected) => props.setSelected(selected)}
+                    onShowSide={(showSide) => handleShowSide2(showSide, index)}
+                    icon={item.icon}
+                    name={item.name}
+                    menu={item.menu}
+                    link={item.link} // Pass the link prop
+                  />
+                ))}
+
               </div>
             </div>
             )}
