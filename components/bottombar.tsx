@@ -410,7 +410,7 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
     {
       menu: "quantum_gh",
       icon: TylerGHIcon,
-      name: "<u>T</u>rade GH Bot",
+      name: "<u>T</u>rade Bot",
       link: QUANTUM_GH_LINK,
     },
   ];
