@@ -148,6 +148,11 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
       name: "<u>F</u>arm",
     },
     {
+      menu: "heartbreak",
+      icon: heartbreakIcon,
+      name: "<u>H</u>EARTBREAK",
+    },
+    {
       menu: "paper",
       icon: PaperIcon,
       name: "<u>P</u>aper",
