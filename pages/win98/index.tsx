@@ -1,21 +1,24 @@
 import BottomBar from "../../components/bottombar";
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState, useLayoutEffect, useContext } from "react";
+import moment from "moment";
 import Dialog from "../../components/dialog";
 import Screen from "../../components/screen";
+import Image from "next/image";
 import ActiveButton from "../../components/activeButton";
 import ControlPanel from "../../components/controlPanel";
 import Paper from "../../components/paper";
 import Farm from "../../components/farm";
+import MglthTv from "../../components/mglth";
 import ComputerIcon from "../../assets/computer.png";
-import SettingsIcon from "../../assets/settings.png";
-import PaperIcon from "../../assets/book.png";
-import LoveIcon from "../../assets/love-icon.png";
 import { ethers } from "ethers";
-import { contractAddressLove, contractAddressWar } from "../../utils/constant";
+import { contractAddressLove, contractAddressWar, TipAddress, TipENS } from "../../utils/constant";
 import { PoolAbi } from "../../system/PoolAbi";
 import { AppContracts } from "../../system/AppContracts";
 import { CopyAddressButton } from "../../components/copyAddressButton";
+import { CopyAddressButtonTip } from "../../components/copyAddressButtonTip";
 import { HeartBreaker } from "../../components/heartbreaker";
+import { FileThemeContext } from "../../system/context/FileThemeContext";
+
 import {
   fetchLovePriceUSDT,
   fetchLovePriceETH,
@@ -38,18 +41,48 @@ interface Content {
 }
 
 const Win98 = (props: Props) => {
+  const {
+    files: { background, FarmIcon, PaperIcon, BridgeIcon, MglthIcon, startIcon, startLoveIcon, SettingsIcon, ShutdownIcon, LoveIcon },
+    wallpaper,
+    setWallpaper,
+  } = useContext(FileThemeContext);
   const [scale, setScale] = useState<string>();
   const [showBar, setShowBar] = useState<boolean>(false);
+  const [time, setTime] = useState(moment().format("HH:mm"));
   const [price, setPrice] = useState<number>(0);
   const [usdPrice, setUSDPrice] = useState<number>(0);
-  const [wallpaper, setWallpaper] = useState<string>(
-    "/assets/lovegame_background.png"
-  );
+  
   const { isFetchingTotals, totalStakedUSD } = useFetchTotalStaked();
 
   const useIsomorphicLayoutEffect =
     typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
+    useEffect(() => {
+      const handleResize = () => {
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var propotionWH = 4 / 3;
+        var propotionHW = 3 / 4;
+        var scale = 1;
+        if (w >= 640) {
+          if (w / h >= propotionWH) {
+            scale = h / 600;
+          } else if (h / w >= propotionHW) {
+            scale = w / 800;
+          }
+        }
+        setScale(`scale(${scale})`);
+      };
+  
+      handleResize(); // Initial setup
+  
+      window.addEventListener('resize', handleResize);
+  
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
+    
   useEffect(() => {
     if ((window as any).ethereum) {
       const provider = new ethers.providers.Web3Provider(
@@ -93,8 +126,10 @@ const Win98 = (props: Props) => {
       title: "Control Panel",
       component: (
         <ControlPanel
-          backgroundImage={wallpaper}
-          onChangeBG={(val: string) => setWallpaper(val)}
+          backgroundImage={wallpaper ?? background}
+          onChangeBG={(val: string) => {
+            setWallpaper(val);
+          }}
           closeMe={closeContent}
         />
       ),
@@ -109,6 +144,14 @@ const Win98 = (props: Props) => {
       width: "720px",
       height: "300px",
       icon: LoveIcon,
+    },
+    {
+      menu: "mglth",
+      title: "MglthTv",
+      component: <MglthTv />,
+      width: "800px",
+      height: "600px",
+      icon: MglthIcon,
     },
     {
       menu: "paper",
@@ -171,6 +214,18 @@ const Win98 = (props: Props) => {
       ? str
       : `${str} TVL: $${thousandSeparator(totalStakedUSD, 2, 2)}`;
 
+  const closeDialog = () => {
+        setSelectedContent(undefined);
+  };
+    
+  const handleEmbeddedWindowClose = () => {
+        // Logic to stop video playback when embedded window (dialog) is closed
+        const video = document.getElementById("video") as HTMLVideoElement;
+        if (video) {
+          video.pause();
+        }
+  };
+
   return !scale ? (
     <div />
   ) : (
@@ -195,7 +250,7 @@ const Win98 = (props: Props) => {
       ) : null}
 
       <Screen
-        wallpaper={wallpaper}
+        wallpaper={wallpaper ?? background}
         setSelected={setSelected}
         onTrigger={() => setSelectedContent(contents[5])}
       >
@@ -206,6 +261,7 @@ const Win98 = (props: Props) => {
             height={selectedContent?.height ?? "200px"}
             title={formatFarmTitle(selectedContent?.title ?? "")}
             maxHeight={selectedContent?.maxHeight}
+            id={selectedContent?.menu ?? ""}
           >
             {selectedContent?.component}
           </Dialog>
@@ -223,7 +279,7 @@ const Win98 = (props: Props) => {
               width="0"
               height="0"
               // quality={100}
-              src="/assets/startLove.png"
+              src={startLoveIcon}
               className="m-auto w-[80px] h-[22px]"
             />
           </button>
@@ -236,13 +292,16 @@ const Win98 = (props: Props) => {
           )}
           <CopyAddressButton address={contractAddressLove} label="LOVE:" />
           <CopyAddressButton address={contractAddressWar} label="WAR3:" />
+          <CopyAddressButtonTip address={TipAddress} label="Tip:" label2={TipENS} />
         </div>
         <div className="px-1 my-auto border-b-gray-300 items-center border-r-gray-300 border-l-gray-600 text-sm border-t-gray-600 max-w-[162px] w-full h-[30px] border-[3px] text-[18px] rounded-[2px] flex flex-row justify-center items-center mr-2">
           <div>
-            <img
+            <Image
               alt=""
               // quality={100}
-              src="/assets/start-icon.png"
+              width={20}
+              height={20}
+              src={startIcon}
               className="m-auto w-[20px] h-[20px] mr-2"
             />
           </div>

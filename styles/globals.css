@@ -7,12 +7,33 @@
   src: url('/fonts/W95FA.otf');
 }
 
+@font-face {
+  font-family: 'IBM3270';
+  src: url('/fonts/IBM3270.otf');
+}
+
 .W95FA {
   font-family: 'W95FA', Arial;
 }
 
+.IBM3270 {
+  font-family: 'IBM3270', Arial;
+}
+
+@layer base {
+  :root {
+    --font-family: 'W95FA', Arial;
+  }
+  .theme-love {
+    --font-family: 'W95FA', Arial;
+  }
+  .theme-vaporwave-arcade {
+    --font-family: 'IBM3270', Arial;
+  }
+}
+
 body {
-  font-family: 'W95FA';
+  font-family: var(--font-family);
   background-color: black;
 }
 
@@ -28,6 +49,10 @@ input:focus {
   border: 2px solid #ccc;
   border-right: 2px solid #444444;
   border-bottom: 2px solid #444444;
+  width: 90%; /* Adjust the width for responsiveness */
+  max-width: 600px; /* Ensure it doesn't get too wide */
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .crazyAlert .header {
@@ -216,7 +241,24 @@ input:focus {
   padding-right: 8px;
   font-size: 14px;
   text-align: center;
+  /*new */
+  max-width: 200px; /* Maximum width for buttons to ensure they don't overflow */
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Show ellipsis for overflow text */
 }
+
+.btn .text-lg {
+  font-size: 0.875rem; /* Adjust this value as needed */
+}
+
+/* Additional custom styles if needed */
+@media (max-width: 768px) {
+  .btn {
+    font-size: 12px; /* Smaller font size for smaller screens */
+  }
+}
+
 .btn:hover,
 .btn.active {
   background-color: #C1C1C1;
@@ -448,5 +490,49 @@ input:focus {
 @media only screen and (max-width: 600px) {
   .dialog {
    width: 100% !important;
+  }
+}
+
+#scroll-container {
+  border: 3px solid black;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+#scroll-text {
+  text-align: right;
+
+  /* animation properties */
+  -moz-transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+  
+  -moz-animation: my-animation 5s linear infinite;
+  -webkit-animation: my-animation 5s linear infinite;
+  animation: my-animation 5s linear infinite;
+}
+
+/* for Firefox */
+@-moz-keyframes my-animation {
+  from { -moz-transform: translateX(100%); }
+  to { -moz-transform: translateX(-100%); }
+}
+
+/* for Chrome */
+@-webkit-keyframes my-animation {
+  from { -webkit-transform: translateX(100%); }
+  to { -webkit-transform: translateX(-100%); }
+}
+
+@keyframes my-animation {
+  from {
+    -moz-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+  to {
+    -moz-transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
   }
 }

@@ -1,9 +1,12 @@
 import EtherscanIcon from "../assets/etherscan.png";
-import LoveIcon from "../assets/love-icon.png";
-import PaperIcon from "../assets/book.png";
-import FireIcon from "../assets/fire-icon.png";
+//import LoveIcon from "../assets/love-icon.png";
+//import PaperIcon from "../assets/book.png";
+//import FireIcon from "../assets/fire-icon.png";
+//import BridgeIcon from "../assets/bridge-icon.png";
+//import MglthIcon from "../assets/mglth-icon.png";
+
 // import WarBanner from "../assets/war-banner.gif";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { Connect } from "./connect";
 import {
@@ -13,11 +16,17 @@ import {
   WAR3_TWITTER_LINK,
   WAR3_SWAP_LINK,
   DISCORD_LINK,
+  BRIDGE_LINK,
+  GOOEYS_LINK,
+  VOTE_LINK,
 } from "../utils/constant";
 
-const DiscordIcon = "/assets/logo_discord.png";
-const TwitterIcon = "/assets/logo_twitter.png";
-const TelegramIcon = "/assets/logo_telegram.png";
+import { FileThemeContext } from "../system/context/FileThemeContext";
+import { useAccount } from "wagmi";
+
+//const DiscordIcon = "/assets/logo_discord.png";
+//const TwitterIcon = "/assets/logo_twitter.png";
+//const TelegramIcon = "/assets/logo_telegram.png";
 
 interface ScreenProps {
   children: ReactNode;
@@ -30,7 +39,10 @@ const Screen = ({
   setSelected,
   wallpaper,
   onTrigger,
-}: ScreenProps) => {
+}: ScreenProps) => {  
+  const { files: {PaperIcon, FireIcon, LoveIcon, MglthIcon, GooeyIcon, BridgeIcon, HeartBridgeIcon, TwitterIcon, TelegramIcon, DiscordIcon, VoteIcon } } = useContext(FileThemeContext)
+ // const { address, connector, isConnected } = useAccount();
+  //const [hide, setHide] = useState<boolean>(true);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const iconsLeft = [
     {
@@ -56,6 +68,30 @@ const Screen = ({
       icon: TelegramIcon,
       label: "Telegram",
       logoHeight: 60,
+    },
+  ];
+
+  const iconsCenter = [
+    {
+      onClick: () => setSelected("mglth"),
+      icon: MglthIcon,
+      label: "Megalith TV",
+
+    },
+    {
+      onClick: () => window.open(BRIDGE_LINK, "_blank"),
+      icon: HeartBridgeIcon,
+      label: "Warp Bridge",
+    },
+    {
+      onClick: () => window.open(VOTE_LINK, "_blank"),
+      icon: VoteIcon,
+      label: "VOTE",
+    },
+            {
+      onClick: () => window.open(GOOEYS_LINK, "_blank"),
+      icon: GooeyIcon,
+      label: "Eth Gobblers",
     },
   ];
 
@@ -114,6 +150,25 @@ const Screen = ({
               );
             })}
           </div>
+          <div className="w-[110px] sm:w-[200px] pt-[2px]">
+            {showMenu &&
+              iconsCenter.map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="h-36 flex-col flex justify-center flex items-center cursor-pointer"
+                    onClick={item.onClick}
+                  >
+                    <Image src={item.icon} alt="icon" height={55} />
+                    {item.label && (
+                      <div className="text-[rgba(255,255,255,.80)] text-lg mt-2">
+                        {item.label}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           <div className="w-[110px] sm:w-[200px] pt-[2px]">
             <div className="h-36 flex-row justify-center flex items-center">
               {" "}

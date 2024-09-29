@@ -1,8 +1,9 @@
 import { useAccount } from "wagmi";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { on } from "events";
 import { getTermsAgreement, saveTermsAgreement } from "../../system/appUtils";
+import { FileThemeContext } from "../../system/context/FileThemeContext";
 
 interface ITermsAndConditionsWrapperProps {
   children: React.ReactNode;
@@ -11,6 +12,7 @@ interface ITermsAndConditionsWrapperProps {
 export const TermsAndConditionsWrapper = ({
   children,
 }: ITermsAndConditionsWrapperProps) => {
+  const { fileTheme } = useContext(FileThemeContext)
   const [showTermsAndConditions, setShowTermsAndConditions] =
     useState<boolean>(false);
   const { address } = useAccount();
@@ -22,7 +24,6 @@ export const TermsAndConditionsWrapper = ({
     saveTermsAgreement(address);
     setShowTermsAndConditions(false);
   };
-
   useEffect(() => {
     if (address) {
       const hasAgreedToTerms: "true" | "false" = getTermsAgreement(address);

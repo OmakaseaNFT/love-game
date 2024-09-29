@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
@@ -14,6 +15,7 @@ import {
   HOT_JAR_VERSION,
 } from "../utils/constant";
 import { TermsAndConditionsWrapper } from "../components/ui/TermsAndConditionsWrapper";
+import { FileThemeProvider } from "../system/context/FileThemeContext";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
@@ -56,10 +58,23 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains} theme={null} id={isConnected ? "rainbowkitConnected" : "rainbowkitNotConnected"}>
-        <TermsAndConditionsWrapper>
-          <Component {...pageProps} />
-        </TermsAndConditionsWrapper>
+      <RainbowKitProvider
+        chains={chains}
+        theme={null}
+        id={isConnected ? "rainbowkitConnected" : "rainbowkitNotConnected"}
+      >
+        <FileThemeProvider>
+          <TermsAndConditionsWrapper>
+          <Head>
+              <meta charSet="utf-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <title>Love Game</title>
+              <meta name="LOVE" content="Decentralized On Chain Love" />
+              {/* Add more meta tags as needed */}
+            </Head>
+            <Component {...pageProps} />
+          </TermsAndConditionsWrapper>
+        </FileThemeProvider>
         <Analytics />
       </RainbowKitProvider>
     </WagmiConfig>
