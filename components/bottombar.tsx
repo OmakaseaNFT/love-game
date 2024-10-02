@@ -494,11 +494,13 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
            <div
              className="absolute bg-[#C1C1C1] w-[220px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white overflow-y-auto max-h-[100.0vh] ml-2"
              style={{
+             
               bottom: list[sidePosition]?.menu === "settings" ? `${34}px` : 
-              list[sidePosition]?.menu === "omakasea" ? `${71}px` : 
-              list[sidePosition]?.menu === "chia" ? `${3}px` : 
-              list[sidePosition]?.menu === "featured" ? `${165}px` :
-              (list[sidePosition]?.menu === "tanggang" ? `${68}px` :   "auto"),
+              list[sidePosition]?.menu === "omakasea" ? `${105}px` : 
+
+              list[sidePosition]?.menu === "chia" ? `${19}px` : 
+              list[sidePosition]?.menu === "featured" ? `${197}px` :
+              (list[sidePosition]?.menu === "tanggang" ? `${103}px` :   "auto"),
 
               left: "56%", // Position it to the right of the parent container
                transform: "translateX(-8px)", // Adjust as needed for alignment
@@ -579,11 +581,11 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
             <div
               className="absolute bg-[#C1C1C1] w-[160px] border-r-2 border border-b-2 border-b-black border-r-black border-t-white border-l-white overflow-y-auto max-h-[100.0vh] ml-2"
               style={{
-                bottom: list_featured[sidePosition2]?.menu === "pain" ? `${266}px` :
-                list_featured[sidePosition2]?.menu === "dbc" ? `${232}px` :
-                list_featured[sidePosition2]?.menu === "speechless" ? `${165}px` :
-                list_featured[sidePosition2]?.menu === "tyler" ? `${135}px` :
-                list_featured[sidePosition2]?.menu === "nemo" ? `${268}px` : "auto",
+                bottom: list_featured[sidePosition2]?.menu === "pain" ? `${299}px` :
+                list_featured[sidePosition2]?.menu === "dbc" ? `${265}px` :
+                list_featured[sidePosition2]?.menu === "speechless" ? `${198}px` :
+                list_featured[sidePosition2]?.menu === "tyler" ? `${167}px` :
+                list_featured[sidePosition2]?.menu === "nemo" ? `${300}px` : "auto",
                 left: "100%", // Position it to the right of the parent container
                 transform: "translateX(-8px)", // Adjust as needed for alignment
               }}
