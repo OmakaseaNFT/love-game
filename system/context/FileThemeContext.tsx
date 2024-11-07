@@ -64,9 +64,8 @@ export interface FileThemeCustomOptions {
   NemoIcon: StaticImageData;
   NemoRinoIcon: StaticImageData;
 
-  TylerIcon: StaticImageData;
-  TylerQIcon: StaticImageData;
-  TylerGHIcon: StaticImageData;
+  MaxIcon: StaticImageData;
+  TreeIcon: StaticImageData;
   
  VoteIcon: StaticImageData;
 }
