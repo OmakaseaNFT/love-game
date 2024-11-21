@@ -47,7 +47,7 @@ export const PanelListItem = ({
     >
       <div className="flex flex-row items-center w-full">
         <div className="py-1 justify-center items-center w-[55px] flex">
-          <Image src={icon} width={25} height={25} alt="icon" />
+          {typeof icon == "string" ? icon : <Image src={icon} width={25} height={25} alt="icon" />}
         </div>
         <div className="text-[16px]">
           <span dangerouslySetInnerHTML={{ __html: name }}></span>

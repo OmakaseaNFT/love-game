@@ -110,9 +110,11 @@ export const SPEECHLESS_X_LINK = "https://x.com/SpeechlessZi";
 export const LOVEBEARS_LINK = "https://mintgarden.io/collections/love-bears-col1carm26r7stv647qncwpctcltuy8t277f2qyyum798ln447gex9vq9m86u6";
 export const AWIZARD_X_LINK = "https://x.com/aWizardeth";
 
-export const TYLER_X_LINK = "https://x.com/quantumvoidlabs";
-export const QUANTUM_LINK = "https://quantumvoid.org";
-export const QUANTUM_GH_LINK = "https://github.com/donewiththedollar/directionalscalper";
+export const MAX_X_LINK = "https://x.com/_6ess";
+export const MAX_LINK = "https://x.com/_6ess";
+export const MAX_TREE_LINK = "https://dexie.space/assets/🌳";
+export const MAX_ART_LINK = "https://dexie.space/assets/🌳";
+
 
 export const IS_DEV_ENV = process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true";
 export const CHAIN_ID = IS_DEV_ENV ? 11155111 : 1;
