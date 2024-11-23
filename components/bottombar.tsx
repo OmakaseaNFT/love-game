@@ -582,7 +582,6 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
                 bottom: list_featured[sidePosition2]?.menu === "pain" ? `${299}px` :
                 list_featured[sidePosition2]?.menu === "dbc" ? `${265}px` :
                 list_featured[sidePosition2]?.menu === "speechless" ? `${198}px` :
-                list_featured[sidePosition2]?.menu === "tyler" ? `${167}px` :
                 list_featured[sidePosition2]?.menu === "nemo" ? `${300}px` : "auto",
                 left: "100%", // Position it to the right of the parent container
                 transform: "translateX(-8px)", // Adjust as needed for alignment
