@@ -42,6 +42,9 @@ import {
   PAIN_X_LINK,
   PAIN_F_LINK,
   VOTE_LINK,
+  MAX_X_LINK,
+  MAX_TREE_LINK,
+  MAX_ART_LINK,
 } from "../utils/constant";
 import { FileThemeContext } from "../system/context/FileThemeContext";
 
@@ -96,6 +99,7 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
       DBCIcon,
       PainIcon,
       NemoIcon,
+      MaxIcon,
       NemoRinoIcon,
       LoveBearIcon,
       aWizardIcon,
@@ -315,6 +319,13 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
 
   const list_featured = [
     {
+      menu: "max",
+      icon: MaxIcon,
+      name: "<u>M</u>ax",
+      link: MAX_X_LINK,
+      haveSub: true, // Ensure this is set to true
+    },
+    {
       menu: "nemo",
       icon: NemoIcon,
       name: "<u>N</u>emo",
@@ -341,6 +352,21 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
       name: "<u>S</u>peechless",
       link: SPEECHLESS_X_LINK,
       haveSub: true, // Ensure this is set to true
+    },
+  ];
+
+  const list_max = [
+    {
+      menu: "tREE",
+      icon: "🌳",
+      name: "<u>t</u>REE",
+      link: MAX_TREE_LINK,
+    },
+    {
+      menu: "Art",
+      icon: MaxIcon,
+      name: "<u>A</u>rt",
+      link: MAX_ART_LINK,
     },
   ];
 
@@ -561,6 +587,18 @@ const [sidePosition2, setSidePosition2] = useState<number | null>(null);
                 transform: "translateX(-8px)", // Adjust as needed for alignment
               }}
             >
+              {list_featured[sidePosition2]?.menu === "max" &&
+                list_max.map((item, index) => (
+                  <PanelListItem
+                    key={`max-panel-list-item-${index}`}
+                    onSelected={(selected) => props.setSelected(selected)}
+                    onShowSide={(showSide) => handleShowSide2(showSide, index)}
+                    icon={item.icon}
+                    name={item.name}
+                    menu={item.menu}
+                    link={item.link} // Pass the link prop
+                  />
+                ))}
               {list_featured[sidePosition2]?.menu === "nemo" &&
                 list_nemo.map((item, index) => (
                   <PanelListItem
